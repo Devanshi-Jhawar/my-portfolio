@@ -225,201 +225,190 @@
         </div>
     </section>
 
-    <section id="projects" class="section-container">
-        <h2 class="section-heading text-center mb-4">My Projects</h2>
+   <section id="projects" class="section-container">
+    <h2 class="section-heading text-center mb-4">My Projects</h2>
 
-        <div class="position-relative px-3">
-            <button class="btn btn-secondary position-absolute top-50 start-0 translate-middle-y z-3 slider-btn"
-                    onclick="scrollVideos(-1, this)">
-                &#8592;
-            </button>
-            <button class="btn btn-secondary position-absolute top-50 end-0 translate-middle-y z-3 slider-btn"
-                    onclick="scrollVideos(1, this)">
-                &#8594;
-            </button>
+    <div class="position-relative px-3">
+        <button class="btn btn-secondary position-absolute top-50 start-0 translate-middle-y z-3 slider-btn"
+                onclick="scrollVideos(-1, this)">
+            &#8592;
+        </button>
+        <button class="btn btn-secondary position-absolute top-50 end-0 translate-middle-y z-3 slider-btn"
+                onclick="scrollVideos(1, this)">
+            &#8594;
+        </button>
 
-            <div class="overflow-hidden">
-                <div id="video-slider" class="d-flex flex-nowrap"
-                     style="overflow-x: auto; scroll-behavior: smooth; gap: 1rem;">
+        <div class="overflow-hidden">
+            <div id="video-slider" class="d-flex flex-nowrap"
+                 style="overflow-x: auto; scroll-behavior: smooth; gap: 1rem;">
 
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="ratio ratio-16x9">
-                                <video autoplay loop muted playsinline preload="metadata">
-                                    <source src="xrchitect.mp4" type="video/mp4">
-                                    <source src="videos/xrchitect.webm" type="video/webm">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Xrchitect</h5>
-                                <p class="card-text">
-                                    <span class="highlight-dark">Xrchitect</span> is a <span class="highlight-dark">VR/MR</span>
-                                    application tailored for <span class="highlight-dark">interior design professionals</span>,
-                                    students, and educators to create and visualize design concepts in real-time. Unlike traditional
-                                    <span class="highlight-dark">2D design tools</span>, Xrchitect immerses users in a fully
-                                    interactive, realistic <span class="highlight-dark">3D environment</span>, allowing them to design
-                                    and manipulate spaces within actual or virtual rooms. This powerful tool enables users to
-                                    experiment with layouts, furnishings, and color schemes before committing to real-world changes,
-                                    offering unmatched immersion and realism for both <span class="highlight-dark">educational</span>
-                                    and <span class="highlight-dark">professional</span> use.
-                                </p>
-
-                                <a href="https://www.meta.com/en-gb/experiences/xrchitect/8001533676569691/" class="btn btn-primary mt-auto">Download on Meta Store</a>
-                            </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="ratio ratio-16x9">
+                            <video autoplay loop muted playsinline preload="metadata">
+                                <source src="xrchitect.mp4" type="video/mp4">
+                                <source src="videos/xrchitect.webm" type="video/webm">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Xrchitect</h5>
+                            <p class="card-text">
+                                <span class="highlight-dark">Xrchitect</span> is a <span class="highlight-dark">VR/MR</span>
+                                application tailored for <span class="highlight-dark">interior design professionals</span>,
+                                students, and educators to create and visualize design concepts in real-time. Unlike traditional
+                                <span class="highlight-dark">2D design tools</span>, Xrchitect immerses users in a fully
+                                interactive, realistic <span class="highlight-dark">3D environment</span>, allowing them to design
+                                and manipulate spaces within actual or virtual rooms. This powerful tool enables users to
+                                experiment with layouts, furnishings, and color schemes before committing to real-world changes,
+                                offering unmatched immersion and realism for both <span class="highlight-dark">educational</span>
+                                and <span class="highlight-dark">professional</span> use.
+                            </p>
+                            <a href="https://www.meta.com/en-gb/experiences/xrchitect/8001533676569691/" class="btn btn-primary mt-auto">Download on Meta Store</a>
                         </div>
                     </div>
-
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="ratio ratio-16x9">
-                                <video autoplay loop muted playsinline preload="metadata">
-                                    <source src="teletwin.mp4" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">TeleTwin</h5>
-                                <p class="card-text">
-                                    <span class="highlight-dark">TeleTwin</span> is an innovative <span class="highlight-dark">Digital Twin</span> solution that creates
-                                    <span class="highlight-dark">realistic 3D representations of telecom towers</span> for infrastructure management and planning.
-                                    This cutting-edge platform enables telecom operators to visualize, monitor, and analyze their tower assets in a virtual environment,
-                                    providing detailed insights into <span class="highlight-dark">structural integrity</span>, <span class="highlight-dark">equipment placement</span>,
-                                    and <span class="highlight-dark">operational efficiency</span>. By combining photorealistic modeling with real-time data integration,
-                                    TeleTwin revolutionizes how telecom infrastructure is managed, planned, and maintained, reducing costs and improving
-                                    <span class="highlight-dark">network reliability</span>.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="ratio ratio-16x9">
-                                <img src="TM_dashboard.png" class="card-img-top" alt="Pixel Streaming Unreal Project" style="object-fit: cover; width: 100%; height: 100%;">
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Collaborative Task Manager</h5>
-                                <p class="card-text">
-                                    A full-stack task management application built with <span class="highlight-dark">C# and .NET that streamlines team workflows through intuitive CRUD operations.
-                                    </span> The system features a<span class="highlight-dark">RESTful API</span>
-                                    for efficient task distribution and assignment, enabling multiple users to create, update, and track tasks in real-time across different projects.
-                                    The application integrates a <span class="highlight-dark">SQL database</span> for reliable persistent storage, maintaining task histories, team assignments, 
-                                    and project timelines. This solution demonstrates practical implementation of modern backend development principles and database management, 
-                                    providing teams with a scalable platform for collaborative project coordination.Claude is AI and can make mistakes. Please double-check responses.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
-            
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="ratio ratio-16x9">
-                                <video autoplay loop muted playsinline preload="metadata">
-                                    <source src="digitaltwin.mp4" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Digital twin for Threat Monitoring</h5>
-                                <p class="card-text">
-                                   This project is a
-                                    <span class="highlight-dark">Mixed Reality-based Digital Twin</span> that visualizes an
-                                    organization's cybersecurity landscape in real time. Designed to bridge the communication gap
-                                    between technical teams and senior management, it transforms complex <span class="highlight-dark">SOC dashboard data</span> into an interactive MR experience. By digitally
-                                    replicating the organization's cyber environment, stakeholders can collaboratively monitor <span class="highlight-dark">threats</span>, analyze <span class="highlight-dark">vulnerabilities</span>, and make informed decisions with clarity and
-                                    speed—all through an intuitive and immersive interface.
-                                </p>
-                            </div>
+
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="ratio ratio-16x9">
+                            <video autoplay loop muted playsinline preload="metadata">
+                                <source src="teletwin.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">TeleTwin</h5>
+                            <p class="card-text">
+                                <span class="highlight-dark">TeleTwin</span> is an innovative <span class="highlight-dark">Digital Twin</span> solution that creates
+                                <span class="highlight-dark">realistic 3D representations of telecom towers</span> for infrastructure management and planning.
+                                This cutting-edge platform enables telecom operators to visualize, monitor, and analyze their tower assets in a virtual environment,
+                                providing detailed insights into <span class="highlight-dark">structural integrity</span>, <span class="highlight-dark">equipment placement</span>,
+                                and <span class="highlight-dark">operational efficiency</span>. By combining photorealistic modeling with real-time data integration,
+                                TeleTwin revolutionizes how telecom infrastructure is managed, planned, and maintained, reducing costs and improving
+                                <span class="highlight-dark">network reliability</span>.
+                            </p>
                         </div>
                     </div>
-
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="ratio ratio-16x9">
-                                <video autoplay loop muted playsinline preload="metadata">
-                                    <source src="combatXR.mp4" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">CombatXR</h5>
-                                <p class="card-text">
-                                    <span class="highlight-dark">CombatXR</span> is a high-fidelity combat training platform developed
-                                    for the <span class="highlight-dark">Indian Defense forces</span>, combining <span class="highlight-dark">VR</span>, <span class="highlight-dark">AR</span>, and <span class="highlight-dark">AI</span> to simulate complex battlefield scenarios. It delivers
-                                    <span class="highlight-dark">360° interactive simulations</span> across varied terrains—<span class="highlight-dark">urban</span>, <span class="highlight-dark">jungle</span>, <span class="highlight-dark">desert</span>, and <span class="highlight-dark">counter-insurgency</span>—enhancing soldier reflexes, decision-making,
-                                    and tactical coordination. With <span class="highlight-dark">multiplayer support</span>, squads
-                                    can train together in synchronized virtual missions. StrikeXR also integrates <span class="highlight-dark">real-time analytics</span> and <span class="highlight-dark">
-                                        adaptive
-                                        feedback
-                                    </span>, enabling personalized performance tracking and continuous tactical
-                                    improvement—all within a safe, cost-effective virtual environment designed to elevate <span class="highlight-dark">mission readiness</span>.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="ratio ratio-16x9">
-                                <video autoplay loop muted playsinline preload="metadata">
-                                    <source src="planXR.mp4" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">PlanXR</h5>
-                                <p class="card-text">
-                                    <span class="highlight-dark">PlanXR</span> is a <span class="highlight-dark">
-                                        Mixed Reality
-                                        (MR)
-                                    </span> application developed to transform mission
-                                    planning for the <span class="highlight-dark">Territorial Army</span> by replacing traditional
-                                    map-based approaches with immersive <span class="highlight-dark">3D terrain exploration</span>.
-                                    The app enables officers to virtually interact with real-world landscapes, analyze geographical
-                                    challenges, and make informed, data-driven decisions. Featuring <span class="highlight-dark">multi-user collaboration</span>, PlanXR allows teams to co-plan missions
-                                    in real time within a shared virtual space—enhancing coordination, reducing risk, and
-                                    significantly improving <span class="highlight-dark">operational readiness</span> and <span class="highlight-dark">strategic execution</span>.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="ratio ratio-16x9">
-                                <video autoplay loop muted playsinline preload="metadata">
-                                    <source src="multimodel.mp4" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">AR Multimodal Project</h5>
-                                <p class="card-text">
-                                    <span class="highlight-dark">AR Multimodal</span> is an innovative <span class="highlight-dark">Augmented Reality</span>
-                                    application that combines multiple interaction modalities to create rich, intuitive user experiences. Built using
-                                    <span class="highlight-dark">Unity</span> and <span class="highlight-dark">WebAR</span> technologies, this project
-                                    seamlessly integrates <span class="highlight-dark">voice commands</span>, <span class="highlight-dark">gesture recognition</span>,
-                                    <span class="highlight-dark">touch input</span>, and <span class="highlight-dark">spatial interaction</span> to enable users
-                                    to interact with virtual content in natural and immersive ways. The cross-platform solution works both as a
-                                    <span class="highlight-dark">native mobile AR app</span> and through <span class="highlight-dark">web browsers</span>,
-                                    making advanced AR experiences accessible without app downloads. This project demonstrates the future of
-                                    <span class="highlight-dark">human-computer interaction</span>, where multiple input methods work harmoniously to
-                                    enhance usability, accessibility, and overall user engagement in augmented environments.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
+
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="ratio ratio-16x9">
+                            <img src="TM_dashboard.png" class="card-img-top" alt="Collaborative Task Manager" style="object-fit: cover; width: 100%; height: 100%;">
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Collaborative Task Manager</h5>
+                            <p class="card-text">
+                                A full-stack task management application built with <span class="highlight-dark">C# and .NET</span> that streamlines team workflows through intuitive CRUD operations.
+                                The system features a <span class="highlight-dark">RESTful API</span>
+                                for efficient task distribution and assignment, enabling multiple users to create, update, and track tasks in real-time across different projects.
+                                The application integrates a <span class="highlight-dark">SQL database</span> for reliable persistent storage, maintaining task histories, team assignments, 
+                                and project timelines. This solution demonstrates practical implementation of modern backend development principles and database management, 
+                                providing teams with a scalable platform for collaborative project coordination.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="ratio ratio-16x9">
+                            <video autoplay loop muted playsinline preload="metadata">
+                                <source src="digitaltwin.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Digital twin for Threat Monitoring</h5>
+                            <p class="card-text">
+                               This project is a
+                                <span class="highlight-dark">Mixed Reality-based Digital Twin</span> that visualizes an
+                                organization's cybersecurity landscape in real time. Designed to bridge the communication gap
+                                between technical teams and senior management, it transforms complex <span class="highlight-dark">SOC dashboard data</span> into an interactive MR experience. By digitally
+                                replicating the organization's cyber environment, stakeholders can collaboratively monitor <span class="highlight-dark">threats</span>, analyze <span class="highlight-dark">vulnerabilities</span>, and make informed decisions with clarity and
+                                speed—all through an intuitive and immersive interface.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="ratio ratio-16x9">
+                            <video autoplay loop muted playsinline preload="metadata">
+                                <source src="combatXR.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">CombatXR</h5>
+                            <p class="card-text">
+                                <span class="highlight-dark">CombatXR</span> is a high-fidelity combat training platform developed
+                                for the <span class="highlight-dark">Indian Defense forces</span>, combining <span class="highlight-dark">VR</span>, <span class="highlight-dark">AR</span>, and <span class="highlight-dark">AI</span> to simulate complex battlefield scenarios. It delivers
+                                <span class="highlight-dark">360° interactive simulations</span> across varied terrains—<span class="highlight-dark">urban</span>, <span class="highlight-dark">jungle</span>, <span class="highlight-dark">desert</span>, and <span class="highlight-dark">counter-insurgency</span>—enhancing soldier reflexes, decision-making,
+                                and tactical coordination. With <span class="highlight-dark">multiplayer support</span>, squads
+                                can train together in synchronized virtual missions. StrikeXR also integrates <span class="highlight-dark">real-time analytics</span> and <span class="highlight-dark">adaptive feedback</span>, enabling personalized performance tracking and continuous tactical
+                                improvement—all within a safe, cost-effective virtual environment designed to elevate <span class="highlight-dark">mission readiness</span>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="ratio ratio-16x9">
+                            <video autoplay loop muted playsinline preload="metadata">
+                                <source src="planXR.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">PlanXR</h5>
+                            <p class="card-text">
+                                <span class="highlight-dark">PlanXR</span> is a <span class="highlight-dark">Mixed Reality (MR)</span> application developed to transform mission
+                                planning for the <span class="highlight-dark">Territorial Army</span> by replacing traditional
+                                map-based approaches with immersive <span class="highlight-dark">3D terrain exploration</span>.
+                                The app enables officers to virtually interact with real-world landscapes, analyze geographical
+                                challenges, and make informed, data-driven decisions. Featuring <span class="highlight-dark">multi-user collaboration</span>, PlanXR allows teams to co-plan missions
+                                in real time within a shared virtual space—enhancing coordination, reducing risk, and
+                                significantly improving <span class="highlight-dark">operational readiness</span> and <span class="highlight-dark">strategic execution</span>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="ratio ratio-16x9">
+                            <video autoplay loop muted playsinline preload="metadata">
+                                <source src="multimodel.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">AR Multimodal Project</h5>
+                            <p class="card-text">
+                                <span class="highlight-dark">AR Multimodal</span> is an innovative <span class="highlight-dark">Augmented Reality</span>
+                                application that combines multiple interaction modalities to create rich, intuitive user experiences. Built using
+                                <span class="highlight-dark">Unity</span> and <span class="highlight-dark">WebAR</span> technologies, this project
+                                seamlessly integrates <span class="highlight-dark">voice commands</span>, <span class="highlight-dark">gesture recognition</span>,
+                                <span class="highlight-dark">touch input</span>, and <span class="highlight-dark">spatial interaction</span> to enable users
+                                to interact with virtual content in natural and immersive ways. The cross-platform solution works both as a
+                                <span class="highlight-dark">native mobile AR app</span> and through <span class="highlight-dark">web browsers</span>,
+                                making advanced AR experiences accessible without app downloads. This project demonstrates the future of
+                                <span class="highlight-dark">human-computer interaction</span>, where multiple input methods work harmoniously to
+                                enhance usability, accessibility, and overall user engagement in augmented environments.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-        </div>
-        </div>
+    </div>
 
-    </section>
+</section>
 
     <section class="section-container">
         <h2 class="section-heading text-center mb-4">Hobby Projects</h2>
