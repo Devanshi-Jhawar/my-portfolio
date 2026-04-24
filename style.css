@@ -228,6 +228,10 @@ body::after {
   z-index: 1;
 }
 
+.fw-bold{
+  color: white;
+}
+
 .skill-badge {
   background: var(--dark-card);
   border: 1px solid var(--border-color);
