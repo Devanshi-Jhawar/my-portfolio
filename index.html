@@ -47,6 +47,9 @@
   #gl{position:fixed;inset:0;z-index:-3;width:100%;height:100%;display:block}
   #fx{position:fixed;inset:0;z-index:-2;width:100%;height:100%;pointer-events:none}
   #fw{position:fixed;inset:0;z-index:1;width:100%;height:100%;pointer-events:none}
+  #moodwash{position:fixed;inset:0;z-index:0;pointer-events:none;background:rgba(255,178,36,0);transition:background 1s ease}
+  #gl,#fx,#moodwash{transition:filter .7s ease,background 1s ease}
+  body.reading #gl,body.reading #fx,body.reading #moodwash{filter:blur(7px) saturate(1.15)}
   #grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
@@ -91,15 +94,11 @@
 
   /* figure */
   .figure{position:relative;display:grid;place-items:center}
-  .fig-frame{position:relative;width:min(380px,82vw);aspect-ratio:1/1.08;border-radius:26px;overflow:hidden;
-    background:var(--glass);border:1px solid var(--glass-brd);backdrop-filter:blur(8px) saturate(140%);-webkit-backdrop-filter:blur(8px) saturate(140%);
-    box-shadow:0 30px 70px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.18);display:grid;place-items:center}
-  .fig-frame .glow{position:absolute;inset:-20%;background:radial-gradient(circle at 50% 40%,rgba(255,77,141,.5),transparent 55%),radial-gradient(circle at 70% 80%,rgba(123,107,255,.5),transparent 55%);filter:blur(10px)}
-  .fig-svg{position:relative;width:86%;height:86%;overflow:visible}
-  .fig-slot{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.5px;color:rgba(247,239,226,.6);text-transform:uppercase}
-  .earring{transform-origin:center top;animation:sway 3.6s ease-in-out infinite}
+  .win{position:relative;width:min(370px,82vw);filter:drop-shadow(0 30px 50px rgba(0,0,0,.5))}
+  .char{width:100%;height:auto;display:block;overflow:visible}
+  .earring{transform-box:fill-box;transform-origin:center top;animation:sway 3.6s ease-in-out infinite}
   .earring.r{animation-delay:.5s}
-  @keyframes sway{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+  @keyframes sway{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
   .fig-petal{position:absolute;font-family:var(--f-disp)}
 
   /* draggable stickers */
@@ -304,6 +303,14 @@
   .f-links a:hover{color:var(--cream);border-color:var(--tomato)}
   .f-made{font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-top:28px}
 
+  /* scrapbook page decorations */
+  .sticky{position:absolute;background:#fff3b0;padding:9px 12px;font-family:var(--f-hand);font-weight:700;font-size:14px;color:var(--ink);box-shadow:0 7px 16px rgba(42,16,19,.22);line-height:1.25;max-width:160px;z-index:2}
+  .sticky::before{content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%) rotate(3deg);width:44px;height:14px;background:rgba(255,77,141,.5);mix-blend-mode:multiply}
+  .stampbadge{position:absolute;font-family:var(--f-mono);font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--tomato);border:2px solid var(--tomato);border-radius:4px;padding:5px 9px;transform:rotate(-10deg);opacity:.85;z-index:2}
+  .mappin{position:absolute;font-family:var(--f-hand);font-weight:700;font-size:15px;color:var(--indigo);z-index:2}
+  .d-star{position:absolute;font-family:var(--f-disp);z-index:2}
+  .doodle-svg{position:absolute;z-index:1;pointer-events:none}
+
   .reveal{opacity:0;transform:translateY(28px)}
   .reveal.in{opacity:1;transform:none;transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
   .no-js .reveal{opacity:1;transform:none}
@@ -315,6 +322,7 @@
 <canvas id="gl"></canvas>
 <canvas id="fx"></canvas>
 <canvas id="fw"></canvas>
+<div id="moodwash"></div>
 <div id="grain"></div>
 <div class="cur" aria-hidden="true"><span class="lbl">drag</span></div>
 
@@ -337,33 +345,56 @@
     </div>
 
     <div class="figure">
-      <div class="fig-frame" id="figFrame">
-        <div class="glow"></div>
-        <svg class="fig-svg auto" id="figSvg" viewBox="0 0 300 240" aria-label="animated auto-rickshaw">
-          <line class="road" x1="0" y1="208" x2="300" y2="208" stroke="rgba(247,239,226,.35)" stroke-width="3" stroke-dasharray="20 16" stroke-linecap="round"/>
-          <circle class="puff p1" cx="52" cy="186" r="5" fill="rgba(247,239,226,.5)"/>
-          <circle class="puff p2" cx="46" cy="180" r="4" fill="rgba(247,239,226,.45)"/>
-          <circle class="puff p3" cx="58" cy="182" r="6" fill="rgba(247,239,226,.35)"/>
-          <g class="auto-body">
-            <path d="M64 124 Q60 58 150 54 Q232 58 236 116 L236 128 Q150 108 64 128 Z" fill="#ffb224"/>
-            <path d="M90 74 Q150 62 210 76 Q150 70 90 86 Z" fill="#ffd16b" opacity=".6"/>
-            <path d="M58 176 Q50 126 96 122 L198 122 Q232 124 246 154 Q256 170 250 186 Q252 196 238 196 L70 196 Q54 196 54 182 Q50 178 58 176 Z" fill="#2f7d2f"/>
-            <path d="M202 96 Q226 102 236 128 L206 128 Q204 108 196 98 Z" fill="#bfe3ff" opacity=".82"/>
-            <rect x="84" y="132" width="100" height="46" rx="14" fill="#143012"/>
-            <rect x="92" y="156" width="84" height="14" rx="6" fill="#0c230d"/>
-            <rect x="150" y="122" width="5" height="56" fill="#153314"/>
-            <path d="M60 196 L238 196" stroke="#111" stroke-width="8" stroke-linecap="round"/>
-            <path d="M66 182 L234 182" stroke="#ffd16b" stroke-width="3" opacity=".6"/>
-            <circle class="hl" cx="250" cy="166" r="7" fill="#fff3b0"/>
-            <circle cx="72" cy="156" r="5" fill="#ff4324"/>
+      <div class="win" id="win">
+        <svg class="char" id="char" viewBox="0 0 300 340" aria-label="illustration of Devanshi peeking out of a window">
+          <defs>
+            <clipPath id="winclip"><path d="M40 118 Q40 44 150 44 Q260 44 260 118 L260 300 L40 300 Z"/></clipPath>
+            <linearGradient id="room" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a1f3a"/><stop offset="1" stop-color="#190d20"/></linearGradient>
+          </defs>
+          <g clip-path="url(#winclip)">
+            <rect x="30" y="40" width="240" height="270" fill="url(#room)"/>
+            <circle cx="150" cy="150" r="130" fill="#ff8a3d" opacity=".16"/>
+            <path d="M78 160 Q58 80 150 70 Q242 80 222 160 Q236 222 208 272 L92 272 Q64 222 78 160 Z" fill="#2a160f"/>
+            <path d="M70 300 Q78 250 150 246 Q222 250 230 300 Z" fill="#e8743c"/>
+            <path d="M70 300 Q78 262 150 258 Q222 262 230 300" fill="none" stroke="#ffd16b" stroke-width="5"/>
+            <rect x="132" y="214" width="36" height="42" rx="14" fill="#b86a3a"/>
+            <ellipse cx="150" cy="166" rx="60" ry="66" fill="#c9824c"/>
+            <circle cx="118" cy="184" r="10" fill="#e06a7a" opacity=".3"/>
+            <circle cx="182" cy="184" r="10" fill="#e06a7a" opacity=".3"/>
+            <path d="M90 150 Q74 92 136 76 Q108 108 104 150 Q96 158 90 150 Z" fill="#20110b"/>
+            <path d="M210 150 Q226 92 164 76 Q192 108 196 150 Q204 158 210 150 Z" fill="#20110b"/>
+            <path d="M104 86 Q150 56 196 86 Q150 74 104 86 Z" fill="#20110b"/>
+            <circle cx="88" cy="150" r="13" fill="#2a160f"/><circle cx="212" cy="150" r="13" fill="#2a160f"/>
+            <circle cx="150" cy="112" r="6" fill="#ff4324"/>
+            <path d="M114 148 Q128 140 140 148" stroke="#20110b" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M160 148 Q172 140 186 148" stroke="#20110b" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <ellipse cx="128" cy="166" rx="15" ry="12" fill="#fff"/>
+            <ellipse cx="172" cy="166" rx="15" ry="12" fill="#fff"/>
+            <circle id="pupilL" cx="128" cy="166" r="6.5" fill="#20110b"/>
+            <circle id="pupilR" cx="172" cy="166" r="6.5" fill="#20110b"/>
+            <circle cx="128" cy="166" r="20" fill="rgba(255,255,255,.08)" stroke="#1a1013" stroke-width="4.5"/>
+            <circle cx="172" cy="166" r="20" fill="rgba(255,255,255,.08)" stroke="#1a1013" stroke-width="4.5"/>
+            <path d="M146 164 q4 -4 8 0" stroke="#1a1013" stroke-width="4" fill="none"/>
+            <line x1="90" y1="160" x2="108" y2="163" stroke="#1a1013" stroke-width="3.5"/>
+            <line x1="210" y1="160" x2="192" y2="163" stroke="#1a1013" stroke-width="3.5"/>
+            <path d="M150 174 q-4 10 2 14" stroke="#9e5a30" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <circle cx="161" cy="190" r="5" fill="none" stroke="#ffb224" stroke-width="2.5"/>
+            <path d="M134 204 Q150 214 168 202 Q150 210 134 204 Z" fill="#a83a4e"/>
+            <g class="earring l"><circle cx="86" cy="176" r="4" fill="#ffb224"/><path d="M78 182 h16 l-4 12 q-4 6 -8 0Z" fill="#ffb224"/><circle cx="86" cy="198" r="3" fill="#ffb224"/></g>
+            <g class="earring r"><circle cx="214" cy="176" r="4" fill="#ffb224"/><path d="M206 182 h16 l-4 12 q-4 6 -8 0Z" fill="#ffb224"/><circle cx="214" cy="198" r="3" fill="#ffb224"/></g>
+            <ellipse cx="98" cy="298" rx="22" ry="13" fill="#c9824c"/>
+            <ellipse cx="202" cy="298" rx="22" ry="13" fill="#c9824c"/>
           </g>
-          <g class="wheel" style="transform-box:fill-box;transform-origin:center"><g transform="translate(96,188)"><circle r="20" fill="#1a1013"/><circle r="18" fill="none" stroke="#3a3a3a" stroke-width="3"/><circle r="8" fill="#cfc7bd"/><g stroke="#8a8178" stroke-width="2"><line x1="0" y1="-16" x2="0" y2="16"/><line x1="-16" y1="0" x2="16" y2="0"/><line x1="-11" y1="-11" x2="11" y2="11"/><line x1="11" y1="-11" x2="-11" y2="11"/></g></g></g>
-          <g class="wheel" style="transform-box:fill-box;transform-origin:center"><g transform="translate(214,188)"><circle r="20" fill="#1a1013"/><circle r="18" fill="none" stroke="#3a3a3a" stroke-width="3"/><circle r="8" fill="#cfc7bd"/><g stroke="#8a8178" stroke-width="2"><line x1="0" y1="-16" x2="0" y2="16"/><line x1="-16" y1="0" x2="16" y2="0"/><line x1="-11" y1="-11" x2="11" y2="11"/><line x1="11" y1="-11" x2="-11" y2="11"/></g></g></g>
+          <rect x="22" y="300" width="256" height="26" rx="7" fill="#8a4a2a"/>
+          <rect x="22" y="296" width="256" height="8" rx="4" fill="#a85c34"/>
+          <g transform="translate(244,270)"><rect x="-13" y="20" width="26" height="22" rx="3" fill="#c0603a"/><circle cx="0" cy="12" r="12" fill="#ffb224"/><circle cx="-9" cy="18" r="8" fill="#ff8a1e"/><circle cx="9" cy="18" r="8" fill="#ff8a1e"/><circle cx="0" cy="8" r="6" fill="#ff6a1e"/></g>
+          <path d="M40 118 Q40 44 150 44 Q260 44 260 118 L260 300" fill="none" stroke="#2f7d7d" stroke-width="18"/>
+          <path d="M40 118 Q40 44 150 44 Q260 44 260 118 L260 300" fill="none" stroke="#ffd16b" stroke-width="3.5" opacity=".5"/>
+          <g opacity=".92"><path d="M62 64 Q150 86 238 64" fill="none" stroke="#2f7d2f" stroke-width="2"/><g fill="#ff4324"><circle cx="90" cy="74" r="4"/><circle cx="120" cy="80" r="4"/><circle cx="150" cy="82" r="4"/><circle cx="180" cy="80" r="4"/><circle cx="210" cy="74" r="4"/></g><g fill="#ffb224"><circle cx="105" cy="78" r="3"/><circle cx="135" cy="82" r="3"/><circle cx="165" cy="82" r="3"/><circle cx="195" cy="78" r="3"/></g></g>
         </svg>
-        <div class="fig-slot">beep beep — hop in, i'll drive you through 🛺</div>
       </div>
-      <span class="fig-petal" style="top:-14px;left:-10px;color:var(--marigold);font-size:26px">✺</span>
-      <span class="fig-petal" style="bottom:4px;right:-6px;color:var(--magenta);font-size:30px">❁</span>
+      <span class="fig-petal" style="top:-10px;left:-6px;color:var(--marigold);font-size:26px">✺</span>
+      <span class="fig-petal" style="bottom:12px;right:-8px;color:var(--magenta);font-size:30px">❁</span>
     </div>
 
     <div class="stickers" id="stickers" aria-hidden="true">
@@ -421,8 +452,24 @@
       <div class="pg"><div class="pg-in"><span class="ptab">अध्याय ५</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">war, simulated.</h3><div class="pco">immersive VR · side quest</div><p class="pdesc">a VR war-sim for combat practice, wired to <b>physical hardware</b> so the real controls move with the sim.</p><div class="dstamps"><span class="dstamp">hardware-linked</span><span class="dstamp">Unity XR</span><span class="dstamp">combat sim</span></div><div class="ptags"><span>Unity</span><span>C#</span><span>XR Toolkit</span></div><span class="pnum l">9</span></div></div>
       <div class="pg"><div class="pg-in" style="padding-top:34px"><span class="pstar" style="top:16px;right:20px">★</span><span class="pstar" style="top:40px;right:46px;font-size:16px">★</span><div class="pg-ht"></div><div class="photo hue4" style="aspect-ratio:1/1"><span class="washi b" style="top:-6px;right:26px;transform:rotate(14deg)"></span><span class="cap">[ VR gameplay ]</span></div><span class="pnote" style="align-self:flex-end">hardware ❤</span><span class="pnum r">10</span></div></div>
 
-      <div class="pg"><div class="pg-in"><span class="ptab">कहानी अब तक</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">the story so far</h3><div class="stubs"><div class="stub"><div class="yr">2026 — now</div><div class="role"><b>Jio</b> · AI &amp; Cloud</div><span class="seal">LOR</span></div><div class="stub"><div class="yr">2026</div><div class="role"><b>Ottonomy</b> · DevOps</div><span class="seal">LOR</span></div><div class="stub"><div class="yr">2025 — 26</div><div class="role"><b>XRVision</b> · Co-Founder</div><span class="seal">iDEX</span></div></div><span class="pnum l">11</span></div></div>
-      <div class="pg"><div class="pg-in" style="padding-top:34px"><div class="pg-ht"></div><div class="stubs"><div class="stub"><div class="yr">2025</div><div class="role"><b>Tap4</b> · SWE Intern</div><span class="seal">LOR</span></div><div class="stub"><div class="yr">2024 — 26</div><div class="role"><b>Delhi Univ.</b> · Research</div><span class="seal">5+ builds</span></div></div><p class="pdesc" style="margin-top:12px">BSc Computer Science (Hons.) · CGPA 8.1 · grad 2027.</p><span class="pnote" style="align-self:flex-end">…to be continued</span><span class="pnum r">12</span></div></div>
+      <div class="pg"><div class="pg-in"><span class="ptab">कहानी अब तक</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">the story so far</h3><div class="stubs"><div class="stub"><div class="yr">2026 — now</div><div class="role"><b>Jio</b> · AI &amp; Cloud</div><span class="seal">LOR</span></div><div class="stub"><div class="yr">2026</div><div class="role"><b>Ottonomy</b> · DevOps</div><span class="seal">LOR</span></div><div class="stub"><div class="yr">2025 — 26</div><div class="role"><b>XRVision</b> · Co-Founder</div><span class="seal">iDEX</span></div></div>
+        <div style="position:relative;flex:1;min-height:170px;margin-top:10px">
+          <div class="sticky" style="left:2px;top:22px;transform:rotate(-3deg)">6 internships &amp; 1 exit — before i even graduate 🚀</div>
+          <span class="stampbadge" style="right:14px;top:6px">she ships ✶</span>
+          <svg class="doodle-svg" style="right:26px;top:72px;width:92px;height:70px" viewBox="0 0 92 70"><path d="M8 14 Q64 2 84 56" fill="none" stroke="#7b6bff" stroke-width="3" stroke-linecap="round"/><path d="M84 56 l-14 -3 M84 56 l-2 -15" stroke="#7b6bff" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+          <span class="d-star" style="left:176px;top:40px;color:var(--tomato);font-size:26px">✦</span>
+          <span class="d-star" style="left:26px;bottom:14px;color:var(--marigold);font-size:18px">✺</span>
+        </div>
+        <span class="pnum l">11</span></div></div>
+      <div class="pg"><div class="pg-in" style="padding-top:34px"><div class="pg-ht"></div><div class="stubs"><div class="stub"><div class="yr">2025</div><div class="role"><b>Tap4</b> · SWE Intern</div><span class="seal">LOR</span></div><div class="stub"><div class="yr">2024 — 26</div><div class="role"><b>Delhi Univ.</b> · Research</div><span class="seal">5+ builds</span></div></div><p class="pdesc" style="margin-top:12px">BSc Computer Science (Hons.) · CGPA 8.1 · grad 2027.</p>
+        <div style="position:relative;flex:1;min-height:180px;margin-top:8px">
+          <span class="mappin" style="left:2px;top:12px">नई दिल्ली → everywhere 📍</span>
+          <svg class="doodle-svg" style="left:0;top:40px;width:160px;height:84px" viewBox="0 0 160 84"><path d="M10 58 Q46 18 82 44 Q118 70 150 26" fill="none" stroke="#ff4324" stroke-width="2.5" stroke-dasharray="6 6"/><circle cx="10" cy="58" r="5" fill="#ff4324"/><circle cx="150" cy="26" r="5" fill="#4bc24f"/></svg>
+          <div class="sticky" style="right:0;top:6px;background:#d7f0cf;transform:rotate(3deg)">right now: teaching AJIO to style you 👗</div>
+          <span class="stampbadge" style="left:30px;bottom:18px;color:var(--chili);border-color:var(--chili)">verified desi ✶</span>
+          <span class="pnote" style="position:absolute;right:6px;bottom:6px">…to be continued</span>
+        </div>
+        <span class="pnum r">12</span></div></div>
 
       <div class="pg" data-density="hard"><div class="pg-in p-end"><div class="edeva">अभी तो<br>शुरुआत है</div><div class="esub">the end? नहीं. just the start.</div><div class="ehire">✦ open to 2027 roles · AI · XR</div><a class="ecta" href="mailto:devanshijhawar337@gmail.com">say namaste →</a><div class="elinks"><a href="https://github.com/devanshi-jhawar" target="_blank" rel="noopener">github</a><a href="https://linkedin.com/in/devanshi-jhawar" target="_blank" rel="noopener">linkedin</a></div></div></div>
     </div>
@@ -555,11 +602,22 @@
 
   /* name + figure mouse parallax */
   (function(){
-    if(TOUCH||RM)return;var name=document.getElementById("name"),svg=document.getElementById("figSvg"),frame=document.getElementById("figFrame");
+    if(TOUCH||RM)return;var name=document.getElementById("name"),win=document.getElementById("win");
     (function a(){var dx=(mx-.5),dy=(my-.5);
       if(name)name.style.transform="translate("+(dx*14)+"px,"+(dy*10)+"px)";
-      if(svg)svg.style.transform="translate("+(-dx*22)+"px,"+(-dy*16)+"px) rotate("+(dx*3)+"deg)";
-      if(frame)frame.style.transform="translate("+(dx*8)+"px,"+(dy*6)+"px)";
+      if(win)win.style.transform="translate("+(dx*10)+"px,"+(dy*7)+"px) rotate("+(dx*1.2)+"deg)";
+      requestAnimationFrame(a);})();
+  })();
+
+  /* eyes follow the cursor */
+  (function(){
+    if(TOUCH||RM)return;var c=document.getElementById("char");if(!c)return;
+    var pL=document.getElementById("pupilL"),pR=document.getElementById("pupilR");if(!pL||!pR)return;
+    var eyes=[{p:pL,cx:128,cy:166},{p:pR,cx:172,cy:166}],MAX=6.5;
+    (function a(){var r=c.getBoundingClientRect();if(r.width){var cxp=tmx*innerWidth,cyp=tmy*innerHeight;
+      eyes.forEach(function(e){var ex=r.left+(e.cx/300)*r.width,ey=r.top+(e.cy/340)*r.height;
+        var ang=Math.atan2(cyp-ey,cxp-ex),d=Math.min(MAX,Math.hypot(cxp-ex,cyp-ey)/16);
+        e.p.setAttribute("cx",(e.cx+Math.cos(ang)*d).toFixed(1));e.p.setAttribute("cy",(e.cy+Math.sin(ang)*d).toFixed(1));});}
       requestAnimationFrame(a);})();
   })();
 
@@ -610,19 +668,11 @@
       if(y<lastY-6&&now-lastT>240&&!RM){fwBurst();if(Math.random()<.4)setTimeout(function(){fwBurst();},160);lastT=now;}lastY=y;},{passive:true});
   })();
 
-  /* ---- sound: page-turn whoosh + rickshaw honk (after first interaction) ---- */
+  /* ---- blur the background while the scrapbook is on screen ---- */
   (function(){
-    var actx=null,ready=false;
-    function ac(){if(!actx){try{actx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}if(actx&&actx.state==="suspended")actx.resume();return actx;}
-    function arm(){ready=true;ac();}
-    ["pointerdown","keydown","touchstart"].forEach(function(ev){addEventListener(ev,arm,{once:true,passive:true});});
-    sfx.page=function(){if(!ready||RM)return;var a=ac();if(!a)return;var dur=0.2,n=(a.sampleRate*dur)|0,buf=a.createBuffer(1,n,a.sampleRate),d=buf.getChannelData(0);
-      for(var i=0;i<n;i++){d[i]=(Math.random()*2-1)*Math.pow(1-i/n,2.2);}
-      var s=a.createBufferSource();s.buffer=buf;var f=a.createBiquadFilter();f.type="bandpass";f.frequency.value=1500;f.Q.value=.8;var g=a.createGain();g.gain.value=.07;
-      s.connect(f);f.connect(g);g.connect(a.destination);s.start();};
-    sfx.honk=function(){if(!ready)return;var a=ac();if(!a)return;var t=a.currentTime,o=a.createOscillator(),g=a.createGain();o.type="sawtooth";o.connect(g);g.connect(a.destination);
-      o.frequency.setValueAtTime(340,t);o.frequency.setValueAtTime(300,t+.1);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.12,t+.02);g.gain.setValueAtTime(.12,t+.14);g.gain.linearRampToValueAtTime(0,t+.2);o.start(t);o.stop(t+.22);};
-    var ff=document.getElementById("figFrame");if(ff)ff.addEventListener("click",function(){sfx.honk();fwBurst(.78,.42);});
+    var bs=document.getElementById("book-sec");if(!bs||!("IntersectionObserver" in window))return;
+    var io=new IntersectionObserver(function(es){es.forEach(function(en){document.body.classList.toggle("reading",en.isIntersecting&&en.intersectionRatio>.3);});},{threshold:[0,.3,.6]});
+    io.observe(bs);
   })();
 
   /* ---- scroll-driving rickshaw ---- */
@@ -647,9 +697,10 @@
         pf.loadFromHTML(el.querySelectorAll(".pg"));
         var MOODS=[[1,.95,.9,"255,178,36","255,77,141"],[1,.86,.66,"255,178,36","255,120,60"],[1,.8,.55,"255,170,40","255,90,40"],[1,.7,.45,"255,160,30","255,80,40"],[.72,.82,1.25,"130,150,255","120,110,255"],[1.25,.72,1.05,"255,120,200","255,77,141"],[.72,1.15,.8,"110,230,120","75,194,79"],[1.3,.6,.55,"255,90,70","255,67,36"],[.95,.9,1.15,"180,170,255","150,140,255"],[1,.82,.6,"255,178,36","255,120,60"]];
         function moodFor(p){if(p<=0)return MOODS[0];if(p===1)return MOODS[1];if(p===2)return MOODS[2];if(p<=4)return MOODS[3];if(p<=6)return MOODS[4];if(p<=8)return MOODS[5];if(p<=10)return MOODS[6];if(p<=12)return MOODS[7];if(p<=14)return MOODS[8];return MOODS[9];}
-        function applyMood(p){var mo=moodFor(p);moodTarget[0]=mo[0];moodTarget[1]=mo[1];moodTarget[2]=mo[2];pcol.d=mo[3];pcol.l=mo[4];}
+        var mw=document.getElementById("moodwash");
+        function applyMood(p){var mo=moodFor(p);moodTarget[0]=mo[0];moodTarget[1]=mo[1];moodTarget[2]=mo[2];pcol.d=mo[3];pcol.l=mo[4];if(mw)mw.style.background="rgba("+mo[3]+",0.17)";}
         function popBook(){if(window.gsap)gsap.fromTo(".book-stage",{scale:1},{scale:1.02,duration:.16,yoyo:true,repeat:1,ease:"power1.inOut"});}
-        pf.on("flip",function(e){var pg=e.data|0;applyMood(pg);popBook();sfx.page();
+        pf.on("flip",function(e){var pg=e.data|0;applyMood(pg);popBook();
           if(pg>=15){fwBurst(.5,.3);setTimeout(function(){fwBurst(.33,.4);},220);setTimeout(function(){fwBurst(.67,.36);},440);}});
         applyMood(0);
         addEventListener("resize",function(){try{pf.update();}catch(e){}});
