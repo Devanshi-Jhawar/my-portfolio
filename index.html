@@ -76,26 +76,26 @@
   .bar{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;display:flex;align-items:center;
     justify-content:space-between;padding:12px max(20px,env(safe-area-inset-left,0px));font-family:var(--f-mono);font-size:12px;color:var(--muted)}
   .bar .brand{font-family:var(--f-chunk);font-weight:800;font-size:16px;color:var(--marigold);text-decoration:none}
-  .bar .brand .dev{font-family:var(--f-disp);color:var(--royal)}
+  .bar .brand .dev{font-family:var(--f-disp);color:var(--cream)}
   .bar nav{display:flex;gap:18px}
-  .bar nav a{text-decoration:none;color:var(--royal);font-weight:600}
+  .bar nav a{text-decoration:none;color:var(--muted)}
   .bar nav a:hover{color:var(--cream)}
   .bar .cta{color:#140a0d;background:var(--marigold);padding:5px 13px;border-radius:999px}
   @media (max-width:620px){.bar nav a:not(.cta){display:none}}
 
   /* ---- hero ---- */
   .hero{min-height:94vh;display:grid;grid-template-columns:1.12fr .88fr;gap:30px;align-items:center;padding:112px 0 40px}
-  .kicker{font-family:var(--f-mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--royal);font-weight:700;margin:0 0 12px;display:flex;align-items:center;gap:9px;text-shadow:1px 1px 0 rgba(255,245,230,.6)}
+  .kicker{font-family:var(--f-mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#ffe9cf;margin:0 0 12px;display:flex;align-items:center;gap:9px;text-shadow:1px 1px 0 rgba(42,10,6,.7)}
   .kicker b{color:var(--tomato)}
-  .namaste{font-family:var(--f-hand);font-weight:700;font-size:30px;color:var(--dpink);transform:rotate(-4deg);display:inline-block;margin-bottom:2px;text-shadow:1px 1px 0 rgba(255,245,230,.7)}
+  .namaste{font-family:var(--f-hand);font-weight:700;font-size:30px;color:var(--magenta);transform:rotate(-4deg);display:inline-block;margin-bottom:2px}
   .name{font-family:var(--f-disp);font-size:clamp(46px,8.4vw,116px);line-height:.9;margin:0;letter-spacing:-.01em;text-wrap:balance;will-change:transform}
-  .name .chrome{display:block;color:var(--royal);text-shadow:3px 4px 0 #f7ead4}
-  .name .l2{display:block;color:var(--dpink);text-shadow:3px 4px 0 #f7ead4}
-  .hero-sub{font-size:clamp(17px,2vw,22px);line-height:1.4;max-width:30ch;margin:20px 0 0;color:var(--royal);font-weight:600;text-shadow:1px 1px 0 rgba(255,245,230,.5)}
+  .name .chrome{display:block;color:var(--cream);text-shadow:4px 5px 0 rgba(42,16,19,.5)}
+  .name .l2{display:block;color:var(--marigold);text-shadow:5px 6px 0 var(--tomato)}
+  .hero-sub{font-size:clamp(17px,2vw,22px);line-height:1.4;max-width:30ch;margin:20px 0 0;color:#fdf3e4;text-shadow:1px 1px 0 rgba(42,10,6,.6)}
   .hero-sub .roller{font-family:var(--f-disp);color:var(--marigold);display:inline-flex;height:1.25em;overflow:hidden;vertical-align:bottom}
   .hero-sub .roller span{display:block;height:1.25em}
   .hero-sub .u{background:linear-gradient(transparent 60%,rgba(255,77,141,.5) 60%);padding:0 2px}
-  .scrolln{margin-top:26px;font-family:var(--f-mono);font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--royal);font-weight:700;display:flex;align-items:center;gap:10px;text-shadow:1px 1px 0 rgba(255,245,230,.5)}
+  .scrolln{margin-top:26px;font-family:var(--f-mono);font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#f3e2cf;display:flex;align-items:center;gap:10px;text-shadow:1px 1px 0 rgba(42,10,6,.6)}
   .scrolln .line{width:40px;height:2px;background:var(--tomato)}
 
   /* figure */
@@ -334,14 +334,35 @@
   /* footer */
   .footer{padding:66px 0 96px;text-align:center}
   .footer-in{max-width:640px;margin:0 auto;padding:0 20px}
-  .f-deva{font-family:var(--f-disp);font-size:clamp(24px,5vw,44px);color:var(--royal);text-shadow:2px 2px 0 rgba(255,245,230,.5)}
-  .f-line{font-size:clamp(15px,2vw,19px);color:var(--royal);font-weight:600;margin:14px 0 22px;line-height:1.5;text-wrap:pretty;text-shadow:1px 1px 0 rgba(255,245,230,.4)}
+  .f-deva{font-family:var(--f-disp);font-size:clamp(24px,5vw,44px);color:var(--marigold);text-shadow:2px 2px 0 rgba(42,16,19,.4)}
+  .f-line{font-size:clamp(15px,2vw,19px);color:var(--cream);margin:14px 0 22px;line-height:1.5;text-wrap:pretty;text-shadow:1px 1px 0 rgba(42,10,6,.5)}
   .f-line b{color:var(--marigold)}
   .f-line a{color:var(--tomato);text-decoration:underline;text-underline-offset:3px}
   .f-links{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;font-family:var(--f-mono);font-size:13px}
   .f-links a{color:var(--muted);text-decoration:none;border-bottom:2px solid var(--marigold);padding-bottom:1px}
   .f-links a:hover{color:var(--cream);border-color:var(--tomato)}
-  .f-made{font-family:var(--f-mono);font-size:11px;color:#3a4aa0;margin-top:28px}
+  .f-made{font-family:var(--f-mono);font-size:11px;color:#f0e0cc;margin-top:28px}
+  /* ---- project feed ---- */
+  .feed-sec{padding:50px 0 70px}
+  .feed-sec .shead{text-align:center;display:block;margin-bottom:6px}
+  .feed-sec .eyebrow{font-family:var(--f-chunk);font-weight:800;font-size:13px;letter-spacing:1px;color:#140a0d;background:var(--marigold);display:inline-block;padding:5px 14px;border-radius:7px;transform:rotate(-1.5deg)}
+  .feed-sec h2{font-family:var(--f-disp);font-size:clamp(30px,5.6vw,58px);margin:14px 0 6px;line-height:1;color:var(--cream);text-wrap:balance;text-shadow:2px 3px 0 rgba(42,16,19,.42)}
+  .feed-sec h2 em{font-style:normal;color:var(--marigold)}
+  .feed{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;margin-top:28px}
+  .fcard{background:var(--paper);color:var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 20px 44px rgba(0,0,0,.32);display:flex;flex-direction:column;position:relative}
+  .fcard .photo{aspect-ratio:16/10;border-radius:0;box-shadow:none}
+  .fcard .fbody{padding:18px 20px 22px;display:flex;flex-direction:column;flex:1;position:relative}
+  .fcard .ptab{position:static;align-self:flex-start;border-radius:8px;transform:rotate(-1.5deg);margin-bottom:10px}
+  .fcard .phead{margin:0 0 4px}
+  .fcard .ptags{margin-top:12px}
+  .fcard .fnote{font-family:var(--f-hand);font-weight:700;font-size:16px;color:var(--chili);transform:rotate(-3deg);margin-top:10px;align-self:flex-end}
+  .about-card{background:linear-gradient(160deg,#fff3d6,#efe2c7)}
+  .feed-stubs{max-width:860px;margin:0 auto}
+  .feed-stubs .stub{color:var(--ink)}
+  .feed-stubs .role{color:var(--ink)}
+  .feed-stubs .what{font-size:13px;color:#5a3a2e;margin-top:2px}
+  .feed-edu{text-align:center;font-family:var(--f-mono);font-size:13px;color:#f3e2cf;text-shadow:1px 1px 0 rgba(42,10,6,.6);margin-top:20px}
+  @media(max-width:760px){.feed{grid-template-columns:1fr}}
 
   /* scrapbook page decorations */
   .sticky{position:absolute;background:#fff3b0;padding:9px 12px;font-family:var(--f-hand);font-weight:700;font-size:14px;color:var(--ink);box-shadow:0 7px 16px rgba(42,16,19,.22);line-height:1.25;max-width:160px;z-index:2}
@@ -464,94 +485,102 @@
 <div class="garland" aria-hidden="true"><span class="thread"></span><i></i><i></i><i></i><i></i><i></i><span class="thread"></span></div>
 
 <!-- NOTEBOOK -->
-<section class="book-sec" id="book-sec">
-  <div class="reveal">
-    <span class="eyebrow">मेरी कहानी · my scrapbook</span>
-    <h2>flip through <span class="deva">बिंदास</span></h2>
-    <p class="hint">click to open · then flip the pages ✦</p>
+<section class="feed-sec wrap" id="work">
+  <div class="shead reveal">
+    <span class="eyebrow">मेरी कहानी · my work</span>
+    <h2>things i made the <em>computer</em> do</h2>
   </div>
-  <div class="shelf-bg" aria-hidden="true"></div>
-  <div class="book-stage reveal">
-    <div id="book">
-      <div class="pg" data-density="hard"><div class="pg-in p-cover"><div class="cover-ht"></div><div class="cstamp">∞</div>
-        <div class="cover-art"><svg width="76%" viewBox="0 0 300 240" aria-hidden="true">
-          <g stroke="rgba(255,206,130,.28)" stroke-width="3" stroke-linecap="round"><line x1="150" y1="34" x2="150" y2="6"/><line x1="110" y1="42" x2="96" y2="18"/><line x1="190" y1="42" x2="204" y2="18"/><line x1="78" y1="60" x2="58" y2="44"/><line x1="222" y1="60" x2="242" y2="44"/></g>
-          <g transform="translate(150,74)">
-            <g fill="#ff6a8a"><ellipse cx="0" cy="-26" rx="12" ry="30"/><ellipse cx="-34" cy="-10" rx="12" ry="28" transform="rotate(-38 -34 -10)"/><ellipse cx="34" cy="-10" rx="12" ry="28" transform="rotate(38 34 -10)"/><ellipse cx="-58" cy="8" rx="11" ry="24" transform="rotate(-66 -58 8)"/><ellipse cx="58" cy="8" rx="11" ry="24" transform="rotate(66 58 8)"/></g>
-            <g fill="#ffb3c6"><ellipse cx="0" cy="-18" rx="9" ry="22"/><ellipse cx="-20" cy="-8" rx="9" ry="20" transform="rotate(-30 -20 -8)"/><ellipse cx="20" cy="-8" rx="9" ry="20" transform="rotate(30 20 -8)"/></g>
-            <circle cx="0" cy="2" r="10" fill="#ffd24a"/>
-            <path d="M-64 14 Q0 42 64 14 Q0 30 -64 14Z" fill="#2f7d5a"/>
-          </g>
-          <g transform="translate(150,166)">
-            <path d="M-70 0 Q-35 -26 0 0 Q-35 20 -70 0 Z" fill="#fff8ee"/>
-            <path d="M0 0 Q35 -26 70 0 Q35 20 0 0 Z" fill="#fff8ee"/>
-            <circle cx="-35" cy="-2" r="11" fill="#21307f"/><circle cx="-35" cy="-2" r="5" fill="#0c133a"/><circle cx="-31" cy="-6" r="2.5" fill="#fff"/>
-            <circle cx="35" cy="-2" r="11" fill="#21307f"/><circle cx="35" cy="-2" r="5" fill="#0c133a"/><circle cx="39" cy="-6" r="2.5" fill="#fff"/>
-            <path d="M-72 0 Q-35 -28 2 -2" stroke="#1a0e08" stroke-width="4" fill="none" stroke-linecap="round"/>
-            <path d="M-2 -2 Q35 -28 72 0" stroke="#1a0e08" stroke-width="4" fill="none" stroke-linecap="round"/>
-            <path d="M-86 -2 l-10 -5 M86 -2 l10 -5" stroke="#1a0e08" stroke-width="4" stroke-linecap="round"/>
-            <path d="M-50 -14 l-4 -8 M-35 -18 l0 -9 M-20 -14 l4 -8" stroke="#1a0e08" stroke-width="3" stroke-linecap="round"/>
-            <path d="M50 -14 l4 -8 M35 -18 l0 -9 M20 -14 l-4 -8" stroke="#1a0e08" stroke-width="3" stroke-linecap="round"/>
-            <circle cx="0" cy="-12" r="5" fill="#ff4324"/>
-          </g>
-          <g fill="#ffd24a"><circle cx="54" cy="120" r="3"/><circle cx="246" cy="120" r="3"/><circle cx="40" cy="196" r="2.5"/><circle cx="260" cy="194" r="2.5"/></g>
-        </svg></div>
-        <div class="cover-type"><span class="c-desi">a desi baddie's</span><div class="cdeva">बिंदास</div><div class="ctitle2">scrapbook ✶</div><div class="csub2">देवांशी · 5 chapters</div></div>
-      </div></div>
+  <div class="feed">
 
-      <div class="pg"><div class="pg-in p-journal"><span class="ptab">नमस्ते</span><div class="pg-ht"></div><div class="jbody" style="margin-top:30px"><p>main Devanshi. i don't do <span class="hl">tidy case studies</span> — this is a scrapbook. half-built ideas, things that shipped, a couple that caught fire first.</p><p>i like the <span class="hl2">messy, maximal middle</span>: training a model till it finally sees the dress, getting a fleet of robots to listen, poking Claude till it builds a whole world.</p><p>desi kid, big ideas, zero chill about shipping. yeh meri kahaani hai. 🌶️</p><span class="sig">— dj</span></div><span class="pnum l">i</span></div></div>
+    <article class="fcard reveal">
+      <div class="photo hue0"><video class="pv" src="mlagents.mp4" muted loop autoplay playsinline preload="metadata"></video><span class="live">live</span></div>
+      <div class="fbody">
+        <span class="ptab">अध्याय १ · Jio</span>
+        <h3 class="phead">she taught a machine to dress people.</h3>
+        <div class="pco">AI styling agent · Jio</div>
+        <p class="pdesc">an agent that looks in your wardrobe &amp; styles you — and <b>actually gets it right</b>.</p>
+        <div class="dstamps"><span class="dstamp">93% accuracy</span><span class="dstamp">10k+ images</span><span class="dstamp">435/511 testers</span></div>
+        <div class="ptags"><span>LangGraph</span><span>YOLOv11</span><span>FAISS</span><span>Python</span></div>
+        <span class="fnote">still shipping ~</span>
+      </div>
+    </article>
 
-      <div class="pg"><div class="pg-in"><div class="pg-ht"></div><h3 class="phead" style="margin-top:24px">who even is she?</h3><div class="pco">a quick field guide</div>
-        <div style="display:flex;gap:10px;margin:4px 0 12px"><div class="polaroid" style="flex:1;transform:rotate(-4deg)"><div class="pi hue0"><img class="pv" src="Dee.jpg" alt="Devanshi"></div><span class="plabel">that's me</span></div><div class="polaroid" style="flex:1;transform:rotate(3deg);margin-top:10px"><div class="pi hue2"></div><span class="plabel">building</span></div></div>
-        <div class="dstamps"><span class="dstamp">cs undergrad</span><span class="dstamp">ex-founder</span><span class="dstamp">6 internships</span></div>
-        <p class="pdesc">AI · XR · spatial computing. she teaches machines to <b>see, style &amp; move</b> through space.</p>
-        <span class="pnote">warning: ships a lot ⚡</span><span class="pnum r">ii</span></div></div>
+    <article class="fcard reveal">
+      <div class="photo hue1"><video class="pv" src="teletwin.mp4" muted loop autoplay playsinline preload="metadata"></video></div>
+      <div class="fbody">
+        <span class="ptab">अध्याय २ · XRVision</span>
+        <h3 class="phead">1000 digital twins in 25 min.</h3>
+        <div class="pco">5G digital twin · XRVision (co-founder, exit)</div>
+        <p class="pdesc">built at the startup i co-founded (and exited) — a thousand twins, fast.</p>
+        <div class="dstamps"><span class="dstamp">97% accuracy</span><span class="dstamp">1000 models</span><span class="dstamp">~25 min</span></div>
+        <div class="ptags"><span>Unity</span><span>YOLO</span><span>C#</span><span>5G</span></div>
+        <span class="fnote">exit ✺</span>
+      </div>
+    </article>
 
-      <div class="pg"><div class="pg-in"><span class="ptab">अध्याय १</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">she taught a machine to dress people.</h3><div class="pco">AI styling agent · Jio</div><p class="pdesc">an agent that looks in your wardrobe &amp; styles you — and actually gets it right.</p><div class="dstamps"><span class="dstamp">93% accuracy</span><span class="dstamp">10k+ images</span><span class="dstamp">435/511 testers</span></div><div style="position:relative;margin:12px 0 2px;min-height:48px"><span class="stampbadge" style="left:0;top:2px;color:var(--indigo);border-color:var(--indigo)">ship it ✦</span><span class="pnote" style="position:absolute;right:2px;top:0;transform:rotate(-5deg)">she ships ⚡</span></div><div class="ptags"><span>LangGraph</span><span>YOLOv11</span><span>FAISS</span><span>Python</span></div><span class="pnum l">1</span></div></div>
-      <div class="pg"><div class="pg-in" style="padding-top:34px"><div class="pg-ht"></div><div class="polaroid" style="transform:rotate(-3deg)"><div class="pi hue0" style="aspect-ratio:1/.8"><video class="pv" src="mlagents.mp4" muted loop autoplay playsinline preload="metadata"></video><span class="washi b" style="top:-6px;left:40px;transform:rotate(-14deg)"></span><span class="live">live</span></div><span class="plabel">the styling agent, live</span></div><span class="pnote" style="align-self:flex-end">still shipping ~</span><span class="pnum r">2</span></div></div>
+    <article class="fcard reveal">
+      <div class="photo hue2"><video class="pv" src="xrchitect.mp4" muted loop autoplay playsinline preload="metadata"></video></div>
+      <div class="fbody">
+        <span class="ptab">अध्याय ३ · Tap4</span>
+        <h3 class="phead">she made Claude build worlds.</h3>
+        <div class="pco">prompt → 3D · Tap4 (demoed w/ Snapchat)</div>
+        <p class="pdesc">an MCP server so Claude builds whole Unity scenes from one prompt.</p>
+        <div class="dstamps"><span class="dstamp">~70% faster</span><span class="dstamp">5+ scenes</span><span class="dstamp">w/ Snapchat</span></div>
+        <div class="ptags"><span>MCP</span><span>Unity</span><span>C#</span><span>Python</span></div>
+        <span class="fnote">prompt → world</span>
+      </div>
+    </article>
 
-      <div class="pg"><div class="pg-in"><span class="ptab">अध्याय २</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">1000 digital twins in 25 min.</h3><div class="pco">5G digital twin · XRVision (co-founder, exit)</div>
-        <div class="chat" style="margin:6px 0 10px"><span class="tiny">— the brief —</span><div class="bub ai">can you twin 1000 cell-sites? fast?</div><div class="bub me">give me ~25 minutes &amp; an RTX 8000 😎</div><div class="bub ai">…97% accurate. how.</div><div class="bub ai typing"><i></i><i></i><i></i></div></div>
-        <div class="dstamps"><span class="dstamp">97% accuracy</span><span class="dstamp">1000 models</span><span class="dstamp">~25 min</span></div><div style="position:relative;margin:12px 0 2px;min-height:48px"><span class="stampbadge" style="left:0;top:2px;color:var(--magenta);border-color:var(--magenta)">nerd flex ✦</span><span class="pnote" style="position:absolute;right:2px;top:0;transform:rotate(-5deg)">exit ✺</span></div><div class="ptags"><span>Unity</span><span>YOLO</span><span>C#</span><span>5G</span></div><span class="pnum l">3</span></div></div>
-      <div class="pg"><div class="pg-in" style="padding-top:34px"><div class="pg-ht"></div><div class="photo hue1" style="aspect-ratio:1/.9;border-radius:4px"><video class="pv" src="teletwin.mp4" muted loop autoplay playsinline preload="metadata"></video><span class="washi a" style="top:-6px;right:30px;transform:rotate(16deg)"></span></div><div class="barcode" style="margin-top:14px"></div><div style="font-family:var(--f-mono);font-size:9px;color:#8a5a4e;margin-top:4px;letter-spacing:2px">XRV · TELETWIN · 2026</div><span class="pnum r">4</span></div></div>
-
-      <div class="pg"><div class="pg-in"><span class="ptab">अध्याय ३</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">she made Claude build worlds.</h3><div class="pco">prompt → 3D · Tap4 (demoed w/ Snapchat)</div><p class="pdesc">an MCP server so Claude builds whole Unity scenes from one prompt.</p>
-        <div class="vinyl"><div class="lbl">PROMPT<br>→ 3D</div></div>
-        <div class="dstamps"><span class="dstamp">~70% faster</span><span class="dstamp">5+ scenes</span><span class="dstamp">w/ Snapchat</span></div><div style="position:relative;margin:12px 0 2px;min-height:48px"><span class="stampbadge" style="left:0;top:2px;color:var(--chili);border-color:var(--chili)">pure magic ✦</span><span class="pnote" style="position:absolute;right:2px;top:0;transform:rotate(-5deg)">prompt → world</span></div><span class="pnum l">5</span></div></div>
-      <div class="pg"><div class="pg-in" style="padding-top:34px"><div class="pg-ht"></div><div class="photo hue2" style="aspect-ratio:1/.95"><video class="pv" src="xrchitect.mp4" muted loop autoplay playsinline preload="metadata"></video><span class="washi c" style="top:-6px;left:30px;transform:rotate(-12deg)"></span></div><div class="ptags" style="margin-top:12px"><span>MCP</span><span>Unity</span><span>C#</span><span>Python</span></div><span class="pnote" style="align-self:flex-end">snapchat! 👻</span><span class="pnum r">6</span></div></div>
-
-      <div class="pg"><div class="pg-in"><span class="ptab">अध्याय ४</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">a fleet of robots, one tablet.</h3><div class="pco">robot control · Ottonomy</div><p class="pdesc">an Android console to drive a whole fleet of delivery robots.</p>
+    <article class="fcard reveal">
+      <div class="photo hue3"><video class="pv" src="indoornav.mp4" muted loop autoplay playsinline preload="metadata"></video></div>
+      <div class="fbody">
+        <span class="ptab">अध्याय ४ · Ottonomy</span>
+        <h3 class="phead">a fleet of robots, one tablet.</h3>
+        <div class="pco">robot control · Ottonomy</div>
+        <p class="pdesc">an Android console to drive a whole fleet of delivery robots.</p>
         <div class="dstamps"><span class="dstamp">~15 screens</span><span class="dstamp">20+ services</span><span class="dstamp">4–7 bots</span></div>
-        <svg viewBox="0 0 200 60" style="width:100%;height:50px;margin-top:4px"><polyline points="4,50 34,40 64,44 94,22 124,30 154,12 196,18" fill="none" stroke="#ff4324" stroke-width="3"/><circle cx="94" cy="22" r="4" fill="#7b6bff"/><circle cx="154" cy="12" r="4" fill="#4bc24f"/><circle r="3.5" fill="#fff"><animateMotion dur="3s" repeatCount="indefinite" path="M4,50 L34,40 L64,44 L94,22 L124,30 L154,12 L196,18"/></circle></svg>
-        <div style="position:relative;margin:10px 0 2px;min-height:44px"><span class="stampbadge" style="left:0;top:2px;color:var(--indigo);border-color:var(--indigo)">fleet mode ✦</span><span class="pnote" style="position:absolute;right:2px;top:0;transform:rotate(-5deg)">beep beep 🤖</span></div><div class="ptags"><span>Kotlin</span><span>ROS</span><span>REST</span></div><span class="pnum l">7</span></div></div>
-      <div class="pg"><div class="pg-in" style="padding-top:34px"><div class="pg-ht"></div><div class="collage"><div><video class="pv" src="indoornav.mp4" muted loop autoplay playsinline preload="metadata"></video></div><div><video class="pv" src="planXR.mp4" muted loop autoplay playsinline preload="metadata"></video></div><div><video class="pv" src="multimodel.mp4" muted loop autoplay playsinline preload="metadata"></video></div><div><video class="pv" src="advanced%20motion%20tracking.mp4" muted loop autoplay playsinline preload="metadata"></video></div></div><span class="pnote" style="align-self:flex-end">~3s latency</span><span class="pnum r">8</span></div></div>
+        <div class="ptags"><span>Kotlin</span><span>ROS</span><span>REST</span></div>
+        <span class="fnote">beep beep 🤖</span>
+      </div>
+    </article>
 
-      <div class="pg"><div class="pg-in"><span class="ptab">अध्याय ५</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">war, simulated.</h3><div class="pco">immersive VR · side quest</div><p class="pdesc">a VR war-sim for combat practice, wired to <b>physical hardware</b> so the real controls move with the sim.</p><div class="dstamps"><span class="dstamp">hardware-linked</span><span class="dstamp">Unity XR</span><span class="dstamp">combat sim</span></div><div style="position:relative;margin:12px 0 2px;min-height:48px"><span class="stampbadge" style="left:0;top:2px">boom ✦</span><span class="pnote" style="position:absolute;right:2px;top:0;transform:rotate(-5deg)">pew pew 🔫</span></div><div class="ptags"><span>Unity</span><span>C#</span><span>XR Toolkit</span></div><span class="pnum l">9</span></div></div>
-      <div class="pg"><div class="pg-in" style="padding-top:34px"><span class="pstar" style="top:16px;right:20px">★</span><span class="pstar" style="top:40px;right:46px;font-size:16px">★</span><div class="pg-ht"></div><div class="photo hue4" style="aspect-ratio:1/1"><video class="pv" src="combatXR.mp4" muted loop autoplay playsinline preload="metadata"></video><span class="washi b" style="top:-6px;right:26px;transform:rotate(14deg)"></span></div><span class="pnote" style="align-self:flex-end">hardware ❤</span><span class="pnum r">10</span></div></div>
+    <article class="fcard reveal">
+      <div class="photo hue4"><video class="pv" src="combatXR.mp4" muted loop autoplay playsinline preload="metadata"></video></div>
+      <div class="fbody">
+        <span class="ptab">अध्याय ५ · side quest</span>
+        <h3 class="phead">war, simulated.</h3>
+        <div class="pco">immersive VR · CombatXR</div>
+        <p class="pdesc">a VR war-sim for combat practice, wired to <b>physical hardware</b> so the real controls move with the sim.</p>
+        <div class="dstamps"><span class="dstamp">hardware-linked</span><span class="dstamp">Unity XR</span><span class="dstamp">combat sim</span></div>
+        <div class="ptags"><span>Unity</span><span>C#</span><span>XR Toolkit</span></div>
+        <span class="fnote">hardware ❤</span>
+      </div>
+    </article>
 
-      <div class="pg"><div class="pg-in"><span class="ptab">कहानी अब तक</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">the story so far</h3><div class="stubs"><div class="stub"><div class="yr">2026 — now</div><div class="role"><b>Jio</b> · AI &amp; Cloud</div><span class="seal">LOR</span></div><div class="stub"><div class="yr">2026</div><div class="role"><b>Ottonomy</b> · DevOps</div><span class="seal">LOR</span></div><div class="stub"><div class="yr">2025 — 26</div><div class="role"><b>XRVision</b> · Co-Founder</div><span class="seal">iDEX</span></div></div>
-        <div style="position:relative;flex:1;min-height:170px;margin-top:10px">
-          <div class="sticky" style="left:2px;top:22px;transform:rotate(-3deg)">6 internships &amp; 1 exit — before i even graduate 🚀</div>
-          <span class="stampbadge" style="right:14px;top:6px">she ships ✶</span>
-          <svg class="doodle-svg" style="right:26px;top:72px;width:92px;height:70px" viewBox="0 0 92 70"><path d="M8 14 Q64 2 84 56" fill="none" stroke="#7b6bff" stroke-width="3" stroke-linecap="round"/><path d="M84 56 l-14 -3 M84 56 l-2 -15" stroke="#7b6bff" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
-          <span class="d-star" style="left:176px;top:40px;color:var(--tomato);font-size:26px">✦</span>
-          <span class="d-star" style="left:26px;bottom:14px;color:var(--marigold);font-size:18px">✺</span>
-        </div>
-        <span class="pnum l">11</span></div></div>
-      <div class="pg"><div class="pg-in" style="padding-top:34px"><div class="pg-ht"></div><div class="stubs"><div class="stub"><div class="yr">2025</div><div class="role"><b>Tap4</b> · SWE Intern</div><span class="seal">LOR</span></div><div class="stub"><div class="yr">2024 — 26</div><div class="role"><b>Delhi Univ.</b> · Research</div><span class="seal">5+ builds</span></div></div><p class="pdesc" style="margin-top:12px">BSc Computer Science (Hons.) · CGPA 8.1 · grad 2027.</p>
-        <div style="position:relative;flex:1;min-height:180px;margin-top:8px">
-          <span class="mappin" style="left:2px;top:12px">नई दिल्ली → everywhere 📍</span>
-          <svg class="doodle-svg" style="left:0;top:40px;width:160px;height:84px" viewBox="0 0 160 84"><path d="M10 58 Q46 18 82 44 Q118 70 150 26" fill="none" stroke="#ff4324" stroke-width="2.5" stroke-dasharray="6 6"/><circle cx="10" cy="58" r="5" fill="#ff4324"/><circle cx="150" cy="26" r="5" fill="#4bc24f"/></svg>
-          <div class="sticky" style="right:0;top:6px;background:#d7f0cf;transform:rotate(3deg)">right now: teaching AJIO to style you 👗</div>
-          <span class="stampbadge" style="left:30px;bottom:18px;color:var(--chili);border-color:var(--chili)">verified desi ✶</span>
-          <span class="pnote" style="position:absolute;right:6px;bottom:6px">…to be continued</span>
-        </div>
-        <span class="pnum r">12</span></div></div>
+    <article class="fcard reveal about-card">
+      <div class="fbody">
+        <span class="ptab">नमस्ते</span>
+        <h3 class="phead">who even is she?</h3>
+        <p class="pdesc">main Devanshi — a CS undergrad who <b>actually ships</b>. AI · XR · spatial computing. i like the messy, maximal middle: training a model till it finally sees the dress, poking Claude till it builds a whole world.</p>
+        <div class="dstamps"><span class="dstamp">cs undergrad</span><span class="dstamp">ex-founder</span><span class="dstamp">6 internships</span></div>
+        <span class="fnote">yeh meri kahaani hai 🌶️ — dj</span>
+      </div>
+    </article>
 
-      <div class="pg" data-density="hard"><div class="pg-in p-end"><div class="edeva">अभी तो<br>शुरुआत है</div><div class="esub">the end? नहीं. just the start.</div><div class="ehire">✦ open to 2027 roles · AI · XR</div><a class="ecta" href="mailto:devanshijhawar337@gmail.com">say namaste →</a><div class="elinks"><a href="https://github.com/devanshi-jhawar" target="_blank" rel="noopener">github</a><a href="https://linkedin.com/in/devanshi-jhawar" target="_blank" rel="noopener">linkedin</a></div></div></div>
-    </div>
   </div>
-  <div class="book-foot">drag a corner · swipe · or use ← → keys</div>
+
+  <div class="shead reveal" style="margin-top:54px">
+    <span class="eyebrow">कहानी अब तक</span>
+    <h2>the <em>story</em> so far</h2>
+  </div>
+  <div class="stubs feed-stubs reveal">
+    <div class="stub"><div class="yr">2026 — now</div><div class="role"><b>Jio</b> · AI &amp; Cloud Intern</div><div class="what">AJIO wardrobe styling agent — full lifecycle.</div><span class="seal">LOR</span></div>
+    <div class="stub"><div class="yr">2026</div><div class="role"><b>Ottonomy</b> · DevOps Intern</div><div class="what">Android robot-fleet console from scratch.</div><span class="seal">LOR</span></div>
+    <div class="stub"><div class="yr">2025 — 26</div><div class="role"><b>XRVision Labs</b> · Co-Founder (exit)</div><div class="what">Led ~10 people, 3+ MVPs, won an iDEX grant.</div><span class="seal">iDEX</span></div>
+    <div class="stub"><div class="yr">2025</div><div class="role"><b>Tap4Technologies</b> · SWE Intern</div><div class="what">Claude→Unity MCP; demoed w/ Snapchat.</div><span class="seal">LOR</span></div>
+    <div class="stub"><div class="yr">2024 — 26</div><div class="role"><b>Delhi University</b> · Research Intern</div><div class="what">AR/VR prototypes &amp; technical reports.</div><span class="seal">5+ builds</span></div>
+  </div>
+  <p class="feed-edu reveal">BSc Computer Science (Hons.) · CGPA 8.1 · grad 2027 · New Delhi</p>
 </section>
 
 <!-- MARQUEE -->
@@ -592,7 +621,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
 <script>
 (function(){
   "use strict";
