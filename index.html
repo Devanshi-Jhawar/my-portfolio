@@ -45,11 +45,23 @@
 
   /* ---- fixed tech background ---- */
   #gl{position:fixed;inset:0;z-index:-3;width:100%;height:100%;display:block}
-  #fx{position:fixed;inset:0;z-index:-2;width:100%;height:100%;pointer-events:none}
+  #orbs{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden;will-change:transform}
+  .orb{position:absolute;border-radius:50%;backdrop-filter:blur(16px) saturate(1.5);-webkit-backdrop-filter:blur(16px) saturate(1.5);
+    background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.14);
+    box-shadow:inset 0 3px 24px rgba(255,255,255,.18),inset 0 -14px 36px rgba(0,0,0,.22),0 24px 60px rgba(0,0,0,.25)}
+  .orb::after{content:"";position:absolute;top:12%;left:16%;width:34%;height:24%;border-radius:50%;background:rgba(255,255,255,.35);filter:blur(5px)}
+  .o1{width:clamp(180px,26vw,340px);aspect-ratio:1;left:4%;top:15%;animation:drift1 24s ease-in-out infinite}
+  .o2{width:clamp(130px,18vw,230px);aspect-ratio:1;right:7%;top:28%;animation:drift2 30s ease-in-out infinite}
+  .o3{width:clamp(150px,22vw,300px);aspect-ratio:1;left:28%;bottom:6%;animation:drift3 27s ease-in-out infinite}
+  .o4{width:clamp(110px,14vw,190px);aspect-ratio:1;right:24%;bottom:14%;animation:drift1 21s ease-in-out infinite reverse}
+  .o5{width:clamp(90px,12vw,150px);aspect-ratio:1;left:62%;top:8%;animation:drift2 33s ease-in-out infinite}
+  @keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(46px,-34px)}}
+  @keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,30px)}}
+  @keyframes drift3{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,26px)}}
   #fw{position:fixed;inset:0;z-index:1;width:100%;height:100%;pointer-events:none}
   #moodwash{position:fixed;inset:0;z-index:0;pointer-events:none;background:rgba(255,178,36,0);transition:background 1s ease}
-  #gl,#fx,#moodwash{transition:filter .7s ease,background 1s ease}
-  body.reading #gl,body.reading #fx,body.reading #moodwash{filter:blur(7px) saturate(1.15)}
+  #gl,#orbs,#moodwash{transition:filter .6s ease,background 1s ease}
+  body.reading #gl,body.reading #orbs,body.reading #moodwash{filter:blur(8px) saturate(1.2)}
   #grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
@@ -122,6 +134,21 @@
   .book-sec h2{font-family:var(--f-disp);font-size:clamp(32px,6vw,68px);margin:16px 0 6px;line-height:1;color:var(--cream);text-wrap:balance}
   .book-sec h2 .deva{color:var(--marigold)}
   .book-sec .hint{font-family:var(--f-hand);font-weight:700;font-size:21px;color:var(--magenta);margin:0 0 26px}
+  .book-stage{position:relative}
+  #book{position:relative;z-index:1}
+  .book-props{position:absolute;inset:-14px 0;z-index:0;pointer-events:none}
+  .prop{position:absolute}
+  .prop-label{font-family:var(--f-hand);font-weight:700;font-size:15px;color:var(--cream);text-align:center}
+  @media (max-width:1080px){.book-props{display:none}}
+  /* illustrated cover */
+  .p-cover{background:radial-gradient(130% 80% at 50% 2%,#9a3320 0,transparent 55%),linear-gradient(162deg,#5e1420,#36000c) !important;justify-content:flex-end !important;padding-bottom:30px}
+  .cover-ht{position:absolute;inset:0;opacity:.12;background-image:radial-gradient(#000 1px,transparent 1.4px);background-size:6px 6px;mix-blend-mode:multiply}
+  .cover-art{position:absolute;top:5%;left:0;right:0;display:flex;justify-content:center;z-index:1}
+  .cover-type{position:relative;z-index:2;padding-top:10px;background:linear-gradient(transparent,rgba(40,4,14,.78) 34%)}
+  .c-desi{font-family:var(--f-hand);font-weight:700;font-size:clamp(22px,5vw,30px);color:#f7efe2;transform:rotate(-5deg);display:block;margin-bottom:-6px}
+  .cover-type .cdeva{margin:0}
+  .ctitle2{font-family:var(--f-chunk);font-weight:800;font-size:clamp(15px,3.6vw,21px);color:#f7efe2;letter-spacing:.5px;margin-top:4px}
+  .csub2{font-family:var(--f-mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(247,239,226,.82);margin-top:8px}
   .book-stage{display:flex;justify-content:center;perspective:2400px}
   #book{width:min(940px,95vw);min-height:560px;touch-action:pan-y}
   #book .pg{background:var(--paper);color:var(--ink);overflow:hidden}
@@ -320,7 +347,7 @@
 <body class="no-js">
 
 <canvas id="gl"></canvas>
-<canvas id="fx"></canvas>
+<div id="orbs" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span><span class="orb o4"></span><span class="orb o5"></span></div>
 <canvas id="fw"></canvas>
 <div id="moodwash"></div>
 <div id="grain"></div>
@@ -346,51 +373,66 @@
 
     <div class="figure">
       <div class="win" id="win">
-        <svg class="char" id="char" viewBox="0 0 300 340" aria-label="illustration of Devanshi peeking out of a window">
+        <svg class="char" id="char" viewBox="0 0 300 340" aria-label="illustration of Devanshi resting at an ornate jharokha window">
           <defs>
-            <clipPath id="winclip"><path d="M40 118 Q40 44 150 44 Q260 44 260 118 L260 300 L40 300 Z"/></clipPath>
-            <linearGradient id="room" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a1f3a"/><stop offset="1" stop-color="#190d20"/></linearGradient>
+            <clipPath id="winclip"><path d="M66 150 Q66 84 150 74 Q234 84 234 150 L234 288 L66 288 Z"/></clipPath>
+            <linearGradient id="room" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#46263f"/><stop offset="1" stop-color="#1c0f24"/></linearGradient>
+            <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a4a28"/><stop offset="1" stop-color="#5c2e18"/></linearGradient>
           </defs>
+          <path d="M60 86 Q60 20 150 12 Q240 20 240 86 Q150 64 60 86 Z" fill="url(#wood)"/>
+          <circle cx="150" cy="6" r="6" fill="#ffb224"/>
+          <g stroke="#3a1c0f" stroke-width="1.5" opacity=".5" fill="none"><path d="M92 78 Q96 44 112 24"/><path d="M150 72 L150 16"/><path d="M208 78 Q204 44 188 24"/><path d="M122 74 Q126 46 136 22"/><path d="M178 74 Q174 46 164 22"/></g>
           <g clip-path="url(#winclip)">
-            <rect x="30" y="40" width="240" height="270" fill="url(#room)"/>
-            <circle cx="150" cy="150" r="130" fill="#ff8a3d" opacity=".16"/>
-            <path d="M78 160 Q58 80 150 70 Q242 80 222 160 Q236 222 208 272 L92 272 Q64 222 78 160 Z" fill="#2a160f"/>
-            <path d="M70 300 Q78 250 150 246 Q222 250 230 300 Z" fill="#e8743c"/>
-            <path d="M70 300 Q78 262 150 258 Q222 262 230 300" fill="none" stroke="#ffd16b" stroke-width="5"/>
-            <rect x="132" y="214" width="36" height="42" rx="14" fill="#b86a3a"/>
-            <ellipse cx="150" cy="166" rx="60" ry="66" fill="#c9824c"/>
-            <circle cx="118" cy="184" r="10" fill="#e06a7a" opacity=".3"/>
-            <circle cx="182" cy="184" r="10" fill="#e06a7a" opacity=".3"/>
-            <path d="M90 150 Q74 92 136 76 Q108 108 104 150 Q96 158 90 150 Z" fill="#20110b"/>
-            <path d="M210 150 Q226 92 164 76 Q192 108 196 150 Q204 158 210 150 Z" fill="#20110b"/>
-            <path d="M104 86 Q150 56 196 86 Q150 74 104 86 Z" fill="#20110b"/>
-            <circle cx="88" cy="150" r="13" fill="#2a160f"/><circle cx="212" cy="150" r="13" fill="#2a160f"/>
-            <circle cx="150" cy="112" r="6" fill="#ff4324"/>
-            <path d="M114 148 Q128 140 140 148" stroke="#20110b" stroke-width="4" fill="none" stroke-linecap="round"/>
-            <path d="M160 148 Q172 140 186 148" stroke="#20110b" stroke-width="4" fill="none" stroke-linecap="round"/>
-            <ellipse cx="128" cy="166" rx="15" ry="12" fill="#fff"/>
-            <ellipse cx="172" cy="166" rx="15" ry="12" fill="#fff"/>
-            <circle id="pupilL" cx="128" cy="166" r="6.5" fill="#20110b"/>
-            <circle id="pupilR" cx="172" cy="166" r="6.5" fill="#20110b"/>
-            <circle cx="128" cy="166" r="20" fill="rgba(255,255,255,.08)" stroke="#1a1013" stroke-width="4.5"/>
-            <circle cx="172" cy="166" r="20" fill="rgba(255,255,255,.08)" stroke="#1a1013" stroke-width="4.5"/>
-            <path d="M146 164 q4 -4 8 0" stroke="#1a1013" stroke-width="4" fill="none"/>
-            <line x1="90" y1="160" x2="108" y2="163" stroke="#1a1013" stroke-width="3.5"/>
-            <line x1="210" y1="160" x2="192" y2="163" stroke="#1a1013" stroke-width="3.5"/>
-            <path d="M150 174 q-4 10 2 14" stroke="#9e5a30" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <circle cx="161" cy="190" r="5" fill="none" stroke="#ffb224" stroke-width="2.5"/>
-            <path d="M134 204 Q150 214 168 202 Q150 210 134 204 Z" fill="#a83a4e"/>
-            <g class="earring l"><circle cx="86" cy="176" r="4" fill="#ffb224"/><path d="M78 182 h16 l-4 12 q-4 6 -8 0Z" fill="#ffb224"/><circle cx="86" cy="198" r="3" fill="#ffb224"/></g>
-            <g class="earring r"><circle cx="214" cy="176" r="4" fill="#ffb224"/><path d="M206 182 h16 l-4 12 q-4 6 -8 0Z" fill="#ffb224"/><circle cx="214" cy="198" r="3" fill="#ffb224"/></g>
-            <ellipse cx="98" cy="298" rx="22" ry="13" fill="#c9824c"/>
-            <ellipse cx="202" cy="298" rx="22" ry="13" fill="#c9824c"/>
+            <rect x="60" y="70" width="180" height="222" fill="url(#room)"/>
+            <circle cx="150" cy="150" r="120" fill="#ff8a3d" opacity=".14"/>
+            <path d="M100 150 Q86 92 150 84 Q214 92 200 150 Q210 196 192 236 L108 236 Q90 196 100 150 Z" fill="#241309"/>
+            <path d="M96 288 Q104 236 150 232 Q196 236 204 288 Z" fill="#2f7d3a"/>
+            <path d="M96 288 Q104 250 150 246 Q196 250 204 288" fill="none" stroke="#ffd16b" stroke-width="4"/>
+            <path d="M150 238 Q120 252 110 288 L150 288 Z" fill="#eef2ee" opacity=".82"/>
+            <path d="M176 288 Q176 262 206 258 Q226 262 222 288 Z" fill="#c9824c"/>
+            <path d="M112 288 Q104 238 128 208 L150 216 Q138 252 146 288 Z" fill="#c9824c"/>
+            <g stroke="#ffb224" stroke-width="3" fill="none"><path d="M118 268 q14 -6 28 2"/><path d="M116 260 q14 -6 28 2"/></g>
+            <rect x="136" y="196" width="30" height="36" rx="12" fill="#b86a3a"/>
+            <g transform="rotate(-5 150 152)">
+              <ellipse cx="150" cy="150" rx="54" ry="60" fill="#c9824c"/>
+              <circle cx="122" cy="166" r="9" fill="#e06a7a" opacity=".3"/><circle cx="178" cy="166" r="9" fill="#e06a7a" opacity=".3"/>
+              <path d="M98 142 Q86 90 144 78 Q118 108 114 148 Q106 154 98 142 Z" fill="#1c0e07"/>
+              <path d="M202 142 Q214 90 156 78 Q182 108 186 148 Q194 154 202 142 Z" fill="#1c0e07"/>
+              <path d="M110 86 Q150 60 190 86 Q150 74 110 86 Z" fill="#1c0e07"/>
+              <circle cx="98" cy="142" r="12" fill="#241309"/><circle cx="202" cy="142" r="12" fill="#241309"/>
+              <circle cx="150" cy="104" r="5.5" fill="#ff4324"/>
+              <path d="M118 138 Q130 131 142 138" stroke="#1c0e07" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+              <path d="M158 138 Q170 131 182 138" stroke="#1c0e07" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+              <ellipse cx="130" cy="152" rx="13" ry="10" fill="#fff"/>
+              <ellipse cx="170" cy="152" rx="13" ry="10" fill="#fff"/>
+              <circle id="pupilL" cx="130" cy="152" r="6" fill="#20110b"/>
+              <circle id="pupilR" cx="170" cy="152" r="6" fill="#20110b"/>
+              <path d="M117 152 Q130 136 143 150" stroke="#1a0e08" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <path d="M157 150 Q170 136 183 152" stroke="#1a0e08" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <circle cx="130" cy="152" r="17" fill="none" stroke="#1a1013" stroke-width="3.5" opacity=".85"/>
+              <circle cx="170" cy="152" r="17" fill="none" stroke="#1a1013" stroke-width="3.5" opacity=".85"/>
+              <path d="M147 150 q3 -3 6 0" stroke="#1a1013" stroke-width="3" fill="none" opacity=".85"/>
+              <path d="M150 158 q-3 10 3 14" stroke="#9e5a30" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <circle cx="160" cy="174" r="4.5" fill="none" stroke="#ffb224" stroke-width="2.5"/>
+              <path d="M136 188 Q150 196 164 187 Q150 193 136 188 Z" fill="#a83a4e"/>
+            </g>
+            <g class="earring l"><circle cx="96" cy="160" r="4" fill="#ffb224"/><path d="M88 166 h16 l-4 12 q-4 6 -8 0Z" fill="#ffb224"/><circle cx="96" cy="182" r="3" fill="#ffb224"/></g>
+            <g class="earring r"><circle cx="204" cy="160" r="4" fill="#ffb224"/><path d="M196 166 h16 l-4 12 q-4 6 -8 0Z" fill="#ffb224"/><circle cx="204" cy="182" r="3" fill="#ffb224"/></g>
+            <ellipse cx="133" cy="200" rx="18" ry="14" fill="#c9824c"/>
           </g>
-          <rect x="22" y="300" width="256" height="26" rx="7" fill="#8a4a2a"/>
-          <rect x="22" y="296" width="256" height="8" rx="4" fill="#a85c34"/>
-          <g transform="translate(244,270)"><rect x="-13" y="20" width="26" height="22" rx="3" fill="#c0603a"/><circle cx="0" cy="12" r="12" fill="#ffb224"/><circle cx="-9" cy="18" r="8" fill="#ff8a1e"/><circle cx="9" cy="18" r="8" fill="#ff8a1e"/><circle cx="0" cy="8" r="6" fill="#ff6a1e"/></g>
-          <path d="M40 118 Q40 44 150 44 Q260 44 260 118 L260 300" fill="none" stroke="#2f7d7d" stroke-width="18"/>
-          <path d="M40 118 Q40 44 150 44 Q260 44 260 118 L260 300" fill="none" stroke="#ffd16b" stroke-width="3.5" opacity=".5"/>
-          <g opacity=".92"><path d="M62 64 Q150 86 238 64" fill="none" stroke="#2f7d2f" stroke-width="2"/><g fill="#ff4324"><circle cx="90" cy="74" r="4"/><circle cx="120" cy="80" r="4"/><circle cx="150" cy="82" r="4"/><circle cx="180" cy="80" r="4"/><circle cx="210" cy="74" r="4"/></g><g fill="#ffb224"><circle cx="105" cy="78" r="3"/><circle cx="135" cy="82" r="3"/><circle cx="165" cy="82" r="3"/><circle cx="195" cy="78" r="3"/></g></g>
+          <g opacity=".9"><path d="M78 92 Q150 112 222 92" fill="none" stroke="#3a1c0f" stroke-width="1.5"/><g fill="#ff4324"><circle cx="100" cy="100" r="3.5"/><circle cx="128" cy="106" r="3.5"/><circle cx="150" cy="108" r="3.5"/><circle cx="172" cy="106" r="3.5"/><circle cx="200" cy="100" r="3.5"/></g><g fill="#ffb224"><circle cx="114" cy="104" r="2.5"/><circle cx="186" cy="104" r="2.5"/></g></g>
+          <g fill="url(#wood)" stroke="#3a1c0f" stroke-width="1.5"><rect x="46" y="96" width="20" height="196" rx="3"/><rect x="234" y="96" width="20" height="196" rx="3"/></g>
+          <g fill="#8a4a28"><rect x="42" y="90" width="28" height="14" rx="3"/><rect x="230" y="90" width="28" height="14" rx="3"/><rect x="42" y="286" width="28" height="12" rx="3"/><rect x="230" y="286" width="28" height="12" rx="3"/></g>
+          <path d="M60 150 Q60 80 150 70 Q240 80 240 150 L240 290" fill="none" stroke="url(#wood)" stroke-width="14"/>
+          <path d="M60 150 Q60 80 150 70 Q240 80 240 150" fill="none" stroke="#3a1c0f" stroke-width="2"/>
+          <path d="M74 150 Q74 96 150 86 Q226 96 226 150" fill="none" stroke="#ffd16b" stroke-width="2.5" opacity=".55"/>
+          <path d="M30 286 L270 286 L258 322 Q150 334 42 322 Z" fill="url(#wood)"/>
+          <path d="M30 286 L270 286" stroke="#3a1c0f" stroke-width="2"/>
+          <g stroke="#3a1c0f" stroke-width="1" opacity=".45"><line x1="70" y1="290" x2="64" y2="318"/><line x1="110" y1="292" x2="106" y2="320"/><line x1="150" y1="292" x2="150" y2="322"/><line x1="190" y1="292" x2="194" y2="320"/><line x1="230" y1="290" x2="236" y2="318"/></g>
+          <g transform="translate(250,276)"><circle r="9" fill="#ffb224"/><circle r="5" fill="#ff8a1e"/></g>
+          <g fill="#3a7d2c"><ellipse cx="44" cy="40" rx="16" ry="10" transform="rotate(-30 44 40)"/><ellipse cx="66" cy="54" rx="14" ry="9" transform="rotate(20 66 54)"/><ellipse cx="30" cy="62" rx="13" ry="8" transform="rotate(-10 30 62)"/></g>
+          <g fill="#4a9a38"><ellipse cx="256" cy="40" rx="16" ry="10" transform="rotate(30 256 40)"/><ellipse cx="234" cy="54" rx="14" ry="9" transform="rotate(-20 234 54)"/><ellipse cx="270" cy="62" rx="13" ry="8" transform="rotate(10 270 62)"/></g>
+          <g transform="translate(58,278)"><ellipse cx="0" cy="0" rx="9" ry="6" fill="#ffd54a"/><circle cx="7" cy="-3" r="4" fill="#ffd54a"/><path d="M11 -3 l6 1 l-6 2Z" fill="#ff8a1e"/><circle cx="8" cy="-4" r="1" fill="#1c0e07"/></g>
         </svg>
       </div>
       <span class="fig-petal" style="top:-10px;left:-6px;color:var(--marigold);font-size:26px">✺</span>
@@ -419,8 +461,37 @@
     <p class="hint">grab a page corner &amp; turn it ✦ (drag / swipe)</p>
   </div>
   <div class="book-stage reveal">
+    <div class="book-props" aria-hidden="true">
+      <div class="prop" style="left:4%;top:23%"><svg width="92" height="84" viewBox="0 0 92 84"><path d="M18 36 h44 v16 a22 22 0 0 1 -44 0 Z" fill="#e8743c"/><path d="M62 40 a12 12 0 0 1 0 18" fill="none" stroke="#e8743c" stroke-width="5"/><ellipse cx="40" cy="36" rx="22" ry="6" fill="#c0603a"/><path d="M33 12 q-6 8 0 16 M44 8 q-6 8 0 16" stroke="rgba(247,239,226,.55)" stroke-width="3" fill="none" stroke-linecap="round"/></svg><div class="prop-label" style="transform:rotate(-5deg)">chai ☕</div></div>
+      <div class="prop" style="left:3%;bottom:12%;transform:rotate(-7deg)"><div style="background:#fff;padding:7px 7px 20px;box-shadow:0 12px 26px rgba(0,0,0,.45);width:118px"><div style="aspect-ratio:1;background:radial-gradient(120% 120% at 20% 10%,#ffb224,transparent 50%),#ff4d8d"></div><div class="prop-label" style="color:#2a1013;font-size:14px">lab days</div></div></div>
+      <span class="stampbadge" style="left:8%;top:60%;color:var(--marigold);border-color:var(--marigold)">handmade ✶</span>
+      <div class="prop" style="right:5%;top:19%"><svg width="80" height="96" viewBox="0 0 80 96"><circle cx="40" cy="40" r="22" fill="#ffb224"/><circle cx="40" cy="40" r="14" fill="#ff8a1e"/><circle cx="40" cy="40" r="7" fill="#ff6a1e"/><path d="M40 62 q4 14 0 26" stroke="#2f7d2f" stroke-width="3" fill="none"/><path d="M40 74 q-12 0 -16 -8 M40 80 q12 0 16 -8" stroke="#2f7d2f" stroke-width="3" fill="none"/></svg></div>
+      <div class="prop" style="right:4%;bottom:22%"><svg width="112" height="52" viewBox="0 0 112 52"><circle cx="28" cy="28" r="20" fill="rgba(255,255,255,.08)" stroke="#f7efe2" stroke-width="4"/><circle cx="84" cy="28" r="20" fill="rgba(255,255,255,.08)" stroke="#f7efe2" stroke-width="4"/><path d="M48 26 q8 -6 16 0" stroke="#f7efe2" stroke-width="4" fill="none"/><path d="M8 24 l-6 -5 M104 24 l6 -5" stroke="#f7efe2" stroke-width="4" stroke-linecap="round"/></svg></div>
+      <span class="stampbadge" style="right:9%;bottom:12%">read me ✦</span>
+      <span class="d-star" style="right:13%;top:47%;color:#6fe3c4;font-size:26px">✦</span>
+      <span class="d-star" style="left:12%;top:11%;color:var(--tomato);font-size:20px">✺</span>
+    </div>
     <div id="book">
-      <div class="pg" data-density="hard"><div class="pg-in p-cover"><span class="spine"></span><div class="cstamp">∞</div><div class="cdeva">मेरी<br>कहानी</div><div class="cbind">बिंदास</div><div class="ctitle">devanshi's scrapbook</div><div class="csub">a story in 5 chapters</div></div></div>
+      <div class="pg" data-density="hard"><div class="pg-in p-cover"><div class="cover-ht"></div><div class="cstamp">∞</div>
+        <div class="cover-art"><svg width="68%" viewBox="0 0 300 230" aria-hidden="true">
+          <path d="M28 130 Q18 18 150 12 Q282 18 272 130 Q250 56 150 52 Q50 56 28 130 Z" fill="#20110b"/>
+          <circle cx="52" cy="92" r="27" fill="#2a160f"/><circle cx="248" cy="92" r="27" fill="#2a160f"/><circle cx="88" cy="52" r="22" fill="#2a160f"/><circle cx="212" cy="52" r="22" fill="#2a160f"/>
+          <path d="M70 108 Q70 58 150 54 Q230 58 230 108 L230 210 L70 210 Z" fill="#c9824c"/>
+          <circle cx="150" cy="90" r="7" fill="#ff4324"/>
+          <path d="M94 120 Q116 110 134 120" stroke="#20110b" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M166 120 Q184 110 206 120" stroke="#20110b" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M92 146 Q116 128 140 146 Q116 160 92 146 Z" fill="#fff"/>
+          <path d="M160 146 Q184 128 208 146 Q184 160 160 146 Z" fill="#fff"/>
+          <circle cx="118" cy="145" r="9" fill="#3a2016"/><circle cx="121" cy="142" r="3" fill="#fff"/>
+          <circle cx="182" cy="145" r="9" fill="#3a2016"/><circle cx="185" cy="142" r="3" fill="#fff"/>
+          <path d="M90 146 Q116 124 142 143" stroke="#1a0e08" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M158 143 Q184 124 210 146" stroke="#1a0e08" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M150 150 q-4 20 4 28" stroke="#9e5a30" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <circle cx="163" cy="184" r="6" fill="none" stroke="#ffb224" stroke-width="3"/>
+          <circle cx="98" cy="170" r="12" fill="#e06a7a" opacity=".3"/><circle cx="202" cy="170" r="12" fill="#e06a7a" opacity=".3"/>
+        </svg></div>
+        <div class="cover-type"><span class="c-desi">desi</span><div class="cdeva">बिंदास</div><div class="ctitle2">a baddie's scrapbook</div><div class="csub2">देवांशी · 5 chapters</div></div>
+      </div></div>
 
       <div class="pg"><div class="pg-in p-journal"><span class="ptab">नमस्ते</span><div class="pg-ht"></div><div class="jbody" style="margin-top:30px"><p>main Devanshi. i don't do <span class="hl">tidy case studies</span> — this is a scrapbook. half-built ideas, things that shipped, a couple that caught fire first.</p><p>i like the <span class="hl2">messy, maximal middle</span>: training a model till it finally sees the dress, getting a fleet of robots to listen, poking Claude till it builds a whole world.</p><p>desi kid, big ideas, zero chill about shipping. yeh meri kahaani hai. 🌶️</p><span class="sig">— dj</span></div><span class="pnum l">i</span></div></div>
 
@@ -430,26 +501,26 @@
         <p class="pdesc">AI · XR · spatial computing. she teaches machines to <b>see, style &amp; move</b> through space.</p>
         <span class="pnote">warning: ships a lot ⚡</span><span class="pnum r">ii</span></div></div>
 
-      <div class="pg"><div class="pg-in"><span class="ptab">अध्याय १</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">she taught a machine to dress people.</h3><div class="pco">AI styling agent · Jio</div><p class="pdesc">an agent that looks in your wardrobe &amp; styles you — and actually gets it right.</p><div class="dstamps"><span class="dstamp">93% accuracy</span><span class="dstamp">10k+ images</span><span class="dstamp">435/511 testers</span></div><div class="ptags"><span>LangGraph</span><span>YOLOv11</span><span>FAISS</span><span>Python</span></div><span class="pnum l">1</span></div></div>
+      <div class="pg"><div class="pg-in"><span class="ptab">अध्याय १</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">she taught a machine to dress people.</h3><div class="pco">AI styling agent · Jio</div><p class="pdesc">an agent that looks in your wardrobe &amp; styles you — and actually gets it right.</p><div class="dstamps"><span class="dstamp">93% accuracy</span><span class="dstamp">10k+ images</span><span class="dstamp">435/511 testers</span></div><div style="position:relative;margin:12px 0 2px;min-height:48px"><span class="stampbadge" style="left:0;top:2px;color:var(--indigo);border-color:var(--indigo)">ship it ✦</span><span class="pnote" style="position:absolute;right:2px;top:0;transform:rotate(-5deg)">she ships ⚡</span></div><div class="ptags"><span>LangGraph</span><span>YOLOv11</span><span>FAISS</span><span>Python</span></div><span class="pnum l">1</span></div></div>
       <div class="pg"><div class="pg-in" style="padding-top:34px"><div class="pg-ht"></div><div class="polaroid" style="transform:rotate(-3deg)"><div class="pi hue0" style="aspect-ratio:1/.8"><span class="washi b" style="top:-6px;left:40px;transform:rotate(-14deg)"></span><span class="live">live</span><span class="cap">[ demo reel ]</span></div><span class="plabel">the styling agent, live</span></div><span class="pnote" style="align-self:flex-end">still shipping ~</span><span class="pnum r">2</span></div></div>
 
       <div class="pg"><div class="pg-in"><span class="ptab">अध्याय २</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">1000 digital twins in 25 min.</h3><div class="pco">5G digital twin · XRVision (co-founder, exit)</div>
         <div class="chat" style="margin:6px 0 10px"><span class="tiny">— the brief —</span><div class="bub ai">can you twin 1000 cell-sites? fast?</div><div class="bub me">give me ~25 minutes &amp; an RTX 8000 😎</div><div class="bub ai">…97% accurate. how.</div><div class="bub ai typing"><i></i><i></i><i></i></div></div>
-        <div class="dstamps"><span class="dstamp">97% accuracy</span><span class="dstamp">1000 models</span><span class="dstamp">~25 min</span></div><div class="ptags"><span>Unity</span><span>YOLO</span><span>C#</span><span>5G</span></div><span class="pnum l">3</span></div></div>
+        <div class="dstamps"><span class="dstamp">97% accuracy</span><span class="dstamp">1000 models</span><span class="dstamp">~25 min</span></div><div style="position:relative;margin:12px 0 2px;min-height:48px"><span class="stampbadge" style="left:0;top:2px;color:var(--magenta);border-color:var(--magenta)">nerd flex ✦</span><span class="pnote" style="position:absolute;right:2px;top:0;transform:rotate(-5deg)">exit ✺</span></div><div class="ptags"><span>Unity</span><span>YOLO</span><span>C#</span><span>5G</span></div><span class="pnum l">3</span></div></div>
       <div class="pg"><div class="pg-in" style="padding-top:34px"><div class="pg-ht"></div><div class="photo hue1" style="aspect-ratio:1/.9;border-radius:4px"><span class="washi a" style="top:-6px;right:30px;transform:rotate(16deg)"></span><span class="cap">[ 3D twin viewer ]</span></div><div class="barcode" style="margin-top:14px"></div><div style="font-family:var(--f-mono);font-size:9px;color:#8a5a4e;margin-top:4px;letter-spacing:2px">XRV · TELETWIN · 2026</div><span class="pnum r">4</span></div></div>
 
       <div class="pg"><div class="pg-in"><span class="ptab">अध्याय ३</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">she made Claude build worlds.</h3><div class="pco">prompt → 3D · Tap4 (demoed w/ Snapchat)</div><p class="pdesc">an MCP server so Claude builds whole Unity scenes from one prompt.</p>
         <div class="vinyl"><div class="lbl">PROMPT<br>→ 3D</div></div>
-        <div class="dstamps"><span class="dstamp">~70% faster</span><span class="dstamp">5+ scenes</span><span class="dstamp">w/ Snapchat</span></div><span class="pnum l">5</span></div></div>
+        <div class="dstamps"><span class="dstamp">~70% faster</span><span class="dstamp">5+ scenes</span><span class="dstamp">w/ Snapchat</span></div><div style="position:relative;margin:12px 0 2px;min-height:48px"><span class="stampbadge" style="left:0;top:2px;color:var(--chili);border-color:var(--chili)">pure magic ✦</span><span class="pnote" style="position:absolute;right:2px;top:0;transform:rotate(-5deg)">prompt → world</span></div><span class="pnum l">5</span></div></div>
       <div class="pg"><div class="pg-in" style="padding-top:34px"><div class="pg-ht"></div><div class="photo hue2" style="aspect-ratio:1/.95"><span class="washi c" style="top:-6px;left:30px;transform:rotate(-12deg)"></span><span class="cap">[ screen capture ]</span></div><div class="ptags" style="margin-top:12px"><span>MCP</span><span>Unity</span><span>C#</span><span>Python</span></div><span class="pnote" style="align-self:flex-end">snapchat! 👻</span><span class="pnum r">6</span></div></div>
 
       <div class="pg"><div class="pg-in"><span class="ptab">अध्याय ४</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">a fleet of robots, one tablet.</h3><div class="pco">robot control · Ottonomy</div><p class="pdesc">an Android console to drive a whole fleet of delivery robots.</p>
         <div class="dstamps"><span class="dstamp">~15 screens</span><span class="dstamp">20+ services</span><span class="dstamp">4–7 bots</span></div>
         <svg viewBox="0 0 200 60" style="width:100%;height:50px;margin-top:4px"><polyline points="4,50 34,40 64,44 94,22 124,30 154,12 196,18" fill="none" stroke="#ff4324" stroke-width="3"/><circle cx="94" cy="22" r="4" fill="#7b6bff"/><circle cx="154" cy="12" r="4" fill="#4bc24f"/><circle r="3.5" fill="#fff"><animateMotion dur="3s" repeatCount="indefinite" path="M4,50 L34,40 L64,44 L94,22 L124,30 L154,12 L196,18"/></circle></svg>
-        <div class="ptags"><span>Kotlin</span><span>ROS</span><span>REST</span></div><span class="pnum l">7</span></div></div>
+        <div style="position:relative;margin:10px 0 2px;min-height:44px"><span class="stampbadge" style="left:0;top:2px;color:var(--indigo);border-color:var(--indigo)">fleet mode ✦</span><span class="pnote" style="position:absolute;right:2px;top:0;transform:rotate(-5deg)">beep beep 🤖</span></div><div class="ptags"><span>Kotlin</span><span>ROS</span><span>REST</span></div><span class="pnum l">7</span></div></div>
       <div class="pg"><div class="pg-in" style="padding-top:34px"><div class="pg-ht"></div><div class="collage"><div class="hue3"><div class="ph" style="position:absolute;inset:0"></div></div><div class="hue1"><div class="ph" style="position:absolute;inset:0"></div></div><div class="hue2"><div class="ph" style="position:absolute;inset:0"></div></div><div class="hue0"><div class="ph" style="position:absolute;inset:0"></div></div></div><span class="pnote" style="align-self:flex-end">~3s latency</span><span class="pnum r">8</span></div></div>
 
-      <div class="pg"><div class="pg-in"><span class="ptab">अध्याय ५</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">war, simulated.</h3><div class="pco">immersive VR · side quest</div><p class="pdesc">a VR war-sim for combat practice, wired to <b>physical hardware</b> so the real controls move with the sim.</p><div class="dstamps"><span class="dstamp">hardware-linked</span><span class="dstamp">Unity XR</span><span class="dstamp">combat sim</span></div><div class="ptags"><span>Unity</span><span>C#</span><span>XR Toolkit</span></div><span class="pnum l">9</span></div></div>
+      <div class="pg"><div class="pg-in"><span class="ptab">अध्याय ५</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">war, simulated.</h3><div class="pco">immersive VR · side quest</div><p class="pdesc">a VR war-sim for combat practice, wired to <b>physical hardware</b> so the real controls move with the sim.</p><div class="dstamps"><span class="dstamp">hardware-linked</span><span class="dstamp">Unity XR</span><span class="dstamp">combat sim</span></div><div style="position:relative;margin:12px 0 2px;min-height:48px"><span class="stampbadge" style="left:0;top:2px">boom ✦</span><span class="pnote" style="position:absolute;right:2px;top:0;transform:rotate(-5deg)">pew pew 🔫</span></div><div class="ptags"><span>Unity</span><span>C#</span><span>XR Toolkit</span></div><span class="pnum l">9</span></div></div>
       <div class="pg"><div class="pg-in" style="padding-top:34px"><span class="pstar" style="top:16px;right:20px">★</span><span class="pstar" style="top:40px;right:46px;font-size:16px">★</span><div class="pg-ht"></div><div class="photo hue4" style="aspect-ratio:1/1"><span class="washi b" style="top:-6px;right:26px;transform:rotate(14deg)"></span><span class="cap">[ VR gameplay ]</span></div><span class="pnote" style="align-self:flex-end">hardware ❤</span><span class="pnum r">10</span></div></div>
 
       <div class="pg"><div class="pg-in"><span class="ptab">कहानी अब तक</span><div class="pg-ht"></div><h3 class="phead" style="margin-top:28px">the story so far</h3><div class="stubs"><div class="stub"><div class="yr">2026 — now</div><div class="role"><b>Jio</b> · AI &amp; Cloud</div><span class="seal">LOR</span></div><div class="stub"><div class="yr">2026</div><div class="role"><b>Ottonomy</b> · DevOps</div><span class="seal">LOR</span></div><div class="stub"><div class="yr">2025 — 26</div><div class="role"><b>XRVision</b> · Co-Founder</div><span class="seal">iDEX</span></div></div>
@@ -570,23 +641,10 @@
     requestAnimationFrame(loop);
   })();
 
-  /* ---- 2. particle constellation ---- */
-  (function fx(){
-    if(RM) return;
-    var cv=document.getElementById("fx"),x=cv.getContext("2d"),W,H,dpr=Math.min(devicePixelRatio||1,1.5),P=[];
-    function rs(){W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr;cv.style.width=innerWidth+"px";cv.style.height=innerHeight+"px";}
-    rs();addEventListener("resize",rs);
-    var N=Math.min(70,Math.floor(innerWidth/22));
-    for(var i=0;i<N;i++)P.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25*dpr,vy:(Math.random()-.5)*.25*dpr});
-    function loop(){x.clearRect(0,0,W,H);var cx=mx*W,cy=my*H;
-      for(var i=0;i<P.length;i++){var p=P[i];p.x+=p.vx;p.y+=p.vy;
-        var dx=cx-p.x,dy=cy-p.y,d=Math.sqrt(dx*dx+dy*dy);if(d<160*dpr&&d>1){p.x+=dx/d*.4;p.y+=dy/d*.4;}
-        if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
-        x.beginPath();x.arc(p.x,p.y,1.3*dpr,0,6.28);x.fillStyle="rgba("+pcol.d+",.5)";x.fill();}
-      for(var a=0;a<P.length;a++)for(var b=a+1;b<P.length;b++){var A=P[a],B=P[b],ddx=A.x-B.x,ddy=A.y-B.y,dd=ddx*ddx+ddy*ddy;
-        if(dd<9000*dpr*dpr){x.strokeStyle="rgba("+pcol.l+","+(0.14*(1-dd/(9000*dpr*dpr)))+")";x.lineWidth=dpr;x.beginPath();x.moveTo(A.x,A.y);x.lineTo(B.x,B.y);x.stroke();}}
-      requestAnimationFrame(loop);}
-    loop();
+  /* ---- 2. liquid-glass orbs drift with the cursor ---- */
+  (function(){
+    if(RM)return;var el=document.getElementById("orbs");if(!el)return;
+    (function a(){el.style.transform="translate("+((mx-.5)*30)+"px,"+((my-.5)*24)+"px)";requestAnimationFrame(a);})();
   })();
 
   /* cursor + global mouse smoothing */
@@ -613,7 +671,7 @@
   (function(){
     if(TOUCH||RM)return;var c=document.getElementById("char");if(!c)return;
     var pL=document.getElementById("pupilL"),pR=document.getElementById("pupilR");if(!pL||!pR)return;
-    var eyes=[{p:pL,cx:128,cy:166},{p:pR,cx:172,cy:166}],MAX=6.5;
+    var eyes=[{p:pL,cx:130,cy:152},{p:pR,cx:170,cy:152}],MAX=5.5;
     (function a(){var r=c.getBoundingClientRect();if(r.width){var cxp=tmx*innerWidth,cyp=tmy*innerHeight;
       eyes.forEach(function(e){var ex=r.left+(e.cx/300)*r.width,ey=r.top+(e.cy/340)*r.height;
         var ang=Math.atan2(cyp-ey,cxp-ex),d=Math.min(MAX,Math.hypot(cxp-ex,cyp-ey)/16);
@@ -645,34 +703,35 @@
     m.addEventListener("pointermove",function(e){var r=m.getBoundingClientRect();gsap.to(a,{x:(e.clientX-r.left-r.width/2)*.35,y:(e.clientY-r.top-r.height/2)*.45,duration:.4});});
     m.addEventListener("pointerleave",function(){gsap.to(a,{x:0,y:0,duration:.5,ease:"elastic.out(1,.4)"});});})();
 
-  /* ---- firecrackers (scroll up = blast behind the header) ---- */
+  /* ---- firecrackers — big desi sky show on scroll-up ---- */
   (function(){
     var cv=document.getElementById("fw");if(!cv)return;var x=cv.getContext("2d");
     var W,H,dpr=Math.min(devicePixelRatio||1,1.5),P=[];
     function rs(){W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr;cv.style.width=innerWidth+"px";cv.style.height=innerHeight+"px";}
     rs();addEventListener("resize",rs);
-    var COLS=["255,178,36","255,67,36","255,77,141","123,107,255","75,194,79","247,239,226"];
-    function burst(px,py,n){n=n||42;var c=COLS[(Math.random()*COLS.length)|0];
-      for(var i=0;i<n;i++){var a=Math.random()*6.283,sp=(1.5+Math.random()*3.6)*dpr;
-        P.push({x:px,y:py,ox:px,oy:py,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,c:Math.random()<.3?COLS[(Math.random()*COLS.length)|0]:c});}}
-    fwBurst=function(nx,ny){if(RM)return;burst((nx==null?(.28+Math.random()*.44):nx)*W,(ny==null?(.16+Math.random()*.22):ny)*H,42);};
-    function loop(){x.clearRect(0,0,W,H);
-      for(var i=P.length-1;i>=0;i--){var p=P[i];p.ox=p.x;p.oy=p.y;p.vy+=0.045*dpr;p.vx*=0.985;p.vy*=0.985;p.x+=p.vx;p.y+=p.vy;p.life-=0.013;
+    var COLS=["255,178,36","255,67,36","255,77,141","123,107,255","75,194,79","247,239,226","255,210,90"];
+    function burst(px,py,n){n=n||72;var c=COLS[(Math.random()*COLS.length)|0];
+      P.push({x:px,y:py,ox:px,oy:py,life:1,flash:true,c:"247,239,226"});
+      for(var i=0;i<n;i++){var a=Math.random()*6.283,sp=(1.8+Math.random()*5.4)*dpr;
+        P.push({x:px,y:py,ox:px,oy:py,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,r:(1.4+Math.random()*2.6),tw:Math.random()<.35,
+          c:Math.random()<.4?COLS[(Math.random()*COLS.length)|0]:c});}}
+    fwBurst=function(nx,ny){if(RM)return;var px=(nx==null?(.2+Math.random()*.6):nx)*W,py=(ny==null?(.12+Math.random()*.28):ny)*H;
+      burst(px,py,74);if(Math.random()<.55)setTimeout(function(){burst(px+(Math.random()-.5)*180*dpr,py-(40+Math.random()*70)*dpr,56);},170);};
+    function loop(){x.clearRect(0,0,W,H);x.globalCompositeOperation="lighter";x.lineCap="round";
+      for(var i=P.length-1;i>=0;i--){var p=P[i];
+        if(p.flash){p.life-=0.08;if(p.life<=0){P.splice(i,1);continue;}
+          x.strokeStyle="rgba("+p.c+","+(p.life*.55)+")";x.lineWidth=2.5*dpr;x.beginPath();x.arc(p.x,p.y,(1-p.life)*70*dpr,0,6.28);x.stroke();continue;}
+        p.ox=p.x;p.oy=p.y;p.vy+=0.05*dpr;p.vx*=0.982;p.vy*=0.982;p.x+=p.vx;p.y+=p.vy;p.life-=0.0105;
         if(p.life<=0){P.splice(i,1);continue;}
-        x.strokeStyle="rgba("+p.c+","+p.life+")";x.lineWidth=2*dpr;x.beginPath();x.moveTo(p.ox,p.oy);x.lineTo(p.x,p.y);x.stroke();
-        x.fillStyle="rgba("+p.c+","+p.life+")";x.beginPath();x.arc(p.x,p.y,1.7*dpr,0,6.28);x.fill();}
-      if(P.length>800)P.splice(0,P.length-800);requestAnimationFrame(loop);}
+        var al=p.tw?(p.life*(0.45+0.55*Math.abs(Math.sin(p.life*38)))):p.life;
+        x.strokeStyle="rgba("+p.c+","+al+")";x.lineWidth=p.r*dpr;x.beginPath();x.moveTo(p.ox,p.oy);x.lineTo(p.x,p.y);x.stroke();
+        x.fillStyle="rgba("+p.c+","+al+")";x.beginPath();x.arc(p.x,p.y,p.r*dpr,0,6.28);x.fill();}
+      x.globalCompositeOperation="source-over";
+      if(P.length>1600)P.splice(0,P.length-1600);requestAnimationFrame(loop);}
     loop();
     var lastY=scrollY,lastT=0;
     addEventListener("scroll",function(){var y=scrollY,now=performance.now();
-      if(y<lastY-6&&now-lastT>240&&!RM){fwBurst();if(Math.random()<.4)setTimeout(function(){fwBurst();},160);lastT=now;}lastY=y;},{passive:true});
-  })();
-
-  /* ---- blur the background while the scrapbook is on screen ---- */
-  (function(){
-    var bs=document.getElementById("book-sec");if(!bs||!("IntersectionObserver" in window))return;
-    var io=new IntersectionObserver(function(es){es.forEach(function(en){document.body.classList.toggle("reading",en.isIntersecting&&en.intersectionRatio>.3);});},{threshold:[0,.3,.6]});
-    io.observe(bs);
+      if(y<lastY-6&&now-lastT>220&&!RM){fwBurst();setTimeout(fwBurst,150);if(Math.random()<.6)setTimeout(fwBurst,320);lastT=now;}lastY=y;},{passive:true});
   })();
 
   /* ---- scroll-driving rickshaw ---- */
@@ -701,6 +760,7 @@
         function applyMood(p){var mo=moodFor(p);moodTarget[0]=mo[0];moodTarget[1]=mo[1];moodTarget[2]=mo[2];pcol.d=mo[3];pcol.l=mo[4];if(mw)mw.style.background="rgba("+mo[3]+",0.17)";}
         function popBook(){if(window.gsap)gsap.fromTo(".book-stage",{scale:1},{scale:1.02,duration:.16,yoyo:true,repeat:1,ease:"power1.inOut"});}
         pf.on("flip",function(e){var pg=e.data|0;applyMood(pg);popBook();
+          document.body.classList.toggle("reading",pg>0);
           if(pg>=15){fwBurst(.5,.3);setTimeout(function(){fwBurst(.33,.4);},220);setTimeout(function(){fwBurst(.67,.36);},440);}});
         applyMood(0);
         addEventListener("resize",function(){try{pf.update();}catch(e){}});
