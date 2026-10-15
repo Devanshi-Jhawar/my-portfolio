@@ -24,6 +24,8 @@
     --indigo:#7b6bff;
     --chili:#4bc24f;
     --cream:#f7efe2;
+    --royal:#21307f;
+    --dpink:#b1356a;
     --muted:#bcaecb;
     --glass:rgba(40,24,62,.4);
     --glass-brd:rgba(255,255,255,.14);
@@ -43,10 +45,16 @@
   ::selection{background:var(--tomato);color:#140a0d}
   img{max-width:100%}
 
-  /* ---- fixed tech background ---- */
-  #bg{position:fixed;inset:0;z-index:-3;background:#b05634 url("assets/brick.png") center/clamp(460px,54vw,760px) repeat;transition:filter .55s ease}
-  #bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(40,12,8,.28),rgba(40,12,8,.12) 40%,rgba(40,12,8,.3))}
-  body.reading #bg{filter:blur(6px) brightness(.82)}
+  /* ---- fixed hand-built brick-wall background (always softly blurred) ---- */
+  #bg{position:fixed;inset:-14px;z-index:-3;background-color:#c3714a;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(236,216,186,.95) 0 4px, transparent 4px 50px),
+      repeating-linear-gradient(90deg, rgba(236,216,186,.95) 0 4px, transparent 4px 116px),
+      repeating-linear-gradient(0deg, rgba(0,0,0,.06) 0 25px, rgba(255,255,255,.05) 25px 50px),
+      radial-gradient(130% 90% at 30% 10%, rgba(255,210,170,.35), transparent 55%);
+    filter:blur(3.5px);transition:filter .5s ease}
+  #bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,236,214,.2),rgba(192,102,62,.16) 45%,rgba(142,66,40,.28))}
+  body.reading #bg{filter:blur(8px) brightness(.9)}
   #fw{position:fixed;inset:0;z-index:1;width:100%;height:100%;pointer-events:none}
   #grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
@@ -68,26 +76,26 @@
   .bar{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;display:flex;align-items:center;
     justify-content:space-between;padding:12px max(20px,env(safe-area-inset-left,0px));font-family:var(--f-mono);font-size:12px;color:var(--muted)}
   .bar .brand{font-family:var(--f-chunk);font-weight:800;font-size:16px;color:var(--marigold);text-decoration:none}
-  .bar .brand .dev{font-family:var(--f-disp);color:var(--cream)}
+  .bar .brand .dev{font-family:var(--f-disp);color:var(--royal)}
   .bar nav{display:flex;gap:18px}
-  .bar nav a{text-decoration:none;color:var(--muted)}
+  .bar nav a{text-decoration:none;color:var(--royal);font-weight:600}
   .bar nav a:hover{color:var(--cream)}
   .bar .cta{color:#140a0d;background:var(--marigold);padding:5px 13px;border-radius:999px}
   @media (max-width:620px){.bar nav a:not(.cta){display:none}}
 
   /* ---- hero ---- */
   .hero{min-height:94vh;display:grid;grid-template-columns:1.12fr .88fr;gap:30px;align-items:center;padding:112px 0 40px}
-  .kicker{font-family:var(--f-mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#ffe9cf;margin:0 0 12px;display:flex;align-items:center;gap:9px;text-shadow:1px 1px 0 rgba(42,10,6,.7)}
+  .kicker{font-family:var(--f-mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--royal);font-weight:700;margin:0 0 12px;display:flex;align-items:center;gap:9px;text-shadow:1px 1px 0 rgba(255,245,230,.6)}
   .kicker b{color:var(--tomato)}
-  .namaste{font-family:var(--f-hand);font-weight:700;font-size:30px;color:var(--magenta);transform:rotate(-4deg);display:inline-block;margin-bottom:2px}
+  .namaste{font-family:var(--f-hand);font-weight:700;font-size:30px;color:var(--dpink);transform:rotate(-4deg);display:inline-block;margin-bottom:2px;text-shadow:1px 1px 0 rgba(255,245,230,.7)}
   .name{font-family:var(--f-disp);font-size:clamp(46px,8.4vw,116px);line-height:.9;margin:0;letter-spacing:-.01em;text-wrap:balance;will-change:transform}
-  .name .chrome{display:block;color:var(--cream);text-shadow:4px 5px 0 rgba(42,16,19,.5)}
-  .name .l2{display:block;color:var(--marigold);text-shadow:5px 6px 0 var(--tomato)}
-  .hero-sub{font-size:clamp(17px,2vw,22px);line-height:1.4;max-width:30ch;margin:20px 0 0;color:#fdf3e4;text-shadow:1px 1px 0 rgba(42,10,6,.6)}
+  .name .chrome{display:block;color:var(--royal);text-shadow:3px 4px 0 #f7ead4}
+  .name .l2{display:block;color:var(--dpink);text-shadow:3px 4px 0 #f7ead4}
+  .hero-sub{font-size:clamp(17px,2vw,22px);line-height:1.4;max-width:30ch;margin:20px 0 0;color:var(--royal);font-weight:600;text-shadow:1px 1px 0 rgba(255,245,230,.5)}
   .hero-sub .roller{font-family:var(--f-disp);color:var(--marigold);display:inline-flex;height:1.25em;overflow:hidden;vertical-align:bottom}
   .hero-sub .roller span{display:block;height:1.25em}
   .hero-sub .u{background:linear-gradient(transparent 60%,rgba(255,77,141,.5) 60%);padding:0 2px}
-  .scrolln{margin-top:26px;font-family:var(--f-mono);font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#f3e2cf;display:flex;align-items:center;gap:10px;text-shadow:1px 1px 0 rgba(42,10,6,.6)}
+  .scrolln{margin-top:26px;font-family:var(--f-mono);font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--royal);font-weight:700;display:flex;align-items:center;gap:10px;text-shadow:1px 1px 0 rgba(255,245,230,.5)}
   .scrolln .line{width:40px;height:2px;background:var(--tomato)}
 
   /* figure */
@@ -116,10 +124,23 @@
 
   /* ---- notebook section (MAIN) ---- */
   .book-sec{padding:40px 0 70px;text-align:center;position:relative;overflow:hidden}
-  .shelf-bg{position:absolute;inset:0;z-index:0;background:#5a3a1e url("assets/bookshelf.png") center top/cover;transition:filter .55s ease}
-  .shelf-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(24,16,8,.12),rgba(24,16,8,.34))}
-  body.reading .shelf-bg{filter:blur(6px) brightness(.78)}
+  /* hand-built wooden bookshelf (always softly blurred) */
+  .shelf-bg{position:absolute;inset:-14px;z-index:0;background-color:#3a2412;
+    background-image:
+      repeating-linear-gradient(90deg,#b5432e 0 22px,#d49a2a 22px 40px,#2f7d5a 40px 58px,#c77d3a 58px 74px,#6a3a7a 74px 92px,#3a5a9a 92px 112px,#9a2f3a 112px 132px,#d4b24a 132px 150px),
+      repeating-linear-gradient(0deg,transparent 0 156px,#5a3418 156px 180px,#3f240f 180px 186px),
+      repeating-linear-gradient(90deg,rgba(0,0,0,.14) 0 2px,transparent 2px 18px);
+    filter:blur(3px) brightness(.95);transition:filter .5s ease}
+  .shelf-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 45%,rgba(255,220,180,.12),transparent 55%),linear-gradient(180deg,rgba(22,13,6,.26),rgba(22,13,6,.5))}
+  body.reading .shelf-bg{filter:blur(6px) brightness(.72)}
   .book-sec > .reveal,.book-stage{position:relative;z-index:1}
+  /* wooden shelf plank the book rests in */
+  .book-stage::before{content:"";position:absolute;left:3%;right:3%;bottom:-16px;height:30px;z-index:0;border-radius:4px;
+    background:linear-gradient(#7a471f,#4a2a12);box-shadow:0 16px 30px rgba(0,0,0,.45),inset 0 3px 0 rgba(255,220,170,.25)}
+  .book-stage::after{content:"";position:absolute;left:0;top:-22px;right:0;height:24px;z-index:0;border-radius:4px;
+    background:linear-gradient(#5e3617,#3a2110);box-shadow:0 8px 20px rgba(0,0,0,.4)}
+  #book{position:relative;z-index:2}
+  .book-stage{cursor:pointer}
   .book-sec .eyebrow{font-family:var(--f-chunk);font-weight:800;font-size:13px;letter-spacing:1px;color:#140a0d;background:var(--marigold);display:inline-block;padding:5px 14px;border-radius:7px;transform:rotate(-1.5deg)}
   .book-sec h2{font-family:var(--f-disp);font-size:clamp(32px,6vw,68px);margin:16px 0 6px;line-height:1;color:var(--cream);text-wrap:balance}
   .book-sec h2 .deva{color:var(--marigold)}
@@ -313,14 +334,14 @@
   /* footer */
   .footer{padding:66px 0 96px;text-align:center}
   .footer-in{max-width:640px;margin:0 auto;padding:0 20px}
-  .f-deva{font-family:var(--f-disp);font-size:clamp(24px,5vw,44px);color:var(--indigo)}
-  .f-line{font-size:clamp(15px,2vw,19px);color:var(--cream);margin:14px 0 22px;line-height:1.5;text-wrap:pretty}
+  .f-deva{font-family:var(--f-disp);font-size:clamp(24px,5vw,44px);color:var(--royal);text-shadow:2px 2px 0 rgba(255,245,230,.5)}
+  .f-line{font-size:clamp(15px,2vw,19px);color:var(--royal);font-weight:600;margin:14px 0 22px;line-height:1.5;text-wrap:pretty;text-shadow:1px 1px 0 rgba(255,245,230,.4)}
   .f-line b{color:var(--marigold)}
   .f-line a{color:var(--tomato);text-decoration:underline;text-underline-offset:3px}
   .f-links{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;font-family:var(--f-mono);font-size:13px}
   .f-links a{color:var(--muted);text-decoration:none;border-bottom:2px solid var(--marigold);padding-bottom:1px}
   .f-links a:hover{color:var(--cream);border-color:var(--tomato)}
-  .f-made{font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-top:28px}
+  .f-made{font-family:var(--f-mono);font-size:11px;color:#3a4aa0;margin-top:28px}
 
   /* scrapbook page decorations */
   .sticky{position:absolute;background:#fff3b0;padding:9px 12px;font-family:var(--f-hand);font-weight:700;font-size:14px;color:var(--ink);box-shadow:0 7px 16px rgba(42,16,19,.22);line-height:1.25;max-width:160px;z-index:2}
@@ -453,24 +474,29 @@
   <div class="book-stage reveal">
     <div id="book">
       <div class="pg" data-density="hard"><div class="pg-in p-cover"><div class="cover-ht"></div><div class="cstamp">∞</div>
-        <div class="cover-art"><svg width="68%" viewBox="0 0 300 230" aria-hidden="true">
-          <path d="M28 130 Q18 18 150 12 Q282 18 272 130 Q250 56 150 52 Q50 56 28 130 Z" fill="#20110b"/>
-          <circle cx="52" cy="92" r="27" fill="#2a160f"/><circle cx="248" cy="92" r="27" fill="#2a160f"/><circle cx="88" cy="52" r="22" fill="#2a160f"/><circle cx="212" cy="52" r="22" fill="#2a160f"/>
-          <path d="M70 108 Q70 58 150 54 Q230 58 230 108 L230 210 L70 210 Z" fill="#c9824c"/>
-          <circle cx="150" cy="90" r="7" fill="#ff4324"/>
-          <path d="M94 120 Q116 110 134 120" stroke="#20110b" stroke-width="5" fill="none" stroke-linecap="round"/>
-          <path d="M166 120 Q184 110 206 120" stroke="#20110b" stroke-width="5" fill="none" stroke-linecap="round"/>
-          <path d="M92 146 Q116 128 140 146 Q116 160 92 146 Z" fill="#fff"/>
-          <path d="M160 146 Q184 128 208 146 Q184 160 160 146 Z" fill="#fff"/>
-          <circle cx="118" cy="145" r="9" fill="#3a2016"/><circle cx="121" cy="142" r="3" fill="#fff"/>
-          <circle cx="182" cy="145" r="9" fill="#3a2016"/><circle cx="185" cy="142" r="3" fill="#fff"/>
-          <path d="M90 146 Q116 124 142 143" stroke="#1a0e08" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-          <path d="M158 143 Q184 124 210 146" stroke="#1a0e08" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-          <path d="M150 150 q-4 20 4 28" stroke="#9e5a30" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <circle cx="163" cy="184" r="6" fill="none" stroke="#ffb224" stroke-width="3"/>
-          <circle cx="98" cy="170" r="12" fill="#e06a7a" opacity=".3"/><circle cx="202" cy="170" r="12" fill="#e06a7a" opacity=".3"/>
+        <div class="cover-art"><svg width="76%" viewBox="0 0 300 240" aria-hidden="true">
+          <g stroke="rgba(255,206,130,.28)" stroke-width="3" stroke-linecap="round"><line x1="150" y1="34" x2="150" y2="6"/><line x1="110" y1="42" x2="96" y2="18"/><line x1="190" y1="42" x2="204" y2="18"/><line x1="78" y1="60" x2="58" y2="44"/><line x1="222" y1="60" x2="242" y2="44"/></g>
+          <g transform="translate(150,74)">
+            <g fill="#ff6a8a"><ellipse cx="0" cy="-26" rx="12" ry="30"/><ellipse cx="-34" cy="-10" rx="12" ry="28" transform="rotate(-38 -34 -10)"/><ellipse cx="34" cy="-10" rx="12" ry="28" transform="rotate(38 34 -10)"/><ellipse cx="-58" cy="8" rx="11" ry="24" transform="rotate(-66 -58 8)"/><ellipse cx="58" cy="8" rx="11" ry="24" transform="rotate(66 58 8)"/></g>
+            <g fill="#ffb3c6"><ellipse cx="0" cy="-18" rx="9" ry="22"/><ellipse cx="-20" cy="-8" rx="9" ry="20" transform="rotate(-30 -20 -8)"/><ellipse cx="20" cy="-8" rx="9" ry="20" transform="rotate(30 20 -8)"/></g>
+            <circle cx="0" cy="2" r="10" fill="#ffd24a"/>
+            <path d="M-64 14 Q0 42 64 14 Q0 30 -64 14Z" fill="#2f7d5a"/>
+          </g>
+          <g transform="translate(150,166)">
+            <path d="M-70 0 Q-35 -26 0 0 Q-35 20 -70 0 Z" fill="#fff8ee"/>
+            <path d="M0 0 Q35 -26 70 0 Q35 20 0 0 Z" fill="#fff8ee"/>
+            <circle cx="-35" cy="-2" r="11" fill="#21307f"/><circle cx="-35" cy="-2" r="5" fill="#0c133a"/><circle cx="-31" cy="-6" r="2.5" fill="#fff"/>
+            <circle cx="35" cy="-2" r="11" fill="#21307f"/><circle cx="35" cy="-2" r="5" fill="#0c133a"/><circle cx="39" cy="-6" r="2.5" fill="#fff"/>
+            <path d="M-72 0 Q-35 -28 2 -2" stroke="#1a0e08" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M-2 -2 Q35 -28 72 0" stroke="#1a0e08" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M-86 -2 l-10 -5 M86 -2 l10 -5" stroke="#1a0e08" stroke-width="4" stroke-linecap="round"/>
+            <path d="M-50 -14 l-4 -8 M-35 -18 l0 -9 M-20 -14 l4 -8" stroke="#1a0e08" stroke-width="3" stroke-linecap="round"/>
+            <path d="M50 -14 l4 -8 M35 -18 l0 -9 M20 -14 l-4 -8" stroke="#1a0e08" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="0" cy="-12" r="5" fill="#ff4324"/>
+          </g>
+          <g fill="#ffd24a"><circle cx="54" cy="120" r="3"/><circle cx="246" cy="120" r="3"/><circle cx="40" cy="196" r="2.5"/><circle cx="260" cy="194" r="2.5"/></g>
         </svg></div>
-        <div class="cover-type"><span class="c-desi">desi</span><div class="cdeva">बिंदास</div><div class="ctitle2">a baddie's scrapbook</div><div class="csub2">देवांशी · 5 chapters</div></div>
+        <div class="cover-type"><span class="c-desi">a desi baddie's</span><div class="cdeva">बिंदास</div><div class="ctitle2">scrapbook ✶</div><div class="csub2">देवांशी · 5 chapters</div></div>
       </div></div>
 
       <div class="pg"><div class="pg-in p-journal"><span class="ptab">नमस्ते</span><div class="pg-ht"></div><div class="jbody" style="margin-top:30px"><p>main Devanshi. i don't do <span class="hl">tidy case studies</span> — this is a scrapbook. half-built ideas, things that shipped, a couple that caught fire first.</p><p>i like the <span class="hl2">messy, maximal middle</span>: training a model till it finally sees the dress, getting a fleet of robots to listen, poking Claude till it builds a whole world.</p><p>desi kid, big ideas, zero chill about shipping. yeh meri kahaani hai. 🌶️</p><span class="sig">— dj</span></div><span class="pnum l">i</span></div></div>
@@ -684,7 +710,9 @@
         var pf=new PF(el,{width:430,height:560,size:"stretch",minWidth:300,maxWidth:520,minHeight:400,maxHeight:720,
           maxShadowOpacity:.5,showCover:true,usePortrait:true,mobileScrollSupport:false,drawShadow:true,flippingTime:800,swipeDistance:20,showPageCorners:true});
         pf.loadFromHTML(el.querySelectorAll(".pg"));
-        el.addEventListener("click",function(ev){if(ev.target.closest("a,video"))return;try{if(pf.getCurrentPageIndex()===0)pf.flipNext();}catch(e){}});
+        function openFromCover(ev){if(ev.target.closest("a,video"))return;try{if(pf.getCurrentPageIndex()===0)pf.flipNext();}catch(e){}}
+        el.addEventListener("click",openFromCover);
+        var stage=el.closest(".book-stage");if(stage)stage.addEventListener("click",function(ev){if(ev.target.closest("#book,a,video"))return;openFromCover(ev);});
         var MOODS=[[1,.95,.9,"255,178,36","255,77,141"],[1,.86,.66,"255,178,36","255,120,60"],[1,.8,.55,"255,170,40","255,90,40"],[1,.7,.45,"255,160,30","255,80,40"],[.72,.82,1.25,"130,150,255","120,110,255"],[1.25,.72,1.05,"255,120,200","255,77,141"],[.72,1.15,.8,"110,230,120","75,194,79"],[1.3,.6,.55,"255,90,70","255,67,36"],[.95,.9,1.15,"180,170,255","150,140,255"],[1,.82,.6,"255,178,36","255,120,60"]];
         function moodFor(p){if(p<=0)return MOODS[0];if(p===1)return MOODS[1];if(p===2)return MOODS[2];if(p<=4)return MOODS[3];if(p<=6)return MOODS[4];if(p<=8)return MOODS[5];if(p<=10)return MOODS[6];if(p<=12)return MOODS[7];if(p<=14)return MOODS[8];return MOODS[9];}
         var mw=document.getElementById("moodwash");
