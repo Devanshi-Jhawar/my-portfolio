@@ -1,661 +1,599 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Devanshi Jhawar - XR Developer</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Devanshi Jhawar — CS undergrad building at the edge of AI &amp; XR. AJIO styling agent, TeleTwin, Claude-to-Unity MCP, robot fleets.">
+<title>Devanshi Jhawar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Hanken+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@600;700&display=swap">
+<style>
+  /* LAYOUT: single-scroll spatial scrapbook — flowing shader hero, glass panels floating over an ink-aubergine void, draggable field notes, polaroid/glass experiment cards. Single committed dark world. */
+  :root{
+    --void:#0a0711;            /* ink-aubergine base */
+    --void-2:#120c1d;          /* raised panel ground */
+    --coral:#ff6b4a;           /* primary accent */
+    --peri:#9b8cff;            /* secondary accent */
+    --mint:#6fe3c4;            /* rare third accent */
+    --cream:#f6efe6;           /* ink / text */
+    --muted:#a99fb8;           /* secondary text (aubergine-biased grey) */
+    --glass:rgba(27,19,40,.46);
+    --glass-brd:rgba(255,255,255,.12);
+    --hair:rgba(255,255,255,.08);
+    --f-disp:"Syne",system-ui,sans-serif;
+    --f-body:"Hanken Grotesk",system-ui,sans-serif;
+    --f-mono:"JetBrains Mono",ui-monospace,monospace;
+    --f-hand:"Caveat",system-ui,cursive;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--void);
+    color:var(--cream);
+    font-family:var(--f-body);
+    font-size:clamp(15px,1.05vw,17px);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    cursor:auto;
+  }
+  a{color:inherit}
+  ::selection{background:var(--coral);color:#120c1d}
+
+  /* ---- shader gradient canvas (fixed behind everything) ---- */
+  #gl{position:fixed;inset:0;width:100%;height:100%;z-index:-2;display:block}
+  #grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* ---- layout shell ---- */
+  .wrap{max-width:1180px;margin:0 auto;
+    padding-left:max(22px,env(safe-area-inset-left,0px));
+    padding-right:max(22px,env(safe-area-inset-right,0px));}
+  section{position:relative}
+
+  /* ---- custom cursor ---- */
+  .cur,.cur-dot{position:fixed;top:0;left:0;z-index:999;pointer-events:none;border-radius:50%;
+    mix-blend-mode:difference;will-change:transform}
+  .cur{width:38px;height:38px;border:1.4px solid #fff;margin:-19px 0 0 -19px;
+    transition:width .25s,height .25s,margin .25s,background .25s;display:grid;place-items:center}
+  .cur-dot{width:5px;height:5px;background:#fff;margin:-2.5px 0 0 -2.5px;transition:opacity .2s}
+  .cur .lbl{font-family:var(--f-mono);font-size:9px;letter-spacing:.5px;color:#fff;opacity:0;
+    text-transform:uppercase;white-space:nowrap;transition:opacity .2s}
+  body.cur-grow .cur{width:74px;height:74px;margin:-37px 0 0 -37px;background:rgba(255,255,255,.04)}
+  body.cur-grow .cur .lbl{opacity:1}
+  body.cur-grow .cur-dot{opacity:0}
+  @media (hover:none){.cur,.cur-dot{display:none}}
+
+  /* ---- top bar ---- */
+  .bar{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px max(22px,env(safe-area-inset-left,0px));
+    font-family:var(--f-mono);font-size:12px;letter-spacing:.3px;color:var(--muted);
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .bar .tag{display:flex;gap:7px;align-items:center}
+  .bar .dot{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 10px var(--mint)}
+  .bar a{text-decoration:none}
+  .bar .links{display:flex;gap:16px}
+  .bar .links a{position:relative}
+  .bar .links a::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:1px;
+    background:var(--coral);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+  .bar .links a:hover{color:var(--cream)}
+  .bar .links a:hover::after{transform:scaleX(1)}
+  @media (max-width:640px){.bar .links a:not(.cta-mini){display:none}}
+
+  /* ---- hero ---- */
+  .hero{min-height:86vh;display:flex;flex-direction:column;justify-content:center;
+    padding-top:92px;padding-bottom:40px}
+  .eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;
+    color:var(--coral);margin:0 0 18px}
+  .name{font-family:var(--f-disp);font-weight:800;line-height:.92;letter-spacing:-.03em;
+    font-size:clamp(44px,11.2vw,148px);margin:0;text-wrap:balance}
+  .name .chrome{
+    background:linear-gradient(100deg,#d9d2e6 0%,#fff 16%,var(--peri) 36%,#efe7f6 52%,var(--coral) 72%,#fff 88%,#cfc8da 100%);
+    background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:chrome 8s ease-in-out infinite}
+  @keyframes chrome{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .name{opacity:0;transform:translateY(26px)}
+  body.ready .name{opacity:1;transform:none;
+    transition:opacity .9s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
+  .tag-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px;margin:26px 0 0}
+  .lead{font-size:clamp(17px,2.1vw,23px);color:var(--cream);max-width:30ch;line-height:1.35}
+  .roller{display:inline-flex;height:1.3em;overflow:hidden;vertical-align:bottom;
+    font-family:var(--f-disp);font-weight:700;color:var(--coral)}
+  .roller span{display:block;height:1.3em}
+  .scroll-hint{margin-top:40px;font-family:var(--f-mono);font-size:11px;letter-spacing:2px;
+    text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px}
+  .scroll-hint .ln{width:46px;height:1px;background:var(--muted);position:relative;overflow:hidden}
+  .scroll-hint .ln::after{content:"";position:absolute;inset:0;background:var(--coral);
+    animation:sweep 2.2s ease-in-out infinite}
+  @keyframes sweep{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+
+  /* ---- draggable field-note stickers ---- */
+  .stickers{position:absolute;inset:0;pointer-events:none;z-index:5}
+  .chip{position:absolute;pointer-events:auto;cursor:grab;user-select:none;
+    font-family:var(--f-mono);font-size:12.5px;letter-spacing:.2px;
+    padding:9px 14px;border-radius:999px;white-space:nowrap;
+    background:var(--glass);border:1px solid var(--glass-brd);
+    backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);
+    box-shadow:0 10px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.18);
+    transition:box-shadow .2s}
+  .chip:active{cursor:grabbing}
+  .chip.hand{font-family:var(--f-hand);font-size:20px;letter-spacing:0}
+  .chip .k{color:var(--coral)}
+  .chip.peri{color:var(--peri)} .chip.mint{color:var(--mint)}
+  @media (max-width:760px){.stickers{position:static;display:flex;flex-wrap:wrap;gap:9px;margin-top:28px}
+    .chip{position:static!important;transform:none!important}}
+
+  /* ---- generic section head ---- */
+  .shead{display:flex;align-items:baseline;gap:14px;margin:0 0 34px;flex-wrap:wrap}
+  .shead .no{font-family:var(--f-mono);font-size:12px;color:var(--coral);letter-spacing:1px}
+  .shead h2{font-family:var(--f-disp);font-weight:800;font-size:clamp(30px,5.4vw,60px);
+    margin:0;letter-spacing:-.02em;line-height:1;text-wrap:balance}
+  .shead .note{font-family:var(--f-hand);font-size:22px;color:var(--peri);transform:rotate(-4deg)}
+
+  .block{padding:clamp(70px,12vh,140px) 0}
+
+  /* ---- manifesto glass ---- */
+  .glass{background:var(--glass);border:1px solid var(--glass-brd);border-radius:26px;
+    backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);
+    box-shadow:0 30px 80px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.14)}
+  .manifesto{padding:clamp(28px,5vw,56px);max-width:760px}
+  .manifesto p{font-size:clamp(18px,2.4vw,26px);line-height:1.45;margin:0 0 18px;text-wrap:pretty}
+  .manifesto p:last-child{margin-bottom:0}
+  .manifesto .hl{color:var(--coral)} .manifesto .hl2{color:var(--peri)}
+  .manifesto .sig{font-family:var(--f-hand);font-size:34px;color:var(--mint);margin-top:8px;display:inline-block;transform:rotate(-3deg)}
+
+  /* ---- experiments ---- */
+  .exp-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px}
+  .card{grid-column:span 6;position:relative;border-radius:22px;overflow:hidden;
+    background:var(--void-2);border:1px solid var(--hair);transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s;
+    transform-style:preserve-3d;will-change:transform}
+  .card:nth-child(4n+1){grid-column:span 7}
+  .card:nth-child(4n+2){grid-column:span 5}
+  .card:nth-child(4n+3){grid-column:span 5}
+  .card:nth-child(4n){grid-column:span 7}
+  .card:hover{box-shadow:0 40px 90px rgba(0,0,0,.5)}
+  .media{aspect-ratio:16/10;position:relative;overflow:hidden;
+    display:grid;place-items:center;color:rgba(255,255,255,.5);font-family:var(--f-mono);font-size:11px;letter-spacing:1px}
+  .media .ph{position:absolute;inset:0;background:
+    radial-gradient(120% 120% at 20% 10%,var(--coral) 0%,transparent 45%),
+    radial-gradient(120% 120% at 90% 80%,var(--peri) 0%,transparent 50%),
+    linear-gradient(130deg,#241733,#140d1f);opacity:.9}
+  .card:nth-child(2) .media .ph{background:radial-gradient(120% 120% at 80% 10%,var(--peri) 0,transparent 48%),radial-gradient(130% 120% at 10% 90%,var(--mint) 0,transparent 52%),linear-gradient(130deg,#1b2233,#0f1420)}
+  .card:nth-child(3) .media .ph{background:radial-gradient(120% 120% at 15% 15%,var(--mint) 0,transparent 45%),radial-gradient(120% 120% at 85% 85%,var(--coral) 0,transparent 50%),linear-gradient(130deg,#20182e,#120d1c)}
+  .card:nth-child(4) .media .ph{background:radial-gradient(120% 120% at 85% 20%,var(--coral) 0,transparent 46%),radial-gradient(120% 120% at 10% 85%,var(--peri) 0,transparent 52%),linear-gradient(130deg,#261427,#130c17)}
+  .card:nth-child(5) .media .ph{background:radial-gradient(120% 120% at 25% 85%,var(--peri) 0,transparent 48%),radial-gradient(120% 120% at 80% 15%,var(--mint) 0,transparent 46%),linear-gradient(130deg,#1a1630,#0e0c1a)}
+  .media .tape{position:absolute;top:14px;left:-6px;font-family:var(--f-hand);font-size:17px;color:#120c1d;
+    background:var(--mint);padding:3px 16px;transform:rotate(-6deg);box-shadow:0 6px 14px rgba(0,0,0,.3)}
+  .media .ph-tag{position:relative;z-index:1;opacity:.75}
+  .card-body{padding:22px 24px 26px}
+  .card-body .k{font-family:var(--f-mono);font-size:11px;letter-spacing:1px;color:var(--peri);text-transform:uppercase}
+  .card-body h3{font-family:var(--f-disp);font-weight:700;font-size:clamp(21px,2.6vw,30px);margin:8px 0 10px;line-height:1.05}
+  .card-body p{margin:0 0 14px;color:var(--muted);font-size:15px;line-height:1.5}
+  .card-body .m{color:var(--cream)}
+  .stk{display:flex;flex-wrap:wrap;gap:6px}
+  .stk span{font-family:var(--f-mono);font-size:11px;color:var(--muted);
+    border:1px solid var(--hair);border-radius:6px;padding:3px 8px}
+  @media (max-width:760px){.card,.card:nth-child(4n),.card:nth-child(4n+1),.card:nth-child(4n+2),.card:nth-child(4n+3){grid-column:span 12}}
+
+  /* ---- lab log timeline ---- */
+  .log{display:flex;flex-direction:column;gap:2px}
+  .row{display:grid;grid-template-columns:150px 1fr auto;gap:18px;align-items:baseline;
+    padding:20px 6px;border-top:1px solid var(--hair);position:relative;transition:padding-left .4s,color .3s}
+  .row:last-child{border-bottom:1px solid var(--hair)}
+  .row .yr{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+  .row .role{font-family:var(--f-disp);font-weight:700;font-size:clamp(19px,2.4vw,27px);line-height:1.05}
+  .row .role .co{color:var(--coral)}
+  .row .what{color:var(--muted);font-size:14px;max-width:46ch;grid-column:2;margin-top:4px}
+  .row .badge{font-family:var(--f-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;
+    color:var(--mint);border:1px solid rgba(111,227,196,.4);border-radius:999px;padding:3px 10px;align-self:center}
+  .row:hover{padding-left:20px}
+  .row:hover::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;
+    background:var(--coral);border-radius:3px}
+  @media (max-width:640px){.row{grid-template-columns:1fr auto}.row .yr{grid-column:1;font-size:11px}
+    .row .badge{grid-column:2;grid-row:1}.row .role{grid-column:1/-1}.row .what{grid-column:1/-1}}
+
+  /* ---- marquee ---- */
+  .marq{overflow:hidden;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:20px 0}
+  .marq .track{display:flex;gap:40px;white-space:nowrap;width:max-content;animation:scrollx 32s linear infinite;
+    font-family:var(--f-disp);font-weight:700;font-size:clamp(22px,3.4vw,40px);color:transparent;
+    -webkit-text-stroke:1px var(--muted)}
+  .marq .track span{display:flex;align-items:center;gap:40px}
+  .marq .track .s{color:var(--coral);-webkit-text-stroke:0}
+  @keyframes scrollx{to{transform:translateX(-50%)}}
+
+  /* ---- contact ---- */
+  .contact{text-align:center;padding:clamp(80px,16vh,180px) 0}
+  .contact .big{font-family:var(--f-disp);font-weight:800;font-size:clamp(38px,8vw,104px);
+    line-height:.95;letter-spacing:-.02em;margin:0 0 30px;text-wrap:balance}
+  .contact .big em{font-style:normal;color:var(--coral)}
+  .magnet{display:inline-block;position:relative;will-change:transform}
+  .magnet a{display:inline-block;font-family:var(--f-mono);font-size:15px;letter-spacing:1px;text-transform:uppercase;
+    text-decoration:none;color:#120c1d;background:var(--cream);padding:18px 40px;border-radius:999px;
+    transition:background .3s,color .3s}
+  .magnet a:hover{background:var(--coral);color:#120c1d}
+  .reach{display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;margin-top:34px;
+    font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+  .reach a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent;transition:color .25s,border-color .25s}
+  .reach a:hover{color:var(--cream);border-color:var(--coral)}
+  .foot{text-align:center;padding:30px 0 50px;font-family:var(--f-mono);font-size:11px;color:var(--muted);letter-spacing:.5px}
+  .foot .heart{color:var(--coral)}
+
+  .badge-float{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:60;
+    font-family:var(--f-mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);
+    background:var(--glass);border:1px solid var(--glass-brd);border-radius:999px;padding:6px 14px;
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(34px)}
+  body.ready .reveal{transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .name,.reveal{opacity:1!important;transform:none!important}
+  }
+  /* no-JS safety */
+  .no-js .name,.no-js .reveal{opacity:1;transform:none}
+</style>
 </head>
-
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<canvas id="gl"></canvas>
+<div id="grain"></div>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item">
-                        <a class="nav-link home-link" href="#home">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contributions">Education & Experience</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#projects">Projects</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#research">Research</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<div class="cur" aria-hidden="true"><span class="lbl">drag</span></div>
+<div class="cur-dot" aria-hidden="true"></div>
 
-    <section id="home">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-5 text-center" data-aos="fade-right">
-                    <img src="Dee.jpg" alt="Devanshi Jhawar" class="profile-img mb-3">
-                    <div class="social-icons">
-                        <a href="https://www.linkedin.com/in/devanshi-jhawar/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://github.com/Devanshi-Jhawar" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                        <a href="tel:+919829236111" aria-label="Phone"><i class="fas fa-phone"></i></a>
-                        <a href="mailto:devanshe.j@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
-                    </div>
-                </div>
+<header class="bar">
+  <a class="tag" href="#top"><span class="dot"></span> devanshi // field lab</a>
+  <nav class="links">
+    <a href="#work" data-cur="look">work</a>
+    <a href="#log" data-cur="look">lab log</a>
+    <a href="#say" class="cta-mini" data-cur="say hi">say hi</a>
+  </nav>
+</header>
 
-                <div class="col-md-7 text-center text-md-start" data-aos="fade-left">
-                    <h1>Devanshi Jhawar</h1>
-                    <p>Co-Founder XRVisionLabs | XR Developer | Unity Developer</p>
-                    <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2 mt-3">
-                        <span class="skill-badge">Augmented Reality</span>
-                        <span class="skill-badge">Virtual Reality</span>
-                        <span class="skill-badge">Unity 3D</span>
-                        <span class="skill-badge">Unreal Engine</span>
-                        <span class="skill-badge">WebXR</span>
-                        <span class="skill-badge">C#</span>
-                        <span class="skill-badge">C++</span>
-                        <span class="skill-badge">Spatial Computing</span>
-                        <span class="skill-badge">Git & Version Control</span>
-                        <span class="skill-badge">RESTful APIs</span>
-                        <span class="skill-badge">Object-Oriented Programming</span>
-                        <span class="skill-badge">Data Structures & Algorithms</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="about-section text-light">
-        <div class="container text-center">
-            <h2 class="mb-4">About Me</h2>
-            <h4 class="intro-heading">
-                Hi <span class="wave">👋</span>, I am <strong>Devanshi Jhawar</strong>
-            </h4>
-            <p class="mb-5 about-description">
-                <span class="highlight">Co-Founder of XRVisionLabs</span>,
-                a deep tech startup specializing in XR, AI, and Spatial Computing solutions. I lead R&D and product innovation, designing immersive
-                applications using <span class="highlight">Unreal, Unity, and WebXR</span> frameworks.
-                <br>
-                My journey includes research at <span class="highlight">Delhi University</span> on XR interaction models and mixed reality systems,
-                and an AI internship at <span class="highlight">Soul AI</span> optimizing prompts for AR use cases. I've developed projects like
-                <span class="highlight">Multimodal AR</span>, <span class="highlight">TeleTwin</span> (5G digital twin), <span class="highlight">AR Navigation</span>,
-                and <span class="highlight">ML Agents in XR</span> environments.
-                <br>
-                Beyond technical expertise, I value <span class="highlight">communication, problem-solving, leadership, and analytical thinking</span>.
-                I bring to the table:
-            </p>
-
-            <div class="skills-box d-flex flex-wrap justify-content-center gap-10">
-                <span class="skill-badge">Communication</span>
-                <span class="skill-badge">Leadership</span>
-                <div class="flex-break"></div>
-                <span class="skill-badge">Project Management</span>
-                <span class="skill-badge">Guest Speaking</span>
-            </div>
-        </div>
-    </section>
-
-    <section id="contributions" class="section-container">
-        <h2 class="section-heading">Education & Experience</h2>
-
-        <div class="container-fluid my-4">
-            <div class="row g-4">
-
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Education</h5>
-
-                            <div class="mb-3">
-                                <h6 class="fw-bold">B.Sc (Hons.) Computer Science</h6>
-                                <p class="mb-1"><span class="highlight-dark">Delhi University</span> | 2027</p>
-                            </div>
-
-                            <div class="mb-3">
-                                <h6 class="fw-bold">CBSC (Commerce)</h6>
-                                <p class="mb-1"><span class="highlight-dark">Sophia Senior Secondary School, Bikaner</span> | 2023</p>
-                                <p class="mb-1">Result: <span class="highlight-dark">90.2%</span></p>
-                            </div>
-
-                            <div class="mb-3">
-                                <h6 class="fw-bold">CBSC</h6>
-                                <p class="mb-1"><span class="highlight-dark">Sophia Senior Secondary School, Bikaner</span> | 2021</p>
-                                <p class="mb-1">Result: <span class="highlight-dark">86.6%</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Professional Experience</h5>
-
-                            <div class="mb-3">
-                                <h6 class="fw-bold">Co-Founder - XRVisionLabs</h6>
-                                <p class="card-text">
-                                    Lead <span class="highlight-dark">R&D and product innovation</span> across XR, AI, and Spatial Computing projects.
-                                    Design and develop immersive applications using <span class="highlight-dark">Unreal, Unity, and WebXR</span> frameworks.
-                                    Engage in partnerships, client demos, and technical presentations.
-                                </p>
-                            </div>
-
-                            <div class="mb-3">
-                                <h6 class="fw-bold">AI Intern - Soul AI</h6>
-                                <p class="card-text">
-                                    Evaluated and optimized <span class="highlight-dark">AI-generated prompts</span> for augmented reality use cases.
-                                    Analyzed model outputs and provided structured feedback to improve <span class="highlight-dark">contextual accuracy and relevance</span>.
-                                    Refined prompt datasets to enhance AR interaction quality and AI responsiveness.
-                                    Collaborated with the R&D team to align prompt behavior with real-world AR scenarios.
-                                </p>
-                            </div>
-                            <div class="mb-3">
-    <h6 class="fw-bold">VR and Computer Vision Intern - Simulanis</h6>
-    <p class="card-text">
-        Developed and tested <span class="highlight-dark">VR modules in Unity</span>, focusing on interaction design and immersive workflows.
-        Worked on <span class="highlight-dark">computer vision tasks</span> including basic object tracking and spatial understanding for XR applications.
-        Integrated CV outputs into XR environments to improve <span class="highlight-dark">system performance and realism</span>.
-        Collaborated with cross-functional teams to enhance <span class="highlight-dark">user experience and technical efficiency</span>.
-    </p>
-</div>
-
-<div class="mb-3">
-    <h6 class="fw-bold">Game Development Intern - Alt Reality Labs</h6>
-    <p class="card-text">
-        Built interactive Unity-based games implementing <span class="highlight-dark">core mechanics</span> such as ball physics and driving systems.
-        Applied foundational <span class="highlight-dark">XR concepts</span> to enhance gameplay immersion and interactivity.
-        Assisted in debugging and optimizing game systems to improve <span class="highlight-dark">performance and stability</span>.
-        Collaborated with the team to refine gameplay logic and deliver <span class="highlight-dark">smooth user experiences</span>.
-    </p>
-</div>
-
-                            <div class="mb-3">
-                                <h6 class="fw-bold">Research Intern - Delhi University</h6>
-                                <p class="card-text">
-                                    Conducted research on emerging <span class="highlight-dark">XR interaction models, spatial computing, and mixed reality systems</span>.
-                                    Designed and developed experimental AR/VR prototypes. Collaborated with faculty researchers on immersive learning, simulation, and visualization projects.
-                                    Authored documentation, technical reports, and experimental findings for publication or internal review.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="section-container">
-        <h2 class="section-heading">Achievements & Certifications</h2>
-
-        <div class="container-fluid my-4">
-            <div class="row g-4">
-
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Academic Achievements</h5>
-                            <ul>
-                                <li class="pointer">Awarded with several <span class="highlight-dark">National and State level Awards for Abacus</span></li>
-                                <li class="pointer">Winner - <span class="highlight-dark">Inter District Debating Competition</span></li>
-                                <li class="pointer">Winner - Best Business Plan Award, <span class="highlight-dark">College B-Plan Competition</span></li>
-                                <li class="pointer">Selected as <span class="highlight-dark">Silver Medalist</span> under the IAYP (International Award for Young People) program for excellence in service, skill, and adventurous journeys</li>
-                                <li class="pointer">Organized & hosted <span class="highlight-dark">YUVA DYT</span> in first year of college, handling end-to-end event execution</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Certifications & Speaking</h5>
-                            <ul>
-                                <li class="pointer"><span class="highlight-dark">Harvard CS50 Certification</span> – Completed CS50 Online Course by Harvard x Edu</li>
-                                <li class="pointer"><span class="highlight-dark">Google's AR Core SDK understanding and Future</span> – Google</li>
-                                <li class="pointer"><span class="highlight-dark">University of Michigan Certification Course</span> – Completed XR | AI Course - Coursera</li>
-                                <li class="pointer"><span class="highlight-dark">Biginner to Advanced 5G Concepts</span> – Coursera</li>
-                                <li class="pointer"><span class="highlight-dark">Level B+ Bharatnatyam Certification</span> – Completed 4 yrs of Bharatnatyam Affiliated from University of Chandigarh</li>
-                                <li class="pointer"><span class="highlight-dark">Guest Lecturer</span> at Jindal University of Art and Architecture</li>
-                                <li class="pointer"><span class="highlight-dark">Guest Speaker</span> at AWE Nite Orlando</li>
-                                <li class="pointer">Contributed to <span class="highlight-dark">I-Twin Open Source</span> Project</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-   <section id="projects" class="section-container">
-    <h2 class="section-heading text-center mb-4">My Projects</h2>
-
-    <div class="position-relative px-3">
-        <button class="btn btn-secondary position-absolute top-50 start-0 translate-middle-y z-3 slider-btn"
-                onclick="scrollVideos(-1, this)">
-            &#8592;
-        </button>
-        <button class="btn btn-secondary position-absolute top-50 end-0 translate-middle-y z-3 slider-btn"
-                onclick="scrollVideos(1, this)">
-            &#8594;
-        </button>
-
-        <div class="overflow-hidden">
-            <div id="video-slider" class="d-flex flex-nowrap"
-                 style="overflow-x: auto; scroll-behavior: smooth; gap: 1rem;">
-
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="ratio ratio-16x9">
-                            <video autoplay loop muted playsinline preload="metadata">
-                                <source src="xrchitect.mp4" type="video/mp4">
-                                <source src="videos/xrchitect.webm" type="video/webm">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Xrchitect</h5>
-                            <p class="card-text">
-                                <span class="highlight-dark">Xrchitect</span> is a <span class="highlight-dark">VR/MR</span>
-                                application tailored for <span class="highlight-dark">interior design professionals</span>,
-                                students, and educators to create and visualize design concepts in real-time. Unlike traditional
-                                <span class="highlight-dark">2D design tools</span>, Xrchitect immerses users in a fully
-                                interactive, realistic <span class="highlight-dark">3D environment</span>, allowing them to design
-                                and manipulate spaces within actual or virtual rooms. This powerful tool enables users to
-                                experiment with layouts, furnishings, and color schemes before committing to real-world changes,
-                                offering unmatched immersion and realism for both <span class="highlight-dark">educational</span>
-                                and <span class="highlight-dark">professional</span> use.
-                            </p>
-                            <a href="https://www.meta.com/en-gb/experiences/xrchitect/8001533676569691/" class="btn btn-primary mt-auto">Download on Meta Store</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="ratio ratio-16x9">
-                            <video autoplay loop muted playsinline preload="metadata">
-                                <source src="teletwin.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">TeleTwin</h5>
-                            <p class="card-text">
-                                <span class="highlight-dark">TeleTwin</span> is an innovative <span class="highlight-dark">Digital Twin</span> solution that creates
-                                <span class="highlight-dark">realistic 3D representations of telecom towers</span> for infrastructure management and planning.
-                                This cutting-edge platform enables telecom operators to visualize, monitor, and analyze their tower assets in a virtual environment,
-                                providing detailed insights into <span class="highlight-dark">structural integrity</span>, <span class="highlight-dark">equipment placement</span>,
-                                and <span class="highlight-dark">operational efficiency</span>. By combining photorealistic modeling with real-time data integration,
-                                TeleTwin revolutionizes how telecom infrastructure is managed, planned, and maintained, reducing costs and improving
-                                <span class="highlight-dark">network reliability</span>.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="ratio ratio-16x9">
-                            <img src="TM_dashboard.png" class="card-img-top" alt="Collaborative Task Manager" style="object-fit: cover; width: 100%; height: 100%;">
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Collaborative Task Manager</h5>
-                            <p class="card-text">
-                                A full-stack task management application built with <span class="highlight-dark">C# and .NET</span> that streamlines team workflows through intuitive CRUD operations.
-                                The system features a <span class="highlight-dark">RESTful API</span>
-                                for efficient task distribution and assignment, enabling multiple users to create, update, and track tasks in real-time across different projects.
-                                The application integrates a <span class="highlight-dark">SQL database</span> for reliable persistent storage, maintaining task histories, team assignments, 
-                                and project timelines. This solution demonstrates practical implementation of modern backend development principles and database management, 
-                                providing teams with a scalable platform for collaborative project coordination.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="ratio ratio-16x9">
-                            <video autoplay loop muted playsinline preload="metadata">
-                                <source src="digitaltwin.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Digital twin for Threat Monitoring</h5>
-                            <p class="card-text">
-                               This project is a
-                                <span class="highlight-dark">Mixed Reality-based Digital Twin</span> that visualizes an
-                                organization's cybersecurity landscape in real time. Designed to bridge the communication gap
-                                between technical teams and senior management, it transforms complex <span class="highlight-dark">SOC dashboard data</span> into an interactive MR experience. By digitally
-                                replicating the organization's cyber environment, stakeholders can collaboratively monitor <span class="highlight-dark">threats</span>, analyze <span class="highlight-dark">vulnerabilities</span>, and make informed decisions with clarity and
-                                speed—all through an intuitive and immersive interface.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="ratio ratio-16x9">
-                            <video autoplay loop muted playsinline preload="metadata">
-                                <source src="combatXR.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">CombatXR</h5>
-                            <p class="card-text">
-                                <span class="highlight-dark">CombatXR</span> is a high-fidelity combat training platform developed
-                                for the <span class="highlight-dark">Indian Defense forces</span>, combining <span class="highlight-dark">VR</span>, <span class="highlight-dark">AR</span>, and <span class="highlight-dark">AI</span> to simulate complex battlefield scenarios. It delivers
-                                <span class="highlight-dark">360° interactive simulations</span> across varied terrains—<span class="highlight-dark">urban</span>, <span class="highlight-dark">jungle</span>, <span class="highlight-dark">desert</span>, and <span class="highlight-dark">counter-insurgency</span>—enhancing soldier reflexes, decision-making,
-                                and tactical coordination. With <span class="highlight-dark">multiplayer support</span>, squads
-                                can train together in synchronized virtual missions. StrikeXR also integrates <span class="highlight-dark">real-time analytics</span> and <span class="highlight-dark">adaptive feedback</span>, enabling personalized performance tracking and continuous tactical
-                                improvement—all within a safe, cost-effective virtual environment designed to elevate <span class="highlight-dark">mission readiness</span>.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="ratio ratio-16x9">
-                            <video autoplay loop muted playsinline preload="metadata">
-                                <source src="planXR.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">PlanXR</h5>
-                            <p class="card-text">
-                                <span class="highlight-dark">PlanXR</span> is a <span class="highlight-dark">Mixed Reality (MR)</span> application developed to transform mission
-                                planning for the <span class="highlight-dark">Territorial Army</span> by replacing traditional
-                                map-based approaches with immersive <span class="highlight-dark">3D terrain exploration</span>.
-                                The app enables officers to virtually interact with real-world landscapes, analyze geographical
-                                challenges, and make informed, data-driven decisions. Featuring <span class="highlight-dark">multi-user collaboration</span>, PlanXR allows teams to co-plan missions
-                                in real time within a shared virtual space—enhancing coordination, reducing risk, and
-                                significantly improving <span class="highlight-dark">operational readiness</span> and <span class="highlight-dark">strategic execution</span>.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="ratio ratio-16x9">
-                            <video autoplay loop muted playsinline preload="metadata">
-                                <source src="multimodel.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">AR Multimodal Project</h5>
-                            <p class="card-text">
-                                <span class="highlight-dark">AR Multimodal</span> is an innovative <span class="highlight-dark">Augmented Reality</span>
-                                application that combines multiple interaction modalities to create rich, intuitive user experiences. Built using
-                                <span class="highlight-dark">Unity</span> and <span class="highlight-dark">WebAR</span> technologies, this project
-                                seamlessly integrates <span class="highlight-dark">voice commands</span>, <span class="highlight-dark">gesture recognition</span>,
-                                <span class="highlight-dark">touch input</span>, and <span class="highlight-dark">spatial interaction</span> to enable users
-                                to interact with virtual content in natural and immersive ways. The cross-platform solution works both as a
-                                <span class="highlight-dark">native mobile AR app</span> and through <span class="highlight-dark">web browsers</span>,
-                                making advanced AR experiences accessible without app downloads. This project demonstrates the future of
-                                <span class="highlight-dark">human-computer interaction</span>, where multiple input methods work harmoniously to
-                                enhance usability, accessibility, and overall user engagement in augmented environments.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+<main class="wrap" id="top">
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <p class="eyebrow">New Delhi · building at the edge of AI &amp; XR</p>
+    <h1 class="name"><span class="chrome" id="chrome">Devanshi<br>Jhawar</span></h1>
+    <div class="tag-row">
+      <p class="lead">a CS undergrad who&nbsp;<span class="roller" id="roller"><span>actually ships.</span></span><br>she teaches machines to see, style &amp; move through space.</p>
     </div>
+    <div class="scroll-hint"><span class="ln"></span> scroll &amp; poke around</div>
 
+    <div class="stickers" id="stickers" aria-hidden="true">
+      <div class="chip" style="top:6%;right:4%">ships. <span class="k">then ships again.</span> ⚡</div>
+      <div class="chip peri" style="top:24%;right:16%">ex-founder <span class="k">(exit)</span> ✺</div>
+      <div class="chip hand" style="top:46%;right:2%">chai &gt; coffee</div>
+      <div class="chip mint" style="top:64%;right:19%">robot-fleet whisperer 🤖</div>
+      <div class="chip" style="top:82%;right:6%"><span class="k">YOLOv11</span> @ 93%</div>
+      <div class="chip hand peri" style="top:38%;right:30%">iDEX grant, btw</div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section class="block" id="about">
+    <div class="glass manifesto reveal">
+      <p>hi, i'm devanshi. i don't do <span class="hl">tidy case studies</span>. this is more of a lab notebook — half-built ideas, things that shipped, a few that exploded first.</p>
+      <p>i like the messy middle: <span class="hl2">training a model till it finally sees the dress</span>, getting a fleet of robots to listen, poking Claude until it builds a whole 3D scene on its own.</p>
+      <p>mostly i just like making the computer do something it couldn't do yesterday.</p>
+      <span class="sig">— dj</span>
+    </div>
+  </section>
+
+  <!-- EXPERIMENTS -->
+  <section class="block" id="work">
+    <div class="shead reveal">
+      <span class="no">01 — selected experiments</span>
+      <h2>things i made the computer do</h2>
+      <span class="note">drag the stickers btw ↑</span>
+    </div>
+    <div class="exp-grid">
+
+      <article class="card reveal" data-tilt>
+        <div class="media"><div class="ph"></div><span class="tape">now @ jio</span><span class="ph-tag">[ demo reel drops here ]</span></div>
+        <div class="card-body">
+          <span class="k">AI styling agent · jio</span>
+          <h3>AJIO Wardrobe Stylist</h3>
+          <p>an agent that looks in your wardrobe and styles you. trained <span class="m">YOLOv11 to 93% on 10k+ images across 35 categories</span>; <span class="m">435 of 511 testers found what they wanted</span>.</p>
+          <div class="stk"><span>LangGraph</span><span>YOLOv11</span><span>FAISS</span><span>Python</span></div>
+        </div>
+      </article>
+
+      <article class="card reveal" data-tilt>
+        <div class="media"><div class="ph"></div><span class="ph-tag">[ 3D twin viewer here ]</span></div>
+        <div class="card-body">
+          <span class="k">5G digital twin · xrvision</span>
+          <h3>TeleTwin</h3>
+          <p>generated <span class="m">1000 twin models in ~25 min on an RTX 8000</span> at <span class="m">97% accuracy</span>. built at the startup i co-founded (and exited).</p>
+          <div class="stk"><span>Unity</span><span>YOLO</span><span>C#</span><span>5G</span></div>
+        </div>
+      </article>
+
+      <article class="card reveal" data-tilt>
+        <div class="media"><div class="ph"></div><span class="tape">w/ snapchat</span><span class="ph-tag">[ screen capture here ]</span></div>
+        <div class="card-body">
+          <span class="k">prompt → 3D · tap4</span>
+          <h3>Claude → Unity (MCP)</h3>
+          <p>an MCP server that lets Claude build whole Unity scenes from a prompt. scenes that took people <span class="m">4–5 hrs now take ~1–1.5 — about 70% faster</span>.</p>
+          <div class="stk"><span>MCP</span><span>Unity</span><span>C#</span><span>Python</span></div>
+        </div>
+      </article>
+
+      <article class="card reveal" data-tilt>
+        <div class="media"><div class="ph"></div><span class="ph-tag">[ app walkthrough here ]</span></div>
+        <div class="card-body">
+          <span class="k">robot control · ottonomy</span>
+          <h3>Robot Fleet Console</h3>
+          <p>an Android console to drive a delivery-robot fleet — <span class="m">~15 screens, 20+ services, ~3s live latency</span>, running at <span class="m">2 sites with 4–7 robots</span> each.</p>
+          <div class="stk"><span>Kotlin</span><span>ROS</span><span>REST</span></div>
+        </div>
+      </article>
+
+      <article class="card reveal" data-tilt>
+        <div class="media"><div class="ph"></div><span class="tape">hardware!</span><span class="ph-tag">[ VR gameplay here ]</span></div>
+        <div class="card-body">
+          <span class="k">immersive VR · side quest</span>
+          <h3>CombatXR</h3>
+          <p>a VR war-simulation for combat practice, wired to <span class="m">physical hardware</span> so the real controls move with the sim.</p>
+          <div class="stk"><span>Unity</span><span>C#</span><span>XR Toolkit</span></div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- LAB LOG -->
+  <section class="block" id="log">
+    <div class="shead reveal">
+      <span class="no">02 — lab log</span>
+      <h2>where i've been tinkering</h2>
+    </div>
+    <div class="log reveal">
+      <div class="row"><span class="yr">2026 — now</span><span class="role"><span class="co">Jio</span> · AI &amp; Cloud Intern</span><span class="badge">LOR</span><span class="what">AJIO wardrobe styling agent — full lifecycle, data to deploy.</span></div>
+      <div class="row"><span class="yr">2026</span><span class="role"><span class="co">Ottonomy</span> · DevOps Intern</span><span class="badge">LOR</span><span class="what">Android robot-fleet console from scratch — flow, UI, ROS calls.</span></div>
+      <div class="row"><span class="yr">2025 — 26</span><span class="role"><span class="co">XRVision Labs</span> · Co-Founder (exit)</span><span class="badge">iDEX</span><span class="what">Led ~10 people, shipped 3+ MVPs, won a defence iDEX grant.</span></div>
+      <div class="row"><span class="yr">2025</span><span class="role"><span class="co">Tap4Technologies</span> · SWE Intern</span><span class="badge">LOR</span><span class="what">Claude→Unity MCP server; demoed at a Snapchat-collab event.</span></div>
+      <div class="row"><span class="yr">2024 — 26</span><span class="role"><span class="co">Delhi University</span> · Research Intern</span><span class="badge">5+ builds</span><span class="what">AR/VR prototypes &amp; technical reports.</span></div>
+    </div>
+  </section>
+</main>
+
+<!-- MARQUEE -->
+<section class="marq reveal" aria-hidden="true">
+  <div class="track">
+    <span>Python · <b class="s">LangGraph</b> · YOLOv11 · FAISS · Unity · <b class="s">C#</b> · ROS · Kotlin · Docker · FastAPI · <b class="s">MCP</b> · Three.js ·&nbsp;</span>
+    <span>Python · <b class="s">LangGraph</b> · YOLOv11 · FAISS · Unity · <b class="s">C#</b> · ROS · Kotlin · Docker · FastAPI · <b class="s">MCP</b> · Three.js ·&nbsp;</span>
+  </div>
 </section>
 
-    <section class="section-container">
-        <h2 class="section-heading text-center mb-4">Hobby Projects</h2>
+<!-- CONTACT -->
+<section class="contact wrap" id="say">
+  <h2 class="big reveal">got something<br>to <em>build?</em></h2>
+  <div class="magnet reveal" id="magnet"><a href="mailto:devanshijhawar337@gmail.com" data-cur="say hi">say hi →</a></div>
+  <div class="reach reveal">
+    <a href="mailto:devanshijhawar337@gmail.com">devanshijhawar337@gmail.com</a>
+    <a href="https://github.com/devanshi-jhawar" target="_blank" rel="noopener">github</a>
+    <a href="https://linkedin.com/in/devanshi-jhawar" target="_blank" rel="noopener">linkedin</a>
+  </div>
+  <div class="foot">built with too much chai &amp; a shader or two <span class="heart">♥</span> · concept preview — real demos &amp; 3D models coming</div>
+</section>
 
-        <div class="position-relative px-3">
-            <button class="btn btn-secondary position-absolute top-50 start-0 translate-middle-y z-3 slider-btn"
-                    onclick="scrollVideos(-1, this)">
-                &#8592;
-            </button>
-            <button class="btn btn-secondary position-absolute top-50 end-0 translate-middle-y z-3 slider-btn"
-                    onclick="scrollVideos(1, this)">
-                &#8594;
-            </button>
+<div class="badge-float">concept preview · not final</div>
 
-            <div class="overflow-hidden">
-                <div id="video-slider" class="d-flex flex-nowrap"
-                     style="overflow-x: auto; scroll-behavior: smooth; gap: 1rem;">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var RM = window.matchMedia && window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var TOUCH = window.matchMedia && window.matchMedia("(hover:none)").matches;
+  document.body.classList.remove("no-js");
 
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="ratio ratio-16x9">
-                                <video autoplay loop muted playsinline preload="metadata">
-                                    <source src="indoornav.mp4" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Indoor Navigation</h5>
-                                <p class="card-text">
-                                    <span class="highlight-dark">Indoor Navigation in AR</span> is an augmented
-                                    reality solution
-                                    designed to help users
-                                    navigate complex indoor spaces, offering real-time directions and location-based information
-                                    through their mobile devices. It enhances user experience by providing interactive, visual guides
-                                    to easily find their way around large buildings or venues.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+  /* ---------- 1. shader-gradient hero (three.js) ---------- */
+  (function shaderBG(){
+    if(!window.THREE) return;
+    var canvas=document.getElementById("gl");
+    var renderer;
+    try{ renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:false,powerPreference:"high-performance"}); }
+    catch(e){ canvas.style.display="none"; document.body.style.background="radial-gradient(130% 120% at 20% 0%,#241334 0%,#0a0711 60%)"; return; }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));
+    var scene=new THREE.Scene();
+    var camera=new THREE.Camera();
+    var geo=new THREE.PlaneBufferGeometry(2,2);
+    var uniforms={
+      u_time:{value:0},
+      u_res:{value:new THREE.Vector2(1,1)},
+      u_mouse:{value:new THREE.Vector2(.5,.5)}
+    };
+    var frag=[
+      "precision highp float;",
+      "uniform float u_time; uniform vec2 u_res; uniform vec2 u_mouse;",
+      "vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}",
+      "vec4 mod289(vec4 x){return x-floor(x*(1.0/289.0))*289.0;}",
+      "vec4 permute(vec4 x){return mod289(((x*34.0)+1.0)*x);}",
+      "vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}",
+      "float snoise(vec3 v){const vec2 C=vec2(1.0/6.0,1.0/3.0);const vec4 D=vec4(0.0,0.5,1.0,2.0);",
+      "vec3 i=floor(v+dot(v,C.yyy));vec3 x0=v-i+dot(i,C.xxx);",
+      "vec3 g=step(x0.yzx,x0.xyz);vec3 l=1.0-g;vec3 i1=min(g.xyz,l.zxy);vec3 i2=max(g.xyz,l.zxy);",
+      "vec3 x1=x0-i1+C.xxx;vec3 x2=x0-i2+C.yyy;vec3 x3=x0-D.yyy;i=mod289(i);",
+      "vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));",
+      "float n_=0.142857142857;vec3 ns=n_*D.wyz-D.xzx;vec4 j=p-49.0*floor(p*ns.z*ns.z);",
+      "vec4 x_=floor(j*ns.z);vec4 y_=floor(j-7.0*x_);vec4 x=x_*ns.x+ns.yyyy;vec4 y=y_*ns.x+ns.yyyy;",
+      "vec4 h=1.0-abs(x)-abs(y);vec4 b0=vec4(x.xy,y.xy);vec4 b1=vec4(x.zw,y.zw);",
+      "vec4 s0=floor(b0)*2.0+1.0;vec4 s1=floor(b1)*2.0+1.0;vec4 sh=-step(h,vec4(0.0));",
+      "vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy;vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;",
+      "vec3 p0=vec3(a0.xy,h.x);vec3 p1=vec3(a0.zw,h.y);vec3 p2=vec3(a1.xy,h.z);vec3 p3=vec3(a1.zw,h.w);",
+      "vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));",
+      "p0*=norm.x;p1*=norm.y;p2*=norm.z;p3*=norm.w;",
+      "vec4 m=max(0.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0);m=m*m;",
+      "return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));}",
+      "float fbm(vec3 p){float f=0.0,a=0.5;for(int k=0;k<4;k++){f+=a*snoise(p);p*=2.0;a*=0.5;}return f;}",
+      "void main(){",
+      " vec2 uv=gl_FragCoord.xy/u_res.xy;",
+      " float asp=u_res.x/u_res.y; vec2 p=vec2((uv.x-0.5)*asp,uv.y-0.5);",
+      " float t=u_time*0.045;",
+      " vec2 m=(u_mouse-0.5)*0.35;",
+      " float n=fbm(vec3(p*1.5+m,t));",
+      " float n2=fbm(vec3(p*2.6-m*0.5,t*1.3+5.0));",
+      " vec3 cVoid=vec3(0.039,0.027,0.067);",
+      " vec3 cCoral=vec3(1.0,0.42,0.29);",
+      " vec3 cPeri=vec3(0.608,0.549,1.0);",
+      " vec3 cMint=vec3(0.436,0.890,0.769);",
+      " vec3 col=cVoid;",
+      " col=mix(col,cPeri,smoothstep(-0.2,0.7,n)*0.55);",
+      " col=mix(col,cCoral,smoothstep(0.15,0.95,n2)*0.5);",
+      " col=mix(col,cMint,smoothstep(0.55,1.0,n*n2)*0.22);",
+      " float vig=smoothstep(1.25,0.25,length(p));",
+      " col*=mix(0.45,1.0,vig);",
+      " col=mix(col,cVoid,0.32);",
+      " gl_FragColor=vec4(col,1.0);",
+      "}"
+    ].join("\n");
+    var vert="void main(){gl_Position=vec4(position.xy,0.0,1.0);}";
+    var mat;
+    try{
+      mat=new THREE.ShaderMaterial({uniforms:uniforms,vertexShader:vert,fragmentShader:frag});
+      var mesh=new THREE.Mesh(geo,mat); scene.add(mesh);
+    }catch(e){ canvas.style.display="none"; return; }
 
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="ratio ratio-16x9">
-                                <video autoplay loop muted playsinline preload="metadata">
-                                    <source src="shooter.mp4" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Galaxy Shooter</h5>
-                                <p class="card-text">
-                                    An action-packed space shooter where players control a spaceship to battle waves of enemies in a
-                                    visually captivating galaxy. The game features <span class="highlight-dark">power-ups</span> and
-                                    increasing difficulty, providing hours of fast-paced fun.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+    function resize(){
+      var w=window.innerWidth,h=window.innerHeight;
+      renderer.setSize(w,h,false);
+      uniforms.u_res.value.set(w*renderer.getPixelRatio(),h*renderer.getPixelRatio());
+    }
+    resize(); window.addEventListener("resize",resize);
+    var mx=0.5,my=0.5;
+    window.addEventListener("pointermove",function(e){ mx=e.clientX/window.innerWidth; my=1-e.clientY/window.innerHeight; });
+    var start=performance.now();
+    function loop(now){
+      uniforms.u_time.value=(now-start)/1000;
+      uniforms.u_mouse.value.x+=(mx-uniforms.u_mouse.value.x)*0.04;
+      uniforms.u_mouse.value.y+=(my-uniforms.u_mouse.value.y)*0.04;
+      renderer.render(scene,camera);
+      if(!RM) requestAnimationFrame(loop);
+    }
+    if(RM){ uniforms.u_time.value=12.0; renderer.render(scene,camera); }
+    else requestAnimationFrame(loop);
+  })();
 
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="ratio ratio-16x9">
-                                <video autoplay loop muted playsinline preload="metadata">
-                                    <source src="mlagents.mp4" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">ML-Agents in Unity</h5>
-                                <p class="card-text">
-                                    A research project exploring <span class="highlight-dark">Machine Learning Agents</span> in Unity using
-                                    <span class="highlight-dark">reinforcement learning</span>. This project demonstrates how AI agents can be
-                                    trained to perform complex tasks and make intelligent decisions in <span class="highlight-dark">virtual environments</span>.
-                                    The implementation showcases <span class="highlight-dark">neural networks</span>, <span class="highlight-dark">behavior learning</span>,
-                                    and <span class="highlight-dark">autonomous decision-making</span> capabilities, bridging the gap between
-                                    <span class="highlight-dark">game development</span> and <span class="highlight-dark">artificial intelligence</span>.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+  /* ---------- 2. name reveal (CSS transition on .ready) ---------- */
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){
+    document.body.classList.add("ready");
+  }); });
 
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="ratio ratio-16x9">
-                                <img src="pixel streaming.jpg" class="card-img-top" alt="Pixel Streaming Unreal Project" style="object-fit: cover; width: 100%; height: 100%;">
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Pixel Streaming - Unreal Engine</h5>
-                                <p class="card-text">
-                                    A <span class="highlight-dark">Pixel Streaming</span> implementation using <span class="highlight-dark">Unreal Engine</span>
-                                    that enables high-quality, <span class="highlight-dark">cloud-based rendering</span> streamed directly to web browsers and mobile devices.
-                                    This project demonstrates <span class="highlight-dark">real-time streaming</span> of interactive 3D content without requiring
-                                    high-end hardware on the client side. The solution leverages <span class="highlight-dark">WebRTC technology</span> to deliver
-                                    <span class="highlight-dark">low-latency</span>, <span class="highlight-dark">photorealistic experiences</span> accessible from
-                                    any device, making complex <span class="highlight-dark">XR applications</span> more accessible and scalable.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+  /* ---------- 4. roller word ---------- */
+  (function roller(){
+    var host=document.getElementById("roller"); if(!host) return;
+    var words=["actually ships.","trains models.","styles with AI.","talks to robots.","builds in 3D."];
+    var inner=host.querySelector("span"); var i=0;
+    if(RM){ inner.textContent=words[0]; return; }
+    setInterval(function(){
+      i=(i+1)%words.length;
+      if(window.gsap){
+        gsap.to(inner,{yPercent:-100,opacity:0,duration:.35,ease:"power2.in",onComplete:function(){
+          inner.textContent=words[i]; gsap.fromTo(inner,{yPercent:100,opacity:0},{yPercent:0,opacity:1,duration:.4,ease:"power2.out"});
+        }});
+      } else { inner.textContent=words[i]; }
+    },2200);
+  })();
 
-                </div>
-            </div>
-        </div>
-    </section>
+  /* ---------- 5. custom cursor ---------- */
+  (function cursor(){
+    if(TOUCH) return;
+    var ring=document.querySelector(".cur"), dot=document.querySelector(".cur-dot"), lbl=ring.querySelector(".lbl");
+    var rx=0,ry=0,dx=0,dy=0,tx=0,ty=0;
+    window.addEventListener("pointermove",function(e){ tx=e.clientX; ty=e.clientY; });
+    (function anim(){
+      dx+=(tx-dx)*0.35; dy+=(ty-dy)*0.35;
+      rx+=(tx-rx)*0.16; ry+=(ty-ry)*0.16;
+      dot.style.transform="translate("+dx+"px,"+dy+"px)";
+      ring.style.transform="translate("+rx+"px,"+ry+"px)";
+      requestAnimationFrame(anim);
+    })();
+    var sel="a,button,.chip,[data-tilt],[data-cur],.magnet";
+    document.querySelectorAll(sel).forEach(function(el){
+      el.addEventListener("pointerenter",function(){
+        document.body.classList.add("cur-grow");
+        lbl.textContent=el.getAttribute("data-cur")|| (el.classList.contains("chip")?"drag":"look");
+      });
+      el.addEventListener("pointerleave",function(){ document.body.classList.remove("cur-grow"); });
+    });
+  })();
 
-    <section id="research" class="section-container">
-        <h2 class="section-heading">Computer Vision Research</h2>
+  /* ---------- 6. draggable stickers ---------- */
+  (function drag(){
+    if(TOUCH || !window.Draggable || !window.gsap) return;
+    gsap.registerPlugin(Draggable);
+    document.querySelectorAll(".chip").forEach(function(c){
+      Draggable.create(c,{type:"x,y",bounds:"#hero",edgeResistance:0.65,
+        onPress:function(){gsap.to(c,{scale:1.06,duration:.2});},
+        onDrag:function(){gsap.set(c,{rotation:this.deltaX*0.4});},
+        onRelease:function(){gsap.to(c,{scale:1,rotation:0,duration:.5,ease:"elastic.out(1,0.5)"});}
+      });
+    });
+  })();
 
-        <div class="position-relative px-3">
-            <button class="btn btn-secondary position-absolute top-50 start-0 translate-middle-y z-3 slider-btn"
-                    onclick="scrollVideos(-1, this)">
-                &#8592;
-            </button>
-            <button class="btn btn-secondary position-absolute top-50 end-0 translate-middle-y z-3 slider-btn"
-                    onclick="scrollVideos(1, this)">
-                &#8594;
-            </button>
+  /* ---------- 7. smooth scroll (Lenis) + ScrollTrigger ---------- */
+  var lenis=null;
+  if(window.Lenis && !RM){
+    try{
+      lenis=new Lenis({lerp:0.1,smoothWheel:true});
+      function raf(t){ lenis.raf(t); requestAnimationFrame(raf); } requestAnimationFrame(raf);
+      if(window.ScrollTrigger){ lenis.on("scroll",ScrollTrigger.update); }
+    }catch(e){ lenis=null; }
+  }
+  // anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener("click",function(e){
+      var id=a.getAttribute("href"); if(id.length<2) return;
+      var t=document.querySelector(id); if(!t) return; e.preventDefault();
+      if(lenis) lenis.scrollTo(t,{offset:-10}); else t.scrollIntoView({behavior:RM?"auto":"smooth"});
+    });
+  });
 
-            <div class="overflow-hidden">
-                <div id="research-slider" class="d-flex flex-nowrap"
-                     style="overflow-x: auto; scroll-behavior: smooth; gap: 1rem;">
+  /* ---------- 8. reveals + card tilt ---------- */
+  (function reveals(){
+    var items=[].slice.call(document.querySelectorAll(".reveal"));
+    if(RM || !("IntersectionObserver" in window)){ items.forEach(function(el){el.classList.add("in");}); }
+    else{
+      var io=new IntersectionObserver(function(es){
+        es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target);} });
+      },{threshold:0.12,rootMargin:"0px 0px -60px 0px"});
+      items.forEach(function(el){ io.observe(el); });
+    }
+  })();
+  (function tilt(){
+    if(TOUCH || RM) return;
+    document.querySelectorAll("[data-tilt]").forEach(function(card){
+      card.addEventListener("pointermove",function(e){
+        var r=card.getBoundingClientRect();
+        var px=(e.clientX-r.left)/r.width-0.5, py=(e.clientY-r.top)/r.height-0.5;
+        card.style.transform="perspective(900px) rotateX("+(-py*6)+"deg) rotateY("+(px*8)+"deg) translateY(-6px)";
+      });
+      card.addEventListener("pointerleave",function(){ card.style.transform=""; });
+    });
+  })();
 
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="ratio ratio-16x9">
-                                <video autoplay loop muted playsinline preload="metadata">
-                                    <source src="advanced motion tracking.mp4" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Advanced Motion Tracking Research</h5>
-                                <p class="card-text">
-                                    This research project explores advanced <span class="highlight-dark">motion tracking</span> and
-                                    <span class="highlight-dark">computer vision</span> techniques using cutting-edge sensor technology.
-                                    The system demonstrates real-time <span class="highlight-dark">human pose estimation</span> and
-                                    <span class="highlight-dark">skeletal tracking</span> capabilities, enabling precise motion capture
-                                    for <span class="highlight-dark">XR applications</span>. This work contributes to the development of
-                                    more accurate and responsive <span class="highlight-dark">immersive interaction systems</span> and
-                                    <span class="highlight-dark">gesture recognition</span> technologies.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+  /* ---------- 9. magnetic button ---------- */
+  (function magnet(){
+    if(TOUCH || !window.gsap) return;
+    var m=document.getElementById("magnet"); if(!m) return; var a=m.querySelector("a");
+    m.addEventListener("pointermove",function(e){
+      var r=m.getBoundingClientRect();
+      gsap.to(a,{x:(e.clientX-r.left-r.width/2)*0.4,y:(e.clientY-r.top-r.height/2)*0.5,duration:.4});
+    });
+    m.addEventListener("pointerleave",function(){ gsap.to(a,{x:0,y:0,duration:.5,ease:"elastic.out(1,0.4)"}); });
+  })();
 
-                    <div class="col-md-6">
-                        <div class="card h-100">
-                            <div class="ratio ratio-16x9">
-                                <img src="Pose.jpeg" class="card-img-top" alt="Pose Detection with Kinect Research" style="object-fit: cover; width: 100%; height: 100%;">
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">Pose Detection with Kinect</h5>
-                                <p class="card-text">
-                                    This research focuses on <span class="highlight-dark">real-time pose detection</span> using
-                                    <span class="highlight-dark">Microsoft Kinect sensors</span> for accurate human body tracking
-                                    and analysis. The system implements advanced <span class="highlight-dark">skeletal tracking algorithms</span>
-                                    to detect and monitor human poses in real-time, enabling applications in <span class="highlight-dark">motion analysis</span>,
-                                    <span class="highlight-dark">gesture recognition</span>, and <span class="highlight-dark">interactive experiences</span>.
-                                    This work contributes to the development of more responsive and accurate <span class="highlight-dark">
-                                        human-computer
-                                        interaction systems
-                                    </span> for XR environments.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-container">
-        <h2 class="section-heading">Photogrammetry Research</h2>
-        <p class="card-text">
-            I conducted in-depth research to develop an optimized process for creating <span class="highlight-dark">photorealistic models</span> of complex objects, like servers, involving scanning,
-            reconstruction, manual fixing, <span class="highlight-dark">texturing</span>, <span class="highlight-dark">
-                UV
-                mapping
-            </span>, and optimization. Check out the models in <span class="highlight-dark">AR</span> below:
-        </p>
-        <div class="container-fluid my-4">
-            <div class="row g-4">
-
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="ratio ratio-16x9">
-                            <div id="card">
-                                <model-viewer src="models/310.glb" ios-src="models/310.usdz"
-                                              poster="https://xrvisionlabs.com/wp-content/uploads/loading.svg" autoplay alt="A 3D model"
-                                              shadow-intensity="1" scale="1 1 1" exposure="1" camera-controls touch-action="pan-y" auto-rotate>
-                                </model-viewer>
-
-                            </div>
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">310 Server</h5>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="ratio ratio-16x9">
-                            <div id="card">
-                                <model-viewer src="models/Lab_2.glb"
-                                              poster="https://xrvisionlabs.com/wp-content/uploads/loading.svg" autoplay alt="A 3D model"
-                                              shadow-intensity="1" scale="1 1 1" exposure="1" camera-controls touch-action="pan-y" auto-rotate>
-                                </model-viewer>
-
-                            </div>
-
-                        </div>
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Virtual Lab</h5>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <footer class="text-center py-5">
-        <a href="#home" class="btn btn-outline-primary px-5 py-3" role="button">
-            Back to Top ↑
-        </a>
-        <p class="mt-4 text-muted">&copy; 2025 Devanshi Jhawar. All rights reserved.</p>
-    </footer>
-
+})();
+</script>
 </body>
-
 </html>
