@@ -767,7 +767,16 @@ if(window.Lenis && !reduce){
       g.fillStyle='#ffe9a8'; [[L+16,T-aH*0.15],[R-16,T-aH*0.15]].forEach(p=>{ for(let a=0;a<6;a++){ g.beginPath(); g.ellipse(p[0]+Math.cos(a)*9,p[1]+Math.sin(a)*9,4.5,2,a,0,Math.PI*2); g.fill(); } g.beginPath(); g.arc(p[0],p[1],4,0,Math.PI*2); g.fill(); });
       // punch the window transparent
       g.globalCompositeOperation='destination-out'; archPath(); g.fill(); g.globalCompositeOperation='source-over';
-      const t=new THREE.Texture(c); t.needsUpdate=true; t.anisotropy=4; return t;
+      // pixelate: resample the drawn frame into a grid of square tiles (like the mosaic)
+      const PX=15, data=g.getImageData(0,0,FW,FH).data;
+      const c2=document.createElement('canvas'); c2.width=FW; c2.height=FH; const g2=c2.getContext('2d');
+      for(let y=0;y<FH;y+=PX){ for(let x=0;x<FW;x+=PX){
+        const sx=Math.min(FW-1,x+(PX>>1)), sy=Math.min(FH-1,y+(PX>>1)), id=(sy*FW+sx)*4, a=data[id+3];
+        if(a<45) continue;
+        g2.fillStyle='rgba('+data[id]+','+data[id+1]+','+data[id+2]+','+(a/255).toFixed(2)+')';
+        g2.fillRect(x,y,PX-2,PX-2);
+      }}
+      const t=new THREE.Texture(c2); t.needsUpdate=true; t.anisotropy=4; return t;
     }
     const jhar=new THREE.Mesh(new THREE.PlaneGeometry(3.4,4.9),new THREE.MeshBasicMaterial({map:jharokhaTex(),transparent:true,depthWrite:false}));
     jhar.position.set(0,WY,0.2); jhar.renderOrder=2; fig.add(jhar);
