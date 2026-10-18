@@ -116,6 +116,10 @@ body{
   text-shadow:0 2px 10px rgba(0,0,0,.35)}
 .tile .dot{position:absolute;top:11px;right:11px;width:8px;height:8px;border-radius:50%;background:#fff;opacity:.9}
 .tile[data-kind="life"] .dot{border-radius:1px;transform:rotate(45deg)}
+.tile .bb .tv,.tile .bb .ti{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.tile .bb .tscrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.05) 35%,rgba(0,0,0,.72))}
+.tile .kicker,.tile .ttl{z-index:2}
+.tile .dot{z-index:3}
 
 /* connective threads */
 .threads{position:fixed;inset:0;z-index:5;pointer-events:none}
@@ -126,6 +130,7 @@ body{
   font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;
   color:var(--muted);transition:opacity .5s}
 .hint b{color:var(--marigold);font-weight:400}
+.hint .hi{display:block;margin-top:6px;font-family:'Mukta',sans-serif;font-size:13.5px;letter-spacing:.12em;color:var(--marigold);opacity:.92}
 .hint .cue{display:block;margin-top:8px;font-size:15px;animation:bob 1.8s ease-in-out infinite;color:var(--cream)}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 
@@ -228,14 +233,14 @@ body.flat .grid{display:grid}
 <!-- splash -->
 <div id="splash">
   <div class="splash-glyph">दे</div>
-  <div class="splash-name" id="splashName">DEVANSHI&nbsp;JHAWAR</div>
+  <div class="splash-name" id="splashName">देवांशी&nbsp;·&nbsp;DEVANSHI&nbsp;JHAWAR</div>
   <div class="splash-bar"><i id="splashBar"></i></div>
 </div>
 
 <!-- top chrome -->
 <header class="topbar">
-  <div class="brand pointer">Devanshi<small>a whole person</small></div>
-  <button class="navbtn pointer" id="toContact">say hi ↓</button>
+  <div class="brand pointer">Devanshi<small>देवांशी · a whole person</small></div>
+  <button class="navbtn pointer" id="toContact">नमस्ते ↓</button>
 </header>
 
 <!-- sphere stage -->
@@ -260,6 +265,7 @@ body.flat .grid{display:grid}
 <div class="grid" id="grid"></div>
 
 <div class="hint" id="hint">drag to <b>rotate</b> · scroll to <b>zoom in</b> · tap any piece of me
+  <span class="hi">घुमाओ · पास लाओ · छू लो</span>
   <span class="cue">↓</span>
 </div>
 
@@ -269,7 +275,7 @@ body.flat .grid{display:grid}
 <!-- after the sphere -->
 <div class="after">
   <section class="contact" id="contact">
-    <h3>let's make something / or just talk</h3>
+    <h3>नमस्ते — let's make something · या बस बातें करें</h3>
     <div class="links">
       <a href="mailto:devanshijhawar337@gmail.com">✉ email me</a>
       <a href="https://www.linkedin.com/in/devanshi-jhawar" target="_blank" rel="noopener">in · linkedin</a>
@@ -277,7 +283,7 @@ body.flat .grid{display:grid}
       <a href="resume.pdf" target="_blank" rel="noopener">↗ résumé (pdf)</a>
     </div>
   </section>
-  <div class="foot">© <span id="yr"></span> Devanshi Jhawar · New Delhi · built from scratch, with too many colours</div>
+  <div class="foot">© <span id="yr"></span> देवांशी Jhawar · नई दिल्ली / New Delhi · बहुत सारे रंगों के साथ · built from scratch</div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -315,7 +321,7 @@ const CARDS = [
     body:'An AJIO styling agent that sees your wardrobe and suggests outfits — 10k+ images across 35 categories, YOLOv11 detecting at 93%. Tested by 500+ people.',
     meta:['LangGraph','YOLOv11','FAISS','Python']},
   {k:'project', kick:'ROBOTICS · ANDROID', ttl:'Fleet Control', tag:'drove delivery robots from a tablet',
-    c1:'#7a6bff',c2:'#241a55', vid:null, glyph:'grid',
+    c1:'#7a6bff',c2:'#241a55', vid:null, img:'TM_dashboard.png', glyph:'grid',
     body:'A handheld control app to drive a fleet of delivery robots — live map, motors, states, ~15 screens, 20+ services — because the robots’ own screens kept drowning in the monsoon.',
     meta:['Kotlin','ROS','REST','Android']},
   {k:'project', kick:'CV · MOTION',      ttl:'Motion Tracking', tag:'a body, tracked in real time',
@@ -403,7 +409,10 @@ CARDS.forEach((d,i)=>{
   const t = document.createElement('div');
   t.className='tile'; t.dataset.kind=d.k; t.dataset.i=i;
   t.style.setProperty('--c1',d.c1); t.style.setProperty('--c2',d.c2);
-  const inner = `<div class="bb"><span class="dot"></span>
+  let media='';
+  if(!FLAT && d.vid) media='<video class="tv" src="'+encodeURI(d.vid)+'" muted loop autoplay playsinline preload="metadata"></video><div class="tscrim"></div>';
+  else if(d.img) media='<img class="ti" src="'+encodeURI(d.img)+'" alt=""><div class="tscrim"></div>';
+  const inner = `<div class="bb">${media}<span class="dot"></span>
      <div class="kicker">${d.kick}</div><div class="ttl">${d.ttl}</div></div>`;
   t.innerHTML=inner;
   if(FLAT){ grid.appendChild(t); } else { scene.appendChild(t); }
@@ -513,6 +522,8 @@ function openCard(i, fromTile){
   cardEl.style.setProperty('--c1',d.c1); cardEl.style.setProperty('--c2',d.c2);
   const media = d.vid
      ? `<video src="${encodeURI(d.vid)}" muted loop autoplay playsinline preload="metadata"></video>`
+     : d.img
+     ? `<img src="${encodeURI(d.img)}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">`
      : `<div class="artwrap">${artFor(d.glyph)}</div>`;
   cardEl.innerHTML=`<button class="lbclose" aria-label="close">×</button>
     <div class="media">${media}</div>
@@ -614,11 +625,11 @@ if(window.Lenis && !reduce){
     return (1-na)*Math.sin(rr*Math.PI)*1.15;
   }
   // lotus + lily-pad anchors (fractions of viewport), clustered down the sides so they frame the centre
-  const LOTI=[{x:.06,y:.1,r:.082},{x:.055,y:.25,r:.1},{x:.12,y:.38,r:.075},{x:.035,y:.5,r:.11},{x:.135,y:.62,r:.082},
-              {x:.055,y:.75,r:.1},{x:.145,y:.87,r:.078},{x:.03,y:.97,r:.072},
-              {x:.945,y:.11,r:.082},{x:.9,y:.26,r:.098},{x:.965,y:.4,r:.085},{x:.885,y:.54,r:.078},
-              {x:.955,y:.67,r:.1},{x:.895,y:.81,r:.082},{x:.97,y:.93,r:.088}];
-  const PADS=[{x:.145,y:.19,r:.1},{x:.12,y:.45,r:.115},{x:.15,y:.7,r:.1},{x:.88,y:.21,r:.09},{x:.905,y:.48,r:.11},{x:.875,y:.74,r:.1}];
+  const LOTI=[{x:.05,y:.1,r:.14},{x:.07,y:.3,r:.17},{x:.14,y:.47,r:.12},{x:.03,y:.58,r:.16},{x:.14,y:.73,r:.14},
+              {x:.06,y:.9,r:.15},
+              {x:.95,y:.12,r:.14},{x:.9,y:.31,r:.17},{x:.97,y:.5,r:.13},{x:.88,y:.64,r:.12},
+              {x:.96,y:.8,r:.16},{x:.9,y:.96,r:.13}];
+  const PADS=[{x:.15,y:.2,r:.14},{x:.12,y:.5,r:.16},{x:.16,y:.78,r:.14},{x:.86,y:.22,r:.13},{x:.9,y:.52,r:.16},{x:.85,y:.82,r:.14}];
   function draw(){
     ctx.fillStyle='#3d0a11'; ctx.fillRect(0,0,W,H);          // deep-red ground
     ctx.font=CW+'px "Space Mono", ui-monospace, monospace'; ctx.textBaseline='top';
