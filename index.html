@@ -614,9 +614,11 @@ if(window.Lenis && !reduce){
     return (1-na)*Math.sin(rr*Math.PI)*1.15;
   }
   // lotus + lily-pad anchors (fractions of viewport), clustered down the sides so they frame the centre
-  const LOTI=[{x:.07,y:.15,r:.085},{x:.045,y:.37,r:.11},{x:.125,y:.56,r:.072},{x:.06,y:.78,r:.1},{x:.16,y:.94,r:.07},
-              {x:.94,y:.2,r:.08},{x:.955,y:.46,r:.1},{x:.9,y:.7,r:.072},{x:.95,y:.9,r:.088}];
-  const PADS=[{x:.15,y:.29,r:.1},{x:.11,y:.67,r:.12},{x:.88,y:.33,r:.085},{x:.9,y:.83,r:.1}];
+  const LOTI=[{x:.06,y:.1,r:.082},{x:.055,y:.25,r:.1},{x:.12,y:.38,r:.075},{x:.035,y:.5,r:.11},{x:.135,y:.62,r:.082},
+              {x:.055,y:.75,r:.1},{x:.145,y:.87,r:.078},{x:.03,y:.97,r:.072},
+              {x:.945,y:.11,r:.082},{x:.9,y:.26,r:.098},{x:.965,y:.4,r:.085},{x:.885,y:.54,r:.078},
+              {x:.955,y:.67,r:.1},{x:.895,y:.81,r:.082},{x:.97,y:.93,r:.088}];
+  const PADS=[{x:.145,y:.19,r:.1},{x:.12,y:.45,r:.115},{x:.15,y:.7,r:.1},{x:.88,y:.21,r:.09},{x:.905,y:.48,r:.11},{x:.875,y:.74,r:.1}];
   function draw(){
     ctx.fillStyle='#3d0a11'; ctx.fillRect(0,0,W,H);          // deep-red ground
     ctx.font=CW+'px "Space Mono", ui-monospace, monospace'; ctx.textBaseline='top';
@@ -635,17 +637,19 @@ if(window.Lenis && !reduce){
         // pink + gold lotus flowers
         for(let f=0;f<LOTI.length;f++){ const F=LOTI[f];
           const fx=cxp-(F.x*W+pmx*10), fy=cyp-(F.y*H+pmy*8), r=Math.hypot(fx,fy)/(F.r*mn);
-          if(r<1.1){ const th=Math.atan2(fy,fx); let pv=0;
-            pv=Math.max(pv, petal(r,th,8,0.3,1.0, rot+F.y*6));
-            pv=Math.max(pv, petal(r,th,6,0.07,0.5, rot+F.y*6+0.5));
-            pv=Math.max(pv, 1-r/0.13);
+          if(r<1.12){ const th=Math.atan2(fy,fx); let pv=0;
+            pv=Math.max(pv, petal(r,th,8,0.28,1.04, rot+F.y*6));
+            pv=Math.max(pv, petal(r,th,12,0.16,0.66, rot+F.y*6+0.3));
+            pv=Math.max(pv, petal(r,th,6,0.06,0.44, rot+F.y*6+0.6));
+            pv=Math.max(pv, 1-r/0.16);
+            pv*=1.12;
             if(pv>v){ v=pv;
-              if(pv<0.42){ R=255;G=208;B=96; }                       // gold petal edge
-              else { const q=(pv-0.42)/0.58; R=(222+30*q)|0;G=(120+75*q)|0;B=(172+45*q)|0; } } }  // pink body
+              if(pv<0.42){ R=255;G=214;B=110; }                      // gold petal edge
+              else { const q=(pv-0.42)/0.58; R=(230+25*q)|0;G=(130+80*q)|0;B=(180+45*q)|0; } } }  // pink body
         }
-        if(v<0.085) continue;                                        // sparse ground, solid flowers
+        if(v<0.07) continue;                                         // sparse ground, solid flowers
         const ch=RAMP[Math.min(RAMP.length-1,(v*RAMP.length)|0)]; if(ch===' ') continue;
-        ctx.fillStyle='rgba('+(R|0)+','+(G|0)+','+(B|0)+','+(0.25+v*0.6).toFixed(2)+')';
+        ctx.fillStyle='rgba('+(R|0)+','+(G|0)+','+(B|0)+','+(0.42+v*0.55).toFixed(2)+')';
         ctx.fillText(ch, cxp, cyp);
       }
     }
