@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>Devanshi Jhawar — a whole person</title>
+<title>Devanshi Jhawar</title>
 <meta name="description" content="Devanshi Jhawar — XR/AI builder, Bharatnatyam dancer, windsurfer, 11 tattoos. A constellation of projects and a person. Drag to rotate, scroll to zoom in.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -161,6 +161,8 @@ body.flat .grid{display:grid}
 .lbcard h2{font-family:'Rozha One',serif;font-size:clamp(30px,4.6vw,46px);line-height:.98;color:#fff}
 .lbcard .tag{font-family:'Kalam',cursive;font-size:17px;color:var(--magenta)}
 .lbcard p{font-size:15.5px;line-height:1.62;color:var(--muted)}
+.lbcard .tstack{font-size:13px;color:var(--cream);background:rgba(255,178,36,.09);border-left:2px solid var(--marigold);padding:9px 13px;border-radius:0 8px 8px 0;line-height:1.5}
+.lbcard .tstack b{color:var(--marigold);letter-spacing:.02em}
 .lbcard .meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
 .lbcard .meta span{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
   color:var(--cream);border:1px solid var(--line);border-radius:30px;padding:5px 11px}
@@ -239,7 +241,7 @@ body.flat .grid{display:grid}
 
 <!-- top chrome -->
 <header class="topbar">
-  <div class="brand pointer">Devanshi<small>देवांशी · a whole person</small></div>
+  <div class="brand pointer">Devanshi<small>देवांशी</small></div>
 </header>
 
 <!-- sphere stage -->
@@ -440,10 +442,7 @@ const scaleFx = s => Math.max(0,Math.min(1,s));
 
 if(!FLAT){
   const vp = document.getElementById('viewport');
-  const threads = document.getElementById('threads');
   const coreBB = document.getElementById('coreBB');
-  // one thread line per tile
-  const lines = tiles.map(()=>{ const l=document.createElementNS('http://www.w3.org/2000/svg','line'); threads.appendChild(l); return l; });
 
   // ---- pointer drag to rotate ----
   let px=0, py=0;
@@ -492,12 +491,6 @@ if(!FLAT){
       el.style.opacity=((0.30+0.70*t)*introA).toFixed(3);
       el.style.zIndex=Math.round(z2+2000);
       el.style.pointerEvents = (t>0.42 && introA>0.9)?'auto':'none';
-      // thread to center
-      const r=el.getBoundingClientRect();
-      const L=lines[i];
-      L.setAttribute('x1',cx()); L.setAttribute('y1',cy());
-      L.setAttribute('x2',r.left+r.width/2); L.setAttribute('y2',r.top+r.height/2);
-      L.style.opacity = t>0.55 ? ((t-0.55)*0.8).toFixed(2) : 0;
     }
     requestAnimationFrame(frame);
   }
@@ -531,6 +524,7 @@ function openCard(i, fromTile){
       <h2>${d.ttl}</h2>
       <div class="tag">${d.tag}</div>
       <p>${d.body}</p>
+      ${d.k==='project' && d.meta ? `<p class="tstack"><b>Tech stack —</b> ${d.meta.join(' · ')}</p>` : ''}
       <div class="meta">${d.meta.map(m=>`<span>${m}</span>`).join('')}</div>
     </div>`;
   lb.appendChild(cardEl);
@@ -572,14 +566,15 @@ window.addEventListener('load',()=>{
   const bar=document.getElementById('splashBar');
   if(window.gsap){
     gsap.to(bar,{width:'100%',duration:1.1,ease:'power2.inOut'});
-    const tl=gsap.timeline({delay:1.25});
-    tl.to('#splash',{opacity:0,duration:.8,onComplete:()=>document.getElementById('splash').classList.add('gone')});
+    const tl=gsap.timeline({delay:1.1});
+    tl.to('#splash',{opacity:0,duration:.6,ease:'power2.in',onComplete:()=>document.getElementById('splash').classList.add('gone')});
     if(!FLAT){
-      const ia={a:0}; tl.to(ia,{a:1,duration:.55,ease:'power1.out',onUpdate:()=>{introA=ia.a;}},'-=.35');
-      const bo={p:0}; tl.to(bo,{p:1,duration:1.25,ease:'power2.out',onUpdate:()=>{burstP=bo.p;}},'<');
-      const hi={v:0}; tl.to(hi,{v:1,duration:1.0,ease:'back.out(1.7)',onUpdate:()=>{heroIntro=hi.v;}},'<');
-      tl.fromTo('#flash',{opacity:0,scale:0.2},{opacity:1,scale:1,duration:.16,ease:'power2.out'},'<')
-        .to('#flash',{opacity:0,scale:2.5,duration:.7,ease:'power2.out'});
+      tl.addLabel('blast');                                           // everything detonates once splash is gone
+      tl.fromTo('#flash',{opacity:0,scale:0.04},{opacity:1,scale:1.05,duration:.13,ease:'power2.out'},'blast')
+        .to('#flash',{opacity:0,scale:4.2,duration:1.0,ease:'power3.out'});   // shockwave
+      const ia={a:0}; tl.to(ia,{a:1,duration:.38,ease:'power1.out',onUpdate:()=>{introA=ia.a;}},'blast');
+      const bo={p:0}; tl.to(bo,{p:1,duration:1.5,ease:'back.out(2.0)',onUpdate:()=>{burstP=bo.p;}},'blast');
+      const hi={v:0}; tl.to(hi,{v:1,duration:.85,ease:'back.out(2.6)',onUpdate:()=>{heroIntro=hi.v;}},'blast+=0.05');
     } else {
       tl.from('.grid .tile',{opacity:0,y:30,duration:.5,stagger:0.05},'-=.3');
     }
@@ -593,7 +588,7 @@ setTimeout(function(){
   var sp=document.getElementById('splash'); if(sp && !sp.classList.contains('gone')) sp.classList.add('gone');
   if(introA<1){ introA=1; introS=1; } burstP=1; heroIntro=1;
   if(FLAT){ document.querySelectorAll('.grid .tile').forEach(function(t){ t.style.opacity=1; t.style.transform='none'; }); }
-}, 2900);
+}, 4200);
 
 // smooth scroll
 if(window.Lenis && !reduce){
@@ -621,7 +616,7 @@ if(window.Lenis && !reduce){
     gl(W*0.84,H*0.82,W*0.46,'rgba(255,77,61,0.46)');    // tomato
   }
   function size(){ W=canvas.width=innerWidth; H=canvas.height=innerHeight; cols=Math.ceil(W/CW); rows=Math.ceil(H/CH); buildBase(); }
-  size(); addEventListener('resize',size);
+  size();
   let t=0, pmx=0, pmy=0, last=0;
   // one lotus petal: bright along its centre-line, tapering to a point
   function petal(r,th,n,rIn,rOut,phase){
@@ -671,8 +666,10 @@ if(window.Lenis && !reduce){
       }
     }
   }
-  function loop(now){ requestAnimationFrame(loop); if(now-last<55) return; last=now; t+=0.05; draw(); }
-  if(reduce) draw(); else requestAnimationFrame(loop);
+  // static backdrop: draw once (big perf win), redraw only on resize / font load
+  draw();
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+  let rt; addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ size(); draw(); },160); });
   requestAnimationFrame(()=>canvas.classList.add('on'));
 })();
 
@@ -707,11 +704,6 @@ if(window.Lenis && !reduce){
       s.lineTo(x+w,y+h-r); s.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
       s.lineTo(x+r,y+h); s.quadraticCurveTo(x,y+h,x,y+h-r);
       s.lineTo(x,y+r); s.quadraticCurveTo(x,y,x+r,y); return s; }
-    const CW=3.1,CH=4.3,CR=0.38;
-    const body=new THREE.Mesh(new THREE.ExtrudeGeometry(rr(CW,CH,CR),{depth:0.3,bevelEnabled:true,bevelThickness:0.05,bevelSize:0.05,bevelSegments:2,curveSegments:20}),
-      new THREE.MeshBasicMaterial({color:0x2a0f1c,transparent:true,opacity:0.62,depthWrite:false})); body.geometry.center(); body.renderOrder=0; fig.add(body);
-    const rim=new THREE.Mesh(new THREE.ExtrudeGeometry(rr(CW+0.18,CH+0.18,CR+0.08),{depth:0.02,bevelEnabled:false,curveSegments:20}),
-      new THREE.MeshBasicMaterial({color:0xffb224,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false})); rim.geometry.center(); rim.position.z=-0.2; rim.renderOrder=-1; fig.add(rim);
     const tex=new THREE.TextureLoader().load('avatar.jpg'); tex.anisotropy=4;
 
     // ---- portrait in a cusped-arch window, lit with faux-relief so it reads dimensional ----
@@ -766,9 +758,8 @@ if(window.Lenis && !reduce){
       g.beginPath(); g.ellipse(wx,T-aH-80,28,20,0,0,Math.PI*2); g.fill();
       g.beginPath(); g.moveTo(wx-15,T-aH-90); g.lineTo(wx+15,T-aH-90); g.lineTo(wx,T-aH-152); g.closePath(); g.fill();
       g.beginPath(); g.arc(wx,T-aH-158,9,0,Math.PI*2); g.fill();
-      // base sill + name
+      // base sill (no name)
       g.fillStyle=gold(B+14,B+92); g.fillRect(L-130,B+14,(R+130)-(L-130),78);
-      g.fillStyle='#2a0f12'; g.textAlign='center'; g.font='700 42px "Baloo 2",Arial,sans-serif'; g.fillText('DEVANSHI',wx,B+66);
       // spandrel florets
       g.fillStyle='#ffe9a8'; [[L+16,T-aH*0.15],[R-16,T-aH*0.15]].forEach(p=>{ for(let a=0;a<6;a++){ g.beginPath(); g.ellipse(p[0]+Math.cos(a)*9,p[1]+Math.sin(a)*9,4.5,2,a,0,Math.PI*2); g.fill(); } g.beginPath(); g.arc(p[0],p[1],4,0,Math.PI*2); g.fill(); });
       // punch the window transparent
@@ -786,20 +777,11 @@ if(window.Lenis && !reduce){
     }
     const jhar=new THREE.Mesh(new THREE.PlaneGeometry(3.4,4.9),new THREE.MeshBasicMaterial({map:jharokhaTex(),transparent:true,depthWrite:false}));
     jhar.position.set(0,WY,0.2); jhar.renderOrder=2; fig.add(jhar);
-    const holo=new THREE.Mesh(new THREE.PlaneGeometry(3.5,5.0),new THREE.ShaderMaterial({transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,
-      uniforms:{t:{value:0},tilt:{value:new THREE.Vector2()}},
-      vertexShader:'varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
-      fragmentShader:'varying vec2 vUv; uniform float t; uniform vec2 tilt;'+
-        'vec3 hue(float h){ return clamp(abs(mod(h*6.0+vec3(0.0,4.0,2.0),6.0)-3.0)-1.0,0.0,1.0); }'+
-        'void main(){ float d=vUv.x*1.3+vUv.y*0.7+tilt.x*0.8-tilt.y*0.5+t*0.05;'+
-        'vec3 c=hue(fract(d)); float band=smoothstep(0.2,0.9,abs(sin((vUv.x-vUv.y+tilt.x)*6.2831)));'+
-        'gl_FragColor=vec4(c,0.08*band); }'})); holo.position.z=0.24; holo.renderOrder=3; fig.add(holo);
     let pmx=0,pmy=0,tt=0,zv=0;
     (function loop(){ requestAnimationFrame(loop);
       tt+=0.016; pmx+=(mX-pmx)*0.06; pmy+=(mY-pmy)*0.06; zv+=(zoomV-zv)*0.08;
       const osc=Math.sin(tt*0.5)*0.32;
       fig.rotation.y=osc+pmx*0.55; fig.rotation.x=-pmy*0.4;
-      holo.material.uniforms.t.value=tt; holo.material.uniforms.tilt.value.set(pmx+osc,pmy);
       portMat.uniforms.light.value.set(0.35+(pmx+osc)*0.9, 0.4-pmy*0.9);
       fig.scale.setScalar((1+zv*1.7)*heroIntro);
       renderer.render(scene,cam);
