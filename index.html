@@ -363,6 +363,29 @@
   .feed-stubs .what{font-size:13px;color:#5a3a2e;margin-top:2px}
   .feed-edu{text-align:center;font-family:var(--f-mono);font-size:13px;color:#f3e2cf;text-shadow:1px 1px 0 rgba(42,10,6,.6);margin-top:20px}
   @media(max-width:760px){.feed{grid-template-columns:1fr}}
+  /* ---- central 'universe' hub ---- */
+  .hub-sec{perspective:1500px}
+  .hub-hint{text-align:center;font-family:var(--f-hand);font-weight:700;font-size:18px;color:var(--cream);text-shadow:1px 1px 0 rgba(42,10,6,.5);margin:2px 0 6px}
+  .hub{position:relative;width:min(620px,94vw);aspect-ratio:1;margin:30px auto 8px}
+  .hub-inner{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .2s ease-out;will-change:transform}
+  .hub-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .hub-line{stroke:rgba(255,178,36,.5);stroke-width:2;vector-effect:non-scaling-stroke;stroke-dasharray:4 5;animation:hubflow 2.4s linear infinite;transition:stroke .25s,stroke-width .25s}
+  @keyframes hubflow{to{stroke-dashoffset:-18}}
+  .hub-line.active{stroke:#ff4324;stroke-width:3.4;stroke-dasharray:none;animation:none}
+  .core-ring{position:absolute;left:50%;top:50%;width:46%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:2px dashed rgba(255,178,36,.5);z-index:2;animation:spin 36s linear infinite}
+  .hub-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:35%;aspect-ratio:1;border-radius:50%;overflow:hidden;z-index:3;background:#1c0f24;
+    box-shadow:0 0 0 5px rgba(255,178,36,.55),0 0 50px rgba(255,178,36,.35),0 22px 50px rgba(0,0,0,.45)}
+  .hub-core svg{width:100%;height:100%;display:block}
+  .node{position:absolute;transform:translate(-50%,-50%);z-index:4;cursor:pointer;background:var(--paper);color:var(--ink);border:2px solid #140a0d;border-radius:999px;
+    padding:8px 13px;font-family:var(--f-chunk);font-weight:700;font-size:13px;white-space:nowrap;box-shadow:0 10px 22px rgba(0,0,0,.3);transition:transform .25s,box-shadow .25s;display:flex;align-items:center;gap:7px}
+  .node .dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+  .node:hover,.node:focus-visible,.node.active{transform:translate(-50%,-50%) scale(1.13);box-shadow:0 14px 30px rgba(0,0,0,.4),0 0 0 3px rgba(255,67,36,.5);outline:none}
+  .hub-detail{max-width:880px;margin:14px auto 0;background:var(--paper);color:var(--ink);border-radius:16px;overflow:hidden;display:grid;grid-template-columns:1.05fr 1fr;box-shadow:0 20px 44px rgba(0,0,0,.34);min-height:250px}
+  .hub-detail .hd-media{position:relative;min-height:240px;overflow:hidden;background:#2a160f}
+  .hub-detail .hd-body{padding:22px 24px;display:flex;flex-direction:column}
+  .hub-detail .ptags{margin-top:auto;padding-top:12px}
+  @media(max-width:720px){.hub{width:92vw}.hub-detail{grid-template-columns:1fr}.node{font-size:11px;padding:6px 10px}}
+  @media (prefers-reduced-motion:reduce){.hub-line{animation:none}.core-ring{animation:none}.hub-inner{transform:none!important}}
 
   /* scrapbook page decorations */
   .sticky{position:absolute;background:#fff3b0;padding:9px 12px;font-family:var(--f-hand);font-weight:700;font-size:14px;color:var(--ink);box-shadow:0 7px 16px rgba(42,16,19,.22);line-height:1.25;max-width:160px;z-index:2}
@@ -399,7 +422,7 @@
       <span class="namaste">नमस्ते, i'm</span>
       <h1 class="name" id="name"><span class="chrome">Devanshi</span><span class="chrome l2">Jhawar</span></h1>
       <p class="hero-sub">a desi girl who teaches machines to&nbsp;<span class="roller" id="roller"><span>see.</span></span><br><span class="u">6 internships · 1 startup exit · an iDEX grant</span> — <span style="color:var(--marigold)">the rest is in my scrapbook ↓</span></p>
-      <div class="scrolln"><span class="line"></span> scroll up &amp; watch the sky · flip the book</div>
+      <div class="scrolln"><span class="line"></span> scroll up for crackers · explore my universe ↓</div>
     </div>
 
     <div class="figure">
@@ -485,89 +508,56 @@
 <div class="garland" aria-hidden="true"><span class="thread"></span><i></i><i></i><i></i><i></i><i></i><span class="thread"></span></div>
 
 <!-- NOTEBOOK -->
-<section class="feed-sec wrap" id="work">
+<section class="feed-sec hub-sec wrap" id="work">
   <div class="shead reveal">
-    <span class="eyebrow">मेरी कहानी · my work</span>
-    <h2>things i made the <em>computer</em> do</h2>
+    <span class="eyebrow">मेरी कहानी · the universe</span>
+    <h2>everything connects to <em>her</em></h2>
   </div>
-  <div class="feed">
-
-    <article class="fcard reveal">
-      <div class="photo hue0"><video class="pv" src="mlagents.mp4" muted loop autoplay playsinline preload="metadata"></video><span class="live">live</span></div>
-      <div class="fbody">
-        <span class="ptab">अध्याय १ · Jio</span>
-        <h3 class="phead">she taught a machine to dress people.</h3>
-        <div class="pco">AI styling agent · Jio</div>
-        <p class="pdesc">an agent that looks in your wardrobe &amp; styles you — and <b>actually gets it right</b>.</p>
-        <div class="dstamps"><span class="dstamp">93% accuracy</span><span class="dstamp">10k+ images</span><span class="dstamp">435/511 testers</span></div>
-        <div class="ptags"><span>LangGraph</span><span>YOLOv11</span><span>FAISS</span><span>Python</span></div>
-        <span class="fnote">still shipping ~</span>
+  <p class="hub-hint reveal">hover a planet to explore ✦</p>
+  <div class="hub reveal">
+    <div class="hub-inner" id="hubInner">
+      <svg class="hub-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <line class="hub-line" data-i="0" x1="50" y1="50" x2="50" y2="12"/>
+        <line class="hub-line" data-i="1" x1="50" y1="50" x2="86" y2="38"/>
+        <line class="hub-line" data-i="2" x1="50" y1="50" x2="72" y2="80"/>
+        <line class="hub-line" data-i="3" x1="50" y1="50" x2="28" y2="80"/>
+        <line class="hub-line" data-i="4" x1="50" y1="50" x2="14" y2="38"/>
+      </svg>
+      <span class="core-ring" aria-hidden="true"></span>
+      <div class="hub-core">
+        <svg viewBox="0 0 200 210" aria-label="Devanshi at the centre">
+          <defs><linearGradient id="corebg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#46263f"/><stop offset="1" stop-color="#1c0f24"/></linearGradient></defs>
+          <rect width="200" height="210" fill="url(#corebg)"/>
+          <circle cx="100" cy="118" r="92" fill="#ff8a3d" opacity=".16"/>
+          <path d="M44 115 Q32 55 100 48 Q168 55 156 115 Q166 162 146 198 L54 198 Q34 162 44 115 Z" fill="#241309"/>
+          <path d="M46 210 Q54 170 100 166 Q146 170 154 210 Z" fill="#2f7d3a"/>
+          <rect x="86" y="150" width="28" height="30" rx="10" fill="#b86a3a"/>
+          <ellipse cx="100" cy="108" rx="46" ry="50" fill="#c9824c"/>
+          <path d="M58 100 Q48 52 96 42 Q74 70 70 104 Q64 110 58 100 Z" fill="#1c0e07"/>
+          <path d="M142 100 Q152 52 104 42 Q126 70 130 104 Q136 110 142 100 Z" fill="#1c0e07"/>
+          <path d="M70 52 Q100 30 130 52 Q100 42 70 52 Z" fill="#1c0e07"/>
+          <circle cx="100" cy="66" r="5" fill="#ff4324"/>
+          <path d="M74 94 Q86 87 96 94" stroke="#1c0e07" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M104 94 Q114 87 126 94" stroke="#1c0e07" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <ellipse cx="84" cy="108" rx="11" ry="8" fill="#fff"/><ellipse cx="116" cy="108" rx="11" ry="8" fill="#fff"/>
+          <circle cx="84" cy="108" r="5" fill="#20110b"/><circle cx="116" cy="108" r="5" fill="#20110b"/>
+          <circle cx="84" cy="108" r="15" fill="none" stroke="#1a1013" stroke-width="3.5"/>
+          <circle cx="116" cy="108" r="15" fill="none" stroke="#1a1013" stroke-width="3.5"/>
+          <path d="M99 106 q1 -3 2 0" stroke="#1a1013" stroke-width="3" fill="none"/>
+          <circle cx="108" cy="126" r="4" fill="none" stroke="#ffb224" stroke-width="2.5"/>
+          <path d="M88 138 Q100 145 112 137 Q100 142 88 138 Z" fill="#a83a4e"/>
+          <g fill="#ffb224"><path d="M50 116 h12 l-3 9 q-3 4 -6 0Z"/><circle cx="56" cy="130" r="2.5"/></g>
+          <g fill="#ffb224"><path d="M138 116 h12 l-3 9 q-3 4 -6 0Z"/><circle cx="144" cy="130" r="2.5"/></g>
+        </svg>
       </div>
-    </article>
-
-    <article class="fcard reveal">
-      <div class="photo hue1"><video class="pv" src="teletwin.mp4" muted loop autoplay playsinline preload="metadata"></video></div>
-      <div class="fbody">
-        <span class="ptab">अध्याय २ · XRVision</span>
-        <h3 class="phead">1000 digital twins in 25 min.</h3>
-        <div class="pco">5G digital twin · XRVision (co-founder, exit)</div>
-        <p class="pdesc">built at the startup i co-founded (and exited) — a thousand twins, fast.</p>
-        <div class="dstamps"><span class="dstamp">97% accuracy</span><span class="dstamp">1000 models</span><span class="dstamp">~25 min</span></div>
-        <div class="ptags"><span>Unity</span><span>YOLO</span><span>C#</span><span>5G</span></div>
-        <span class="fnote">exit ✺</span>
-      </div>
-    </article>
-
-    <article class="fcard reveal">
-      <div class="photo hue2"><video class="pv" src="xrchitect.mp4" muted loop autoplay playsinline preload="metadata"></video></div>
-      <div class="fbody">
-        <span class="ptab">अध्याय ३ · Tap4</span>
-        <h3 class="phead">she made Claude build worlds.</h3>
-        <div class="pco">prompt → 3D · Tap4 (demoed w/ Snapchat)</div>
-        <p class="pdesc">an MCP server so Claude builds whole Unity scenes from one prompt.</p>
-        <div class="dstamps"><span class="dstamp">~70% faster</span><span class="dstamp">5+ scenes</span><span class="dstamp">w/ Snapchat</span></div>
-        <div class="ptags"><span>MCP</span><span>Unity</span><span>C#</span><span>Python</span></div>
-        <span class="fnote">prompt → world</span>
-      </div>
-    </article>
-
-    <article class="fcard reveal">
-      <div class="photo hue3"><video class="pv" src="indoornav.mp4" muted loop autoplay playsinline preload="metadata"></video></div>
-      <div class="fbody">
-        <span class="ptab">अध्याय ४ · Ottonomy</span>
-        <h3 class="phead">a fleet of robots, one tablet.</h3>
-        <div class="pco">robot control · Ottonomy</div>
-        <p class="pdesc">an Android console to drive a whole fleet of delivery robots.</p>
-        <div class="dstamps"><span class="dstamp">~15 screens</span><span class="dstamp">20+ services</span><span class="dstamp">4–7 bots</span></div>
-        <div class="ptags"><span>Kotlin</span><span>ROS</span><span>REST</span></div>
-        <span class="fnote">beep beep 🤖</span>
-      </div>
-    </article>
-
-    <article class="fcard reveal">
-      <div class="photo hue4"><video class="pv" src="combatXR.mp4" muted loop autoplay playsinline preload="metadata"></video></div>
-      <div class="fbody">
-        <span class="ptab">अध्याय ५ · side quest</span>
-        <h3 class="phead">war, simulated.</h3>
-        <div class="pco">immersive VR · CombatXR</div>
-        <p class="pdesc">a VR war-sim for combat practice, wired to <b>physical hardware</b> so the real controls move with the sim.</p>
-        <div class="dstamps"><span class="dstamp">hardware-linked</span><span class="dstamp">Unity XR</span><span class="dstamp">combat sim</span></div>
-        <div class="ptags"><span>Unity</span><span>C#</span><span>XR Toolkit</span></div>
-        <span class="fnote">hardware ❤</span>
-      </div>
-    </article>
-
-    <article class="fcard reveal about-card">
-      <div class="fbody">
-        <span class="ptab">नमस्ते</span>
-        <h3 class="phead">who even is she?</h3>
-        <p class="pdesc">main Devanshi — a CS undergrad who <b>actually ships</b>. AI · XR · spatial computing. i like the messy, maximal middle: training a model till it finally sees the dress, poking Claude till it builds a whole world.</p>
-        <div class="dstamps"><span class="dstamp">cs undergrad</span><span class="dstamp">ex-founder</span><span class="dstamp">6 internships</span></div>
-        <span class="fnote">yeh meri kahaani hai 🌶️ — dj</span>
-      </div>
-    </article>
-
+      <button class="node" data-i="0" style="left:50%;top:12%"><span class="dot" style="background:#ff4324"></span>AJIO Stylist</button>
+      <button class="node" data-i="1" style="left:86%;top:38%"><span class="dot" style="background:#7b6bff"></span>TeleTwin</button>
+      <button class="node" data-i="2" style="left:72%;top:80%"><span class="dot" style="background:#4bc24f"></span>Claude→Unity</button>
+      <button class="node" data-i="3" style="left:28%;top:80%"><span class="dot" style="background:#ffb224"></span>Robot Fleet</button>
+      <button class="node" data-i="4" style="left:14%;top:38%"><span class="dot" style="background:#ff4d8d"></span>CombatXR</button>
+    </div>
   </div>
+  <div class="hub-detail reveal" id="hubDetail"></div>
 
   <div class="shead reveal" style="margin-top:54px">
     <span class="eyebrow">कहानी अब तक</span>
@@ -724,6 +714,46 @@
     function upd(){var h=document.documentElement.scrollHeight-innerHeight;var p=h>0?Math.min(1,Math.max(0,scrollY/h)):0;
       am.style.left=(p*(innerWidth-am.offsetWidth-16)+8)+"px";}
     upd();addEventListener("scroll",upd,{passive:true});addEventListener("resize",upd);setTimeout(upd,300);
+  })();
+
+  /* ---- central 'universe' hub ---- */
+  (function(){
+    var hub=document.getElementById("hubInner"),detail=document.getElementById("hubDetail");
+    if(!hub||!detail)return;
+    var PRJ=[
+      {name:"AJIO Stylist",co:"AI styling agent · Jio",hue:"hue0",vid:"mlagents.mp4",
+       desc:"an agent that looks in your wardrobe &amp; styles you — and actually gets it right.",
+       stats:["93% accuracy","10k+ images","435/511 testers"],tags:["LangGraph","YOLOv11","FAISS","Python"]},
+      {name:"TeleTwin",co:"5G digital twin · XRVision (co-founder, exit)",hue:"hue1",vid:"teletwin.mp4",
+       desc:"1000 digital twins in ~25 min on an RTX 8000 — built at the startup i co-founded (and exited).",
+       stats:["97% accuracy","1000 models","~25 min"],tags:["Unity","YOLO","C#","5G"]},
+      {name:"Claude → Unity",co:"prompt → 3D · Tap4 (demoed w/ Snapchat)",hue:"hue2",vid:"xrchitect.mp4",
+       desc:"an MCP server so Claude builds whole Unity scenes from one prompt — ~70% faster.",
+       stats:["~70% faster","5+ scenes","w/ Snapchat"],tags:["MCP","Unity","C#","Python"]},
+      {name:"Robot Fleet",co:"robot control · Ottonomy",hue:"hue3",vid:"indoornav.mp4",
+       desc:"an Android console to drive a whole fleet of delivery robots — 2 sites, 4–7 bots each.",
+       stats:["~15 screens","20+ services","4–7 bots"],tags:["Kotlin","ROS","REST"]},
+      {name:"CombatXR",co:"immersive VR · side quest",hue:"hue4",vid:"combatXR.mp4",
+       desc:"a VR war-sim for combat practice, wired to physical hardware so the real controls move with the sim.",
+       stats:["hardware-linked","Unity XR","combat sim"],tags:["Unity","C#","XR Toolkit"]}
+    ];
+    var nodes=[].slice.call(hub.querySelectorAll(".node")),lines=[].slice.call(hub.querySelectorAll(".hub-line")),cur=-1;
+    function render(i){var p=PRJ[i];
+      detail.innerHTML='<div class="hd-media '+p.hue+'"><div class="ph" style="position:absolute;inset:0"></div><video class="pv" src="'+p.vid+'" muted loop autoplay playsinline preload="metadata"></video></div>'+
+        '<div class="hd-body"><div class="pco">'+p.co+'</div><h3 class="phead">'+p.name+'</h3><p class="pdesc">'+p.desc+'</p>'+
+        '<div class="dstamps">'+p.stats.map(function(s){return '<span class="dstamp">'+s+'</span>';}).join("")+'</div>'+
+        '<div class="ptags">'+p.tags.map(function(t){return '<span>'+t+'</span>';}).join("")+'</div></div>';
+    }
+    function setActive(i){if(i===cur)return;cur=i;render(i);
+      nodes.forEach(function(n,k){n.classList.toggle("active",k===i);});
+      lines.forEach(function(l,k){l.classList.toggle("active",k===i);});}
+    nodes.forEach(function(n,i){
+      ["mouseenter","focus","click"].forEach(function(ev){n.addEventListener(ev,function(){setActive(i);});});});
+    setActive(0);
+    if(!TOUCH&&!RM){var hb=hub.parentElement;
+      hb.addEventListener("pointermove",function(e){var r=hb.getBoundingClientRect();var dx=(e.clientX-r.left)/r.width-.5,dy=(e.clientY-r.top)/r.height-.5;
+        hub.style.transform="rotateY("+(dx*7)+"deg) rotateX("+(-dy*7)+"deg)";});
+      hb.addEventListener("pointerleave",function(){hub.style.transform="";});}
   })();
 
   /* ---- flip-book (StPageFlip): drag / swipe / corner to turn ---- */
