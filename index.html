@@ -188,6 +188,10 @@ body.flat .grid{display:grid}
 /* ---------- WebGL atmosphere + lotus ---------- */
 #bgCanvas{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity 1.4s ease}
 #bgCanvas.on{opacity:1}
+#heroCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:100;pointer-events:none}
+#flash{position:absolute;left:50%;top:48%;width:62vmin;height:62vmin;transform:translate(-50%,-50%) scale(.2);
+  border-radius:50%;z-index:140;pointer-events:none;opacity:0;mix-blend-mode:screen;filter:blur(4px);
+  background:radial-gradient(circle,rgba(255,255,255,.95),rgba(255,178,36,.55) 30%,rgba(255,61,139,.22) 56%,transparent 72%)}
 .lotus-sec{position:relative;min-height:122vh;display:flex;flex-direction:column;
   align-items:center;justify-content:flex-start;padding:13vh 0 8vh;overflow:hidden}
 .lotus-sec::before{content:"";position:absolute;left:50%;top:60%;width:86vmin;height:86vmin;
@@ -242,24 +246,12 @@ body.flat .grid{display:grid}
       <div class="core" id="core" title="that's me">
        <div class="core-bb" id="coreBB">
         <div class="halo"></div>
-        <!-- center medallion: the pin art, framed in a lotus-petal halo -->
-        <div class="ringwrap">
-          <svg class="ring" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#ffb224"/><stop offset=".5" stop-color="#ff3d8b"/><stop offset="1" stop-color="#7a6bff"/>
-              </linearGradient>
-            </defs>
-            <circle cx="150" cy="150" r="143" fill="none" stroke="url(#ring)" stroke-width="3"/>
-            <g stroke="url(#ring)" stroke-width="2.4" opacity=".9"><g id="petals"></g></g>
-            <circle cx="150" cy="150" r="117" fill="none" stroke="#ffb224" stroke-width="1" opacity=".5" stroke-dasharray="2 7"/>
-          </svg>
-          <div class="av"><img src="avatar.jpg" alt="Devanshi, illustrated"></div>
-        </div>
-        <div class="corelabel">◦ that's me · zoom in ◦</div>
+        <!-- soft glow only; the collectible renders on #heroCanvas above -->
        </div>
       </div>
     </div>
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
+    <div id="flash" aria-hidden="true"></div>
     <svg class="threads" id="threads" aria-hidden="true"></svg>
   </div>
 </section>
@@ -276,14 +268,6 @@ body.flat .grid{display:grid}
 
 <!-- after the sphere -->
 <div class="after">
-  <section class="lotus-sec" id="lotusSec">
-    <canvas id="lotusCanvas" aria-hidden="true"></canvas>
-    <div class="lotus-copy">
-      <p class="lk">keep scrolling · it opens</p>
-      <h2>Everything up there is a <em>petal</em>.<br>This is the whole flower.</h2>
-      <p class="ls">XR &amp; AI by day — dance, guitar, windsurfing, one failed startup and eleven tattoos the rest of the time.</p>
-    </div>
-  </section>
   <section class="contact" id="contact">
     <h3>let's make something / or just talk</h3>
     <div class="links">
@@ -399,8 +383,8 @@ const FLAT = reduce || isSmall;
 if(FLAT) document.body.classList.add('flat');
 document.getElementById('yr').textContent = new Date().getFullYear();
 
-// shared cursor (normalised -1..1), eased copies for parallax
-let mX=0, mY=0, emX=0, emY=0;
+// shared cursor (normalised -1..1), eased copies for parallax; zoomV = scroll-zoom 0..1
+let mX=0, mY=0, emX=0, emY=0, zoomV=0;
 window.addEventListener('pointermove', e=>{
   mX = (e.clientX/window.innerWidth)*2-1;
   mY = (e.clientY/window.innerHeight)*2-1;
@@ -442,7 +426,8 @@ function layout(){
 layout();
 
 let ry=0, rx=-6, velY=0, velX=0, zoom=0, dragging=false, lastDown=0, moved=0;
-let introA=FLAT?1:0, introS=FLAT?1:0.62;     // intro fade/scale (multiplied in loop)
+let introA=FLAT?1:0, introS=1;               // intro fade (scene scale stays 1)
+let burstP=FLAT?1:0, heroIntro=FLAT?1:0;     // intro: tiles blast out from centre + collectible pops in
 const scaleFx = s => Math.max(0,Math.min(1,s));
 
 if(!FLAT){
@@ -477,7 +462,7 @@ if(!FLAT){
     if(!dragging){ ry += 0.06 + velY; rx += velX*0.4; velY*=0.93; velX*=0.93; if(Math.abs(velY)<0.002)velY=0; }
     rx=Math.max(-62,Math.min(62,rx));
     emX += (mX-emX)*0.05; emY += (mY-emY)*0.05;   // eased cursor drift
-    zoom = (zoomObj.v)*720;                       // fly toward the medallion
+    zoom = (zoomObj.v)*720; zoomV=zoomObj.v;      // fly toward the medallion
     scene.style.transform = `translate3d(0,0,${zoom}px) scale(${introS}) rotateX(${(rx+emY*5).toFixed(2)}deg) rotateY(${(ry+emX*8).toFixed(2)}deg)`;
     coreBB.style.transform = `rotateY(${(-ry+emX*10).toFixed(2)}deg) rotateX(${(-rx-emY*10).toFixed(2)}deg)`;   // she leans toward your cursor
 
@@ -490,7 +475,9 @@ if(!FLAT){
       const z2=y*srx+z1*crx;                       // camera-facing depth
       const t=scaleFx((z2/RADIUS+1)/2);            // 0 back .. 1 front
       const el=tiles[i];
-      el.style.transform = `translate3d(${x}px,${y}px,${z}px)`;
+      const bd=(i/N)*0.4; let bf=(burstP-bd)/(1-bd); bf=bf<0?0:bf>1?1:bf;
+      const eb=1+2.70158*Math.pow(bf-1,3)+1.70158*Math.pow(bf-1,2);   // easeOutBack blast from centre
+      el.style.transform = `translate3d(${(x*eb).toFixed(1)}px,${(y*eb).toFixed(1)}px,${(z*eb).toFixed(1)}px)`;
       const bb=el.firstElementChild;               // .bb (billboard)
       const sc=0.74+0.26*t;
       bb.style.transform = `rotateY(${-ry}deg) rotateX(${-rx}deg) scale(${sc})`;
@@ -578,10 +565,11 @@ window.addEventListener('load',()=>{
     const tl=gsap.timeline({delay:1.25});
     tl.to('#splash',{opacity:0,duration:.8,onComplete:()=>document.getElementById('splash').classList.add('gone')});
     if(!FLAT){
-      const iv={a:0,s:0.62};
-      tl.to(iv,{a:1,s:1,duration:1.15,ease:'power3.out',
-        onUpdate:()=>{ introA=iv.a; introS=iv.s; }},'-=.35')
-        .from('#core',{opacity:0,scale:.5,duration:.9,ease:'back.out(1.5)'},'-=1.0');
+      const ia={a:0}; tl.to(ia,{a:1,duration:.55,ease:'power1.out',onUpdate:()=>{introA=ia.a;}},'-=.35');
+      const bo={p:0}; tl.to(bo,{p:1,duration:1.25,ease:'power2.out',onUpdate:()=>{burstP=bo.p;}},'<');
+      const hi={v:0}; tl.to(hi,{v:1,duration:1.0,ease:'back.out(1.7)',onUpdate:()=>{heroIntro=hi.v;}},'<');
+      tl.fromTo('#flash',{opacity:0,scale:0.2},{opacity:1,scale:1,duration:.16,ease:'power2.out'},'<')
+        .to('#flash',{opacity:0,scale:2.5,duration:.7,ease:'power2.out'});
     } else {
       tl.from('.grid .tile',{opacity:0,y:30,duration:.5,stagger:0.05},'-=.3');
     }
@@ -593,7 +581,7 @@ window.addEventListener('load',()=>{
 // safety net: never let the splash trap the page, even if GSAP/CDN misbehaves
 setTimeout(function(){
   var sp=document.getElementById('splash'); if(sp && !sp.classList.contains('gone')) sp.classList.add('gone');
-  if(introA<1){ introA=1; introS=1; }
+  if(introA<1){ introA=1; introS=1; } burstP=1; heroIntro=1;
   if(FLAT){ document.querySelectorAll('.grid .tile').forEach(function(t){ t.style.opacity=1; t.style.transform='none'; }); }
 }, 2900);
 
@@ -608,7 +596,51 @@ if(window.Lenis && !reduce){
   document.getElementById('toContact').onclick=()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'});
 }
 
-/* ===================== Three.js atmosphere + blooming lotus ===================== */
+/* ===================== ASCII lotus backdrop (2D canvas, behind the carousel) ===================== */
+(function(){
+  const canvas=document.getElementById('bgCanvas'); if(!canvas) return;
+  const ctx=canvas.getContext('2d'); if(!ctx) return;
+  const RAMP=' .:-=+*oe%@#'.split('');
+  const CW=14, CH=16;
+  let W,H,cols,rows;
+  function size(){ W=canvas.width=innerWidth; H=canvas.height=innerHeight; cols=Math.ceil(W/CW); rows=Math.ceil(H/CH); }
+  size(); addEventListener('resize',size);
+  let t=0, pmx=0, pmy=0, last=0;
+  // one lotus petal: bright along its centre-line, tapering to a point
+  function petal(r,th,n,rIn,rOut,phase){
+    const pa=2*Math.PI/n; let ao=((th+phase)%pa+pa)%pa-pa/2;
+    const rr=(r-rIn)/(rOut-rIn); if(rr<0||rr>1) return 0;
+    const halfW=pa*0.5*(1-0.72*rr), na=Math.abs(ao)/halfW; if(na>1) return 0;
+    return (1-na)*Math.sin(rr*Math.PI)*1.15;
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.font=CW+'px "Space Mono", ui-monospace, monospace'; ctx.textBaseline='top';
+    pmx+=(mX-pmx)*0.05; pmy+=(mY-pmy)*0.05;
+    const cx=cols*0.5+pmx*2, cy=rows*0.5+pmy*1.2, bloom=0.86+0.1*Math.sin(t*0.5),
+          sc=1/(Math.min(W,H)*0.46), rot=t*0.06;
+    for(let j=0;j<rows;j++){ const dy=(j-cy)*CH;
+      for(let i=0;i<cols;i++){ const dx=(i-cx)*CW, r=Math.sqrt(dx*dx+dy*dy)*sc;
+        if(r>1.05) continue;
+        const th=Math.atan2(dy,dx); let v=0;
+        v=Math.max(v, petal(r,th,8, 0.42,1.0, rot));
+        v=Math.max(v, petal(r,th,12,0.24,0.62, rot+0.26));
+        v=Math.max(v, petal(r,th,16,0.10,0.36, rot+0.52));
+        v=Math.max(v, 1-r/0.13);              // seed-pod centre
+        v*=bloom;
+        if(v<=0.06) continue;
+        const chh=RAMP[Math.min(RAMP.length-1,(v*RAMP.length)|0)]; if(chh===' ') continue;
+        ctx.fillStyle='rgba(255,'+((150+85*v)|0)+','+((60+70*v)|0)+','+(0.14+v*0.52).toFixed(2)+')';
+        ctx.fillText(chh, i*CW, j*CH);
+      }
+    }
+  }
+  function loop(now){ requestAnimationFrame(loop); if(now-last<55) return; last=now; t+=0.05; draw(); }
+  if(reduce) draw(); else requestAnimationFrame(loop);
+  requestAnimationFrame(()=>canvas.classList.add('on'));
+})();
+
+/* ===================== Three.js hero collectible ===================== */
 (function(){
   if(!window.THREE || reduce) return;                 // CSS bg stays as fallback
   const PAL=[0xff4d3d,0xffb224,0xff3d8b,0x7a6bff,0x36d39a];
@@ -621,82 +653,57 @@ if(window.Lenis && !reduce){
   }
   const SPRITE=dotTexture();
 
-  /* A) background nebula of glowing particles, drifting with the cursor */
+  /* (particles + 3D lotus removed — lotus is now the ASCII backdrop below) */
+
+  /* hero: the baddie as a 3D holo/acrylic collectible (replaces the flat medallion) */
   (function(){
-    const canvas=document.getElementById('bgCanvas'); if(!canvas) return;
+    if(FLAT) return;
+    const canvas=document.getElementById('heroCanvas'); if(!canvas) return;
     let renderer; try{ renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true}); }catch(e){ return; }
     renderer.setPixelRatio(Math.min(devicePixelRatio,2));
     const scene=new THREE.Scene();
-    const cam=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,1,2200); cam.position.z=520;
+    const cam=new THREE.PerspectiveCamera(40,1,0.1,100); cam.position.set(0,0,11);
     function size(){ renderer.setSize(innerWidth,innerHeight); cam.aspect=innerWidth/innerHeight; cam.updateProjectionMatrix(); }
     size(); addEventListener('resize',size);
-    const N=innerWidth<760?700:1800;
-    const pos=new Float32Array(N*3), col=new Float32Array(N*3), sz=new Float32Array(N), c=new THREE.Color();
-    for(let i=0;i<N;i++){
-      const r=180+Math.random()*640, th=Math.random()*Math.PI*2, ph=Math.acos(2*Math.random()-1);
-      pos[i*3]=Math.sin(ph)*Math.cos(th)*r; pos[i*3+1]=Math.sin(ph)*Math.sin(th)*r*0.7; pos[i*3+2]=Math.cos(ph)*r-200;
-      c.setHex(PAL[(Math.random()*PAL.length)|0]); col[i*3]=c.r; col[i*3+1]=c.g; col[i*3+2]=c.b; sz[i]=6+Math.random()*22;
-    }
-    const geo=new THREE.BufferGeometry();
-    geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
-    geo.setAttribute('pcolor',new THREE.BufferAttribute(col,3));
-    geo.setAttribute('asize',new THREE.BufferAttribute(sz,1));
-    const mat=new THREE.ShaderMaterial({uniforms:{tex:{value:SPRITE},t:{value:0}},transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
-      vertexShader:'attribute float asize; attribute vec3 pcolor; varying vec3 vc; uniform float t;'+
-        'void main(){ vc=pcolor; vec3 p=position; p.x+=sin(t*0.3+position.z*0.01)*8.0; p.y+=cos(t*0.25+position.x*0.01)*8.0;'+
-        'vec4 mv=modelViewMatrix*vec4(p,1.0); gl_PointSize=asize*(300.0/-mv.z); gl_Position=projectionMatrix*mv; }',
-      fragmentShader:'uniform sampler2D tex; varying vec3 vc; void main(){ vec4 a=texture2D(tex,gl_PointCoord); gl_FragColor=vec4(vc,1.0)*a; }'});
-    const pts=new THREE.Points(geo,mat); scene.add(pts);
-    const grp=new THREE.Group(); scene.add(grp);
-    for(let i=0;i<7;i++){ const s=new THREE.Sprite(new THREE.SpriteMaterial({map:SPRITE,color:PAL[i%PAL.length],transparent:true,opacity:0.13,blending:THREE.AdditiveBlending,depthWrite:false}));
-      s.position.set((Math.random()-.5)*900,(Math.random()-.5)*520,-100-Math.random()*300); const sc=120+Math.random()*260; s.scale.set(sc,sc,1); grp.add(s); }
-    let pmx=0,pmy=0,tt=0;
+    const fig=new THREE.Group(); fig.position.y=0.15; scene.add(fig);
+    function rr(w,h,r){ const s=new THREE.Shape(),x=-w/2,y=-h/2;
+      s.moveTo(x+r,y); s.lineTo(x+w-r,y); s.quadraticCurveTo(x+w,y,x+w,y+r);
+      s.lineTo(x+w,y+h-r); s.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+      s.lineTo(x+r,y+h); s.quadraticCurveTo(x,y+h,x,y+h-r);
+      s.lineTo(x,y+r); s.quadraticCurveTo(x,y,x+r,y); return s; }
+    const CW=3.1,CH=4.3,CR=0.38;
+    const body=new THREE.Mesh(new THREE.ExtrudeGeometry(rr(CW,CH,CR),{depth:0.3,bevelEnabled:true,bevelThickness:0.05,bevelSize:0.05,bevelSegments:2,curveSegments:20}),
+      new THREE.MeshBasicMaterial({color:0xff3d8b,transparent:true,opacity:0.34})); body.geometry.center(); fig.add(body);
+    const rim=new THREE.Mesh(new THREE.ExtrudeGeometry(rr(CW+0.18,CH+0.18,CR+0.08),{depth:0.02,bevelEnabled:false,curveSegments:20}),
+      new THREE.MeshBasicMaterial({color:0xffb224,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false})); rim.geometry.center(); rim.position.z=-0.2; fig.add(rim);
+    const tex=new THREE.TextureLoader().load('avatar.jpg'); tex.anisotropy=4;
+    const frame=new THREE.Mesh(new THREE.PlaneGeometry(2.78,2.78),new THREE.MeshBasicMaterial({color:0xffd060})); frame.position.set(0,0.55,0.16); fig.add(frame);
+    const img=new THREE.Mesh(new THREE.PlaneGeometry(2.62,2.62),new THREE.MeshBasicMaterial({map:tex})); img.position.set(0,0.55,0.166); fig.add(img);
+    const nc=document.createElement('canvas'); nc.width=512; nc.height=170; const g=nc.getContext('2d');
+    g.fillStyle='rgba(10,5,14,0.92)'; g.fillRect(0,0,512,170); g.textAlign='center';
+    g.fillStyle='#ffd060'; g.font='700 56px "Baloo 2",Arial,sans-serif'; g.fillText('DEVANSHI',256,74);
+    g.fillStyle='rgba(247,236,216,.82)'; g.font='400 24px "Space Mono",monospace'; g.fillText('THE WHOLE FLOWER · ED.01',256,118);
+    const ntex=new THREE.Texture(nc); ntex.needsUpdate=true;
+    const plate=new THREE.Mesh(new THREE.PlaneGeometry(2.62,0.84),new THREE.MeshBasicMaterial({map:ntex,transparent:true})); plate.position.set(0,-1.35,0.166); fig.add(plate);
+    const holo=new THREE.Mesh(new THREE.PlaneGeometry(CW,CH),new THREE.ShaderMaterial({transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,
+      uniforms:{t:{value:0},tilt:{value:new THREE.Vector2()}},
+      vertexShader:'varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+      fragmentShader:'varying vec2 vUv; uniform float t; uniform vec2 tilt;'+
+        'vec3 hue(float h){ return clamp(abs(mod(h*6.0+vec3(0.0,4.0,2.0),6.0)-3.0)-1.0,0.0,1.0); }'+
+        'void main(){ float d=vUv.x*1.3+vUv.y*0.7+tilt.x*0.8-tilt.y*0.5+t*0.05;'+
+        'vec3 c=hue(fract(d)); float band=smoothstep(0.2,0.9,abs(sin((vUv.x-vUv.y+tilt.x)*6.2831)));'+
+        'gl_FragColor=vec4(c,0.15*band); }'})); holo.position.z=0.18; fig.add(holo);
+    const ped=new THREE.Mesh(new THREE.CylinderGeometry(1.25,1.5,0.35,40),new THREE.MeshBasicMaterial({color:0x2a132f})); ped.position.y=-2.55; fig.add(ped);
+    const pedTop=new THREE.Mesh(new THREE.CylinderGeometry(1.25,1.25,0.04,40),new THREE.MeshBasicMaterial({color:0xffb224,transparent:true,opacity:0.8})); pedTop.position.y=-2.37; fig.add(pedTop);
+    const pedGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:SPRITE,color:0xff3d8b,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));
+    pedGlow.scale.set(5,2.4,1); pedGlow.position.y=-2.4; fig.add(pedGlow);
+    let pmx=0,pmy=0,tt=0,zv=0;
     (function loop(){ requestAnimationFrame(loop);
-      tt+=0.016; mat.uniforms.t.value=tt;
-      pmx+=(mX-pmx)*0.04; pmy+=(mY-pmy)*0.04;
-      pts.rotation.y=tt*0.02+pmx*0.25; pts.rotation.x=pmy*0.18; grp.rotation.y=tt*0.01+pmx*0.2;
-      cam.position.x+=(pmx*60-cam.position.x)*0.05; cam.position.y+=(-pmy*40-cam.position.y)*0.05; cam.lookAt(0,0,0);
-      renderer.render(scene,cam);
-    })();
-    requestAnimationFrame(()=>canvas.classList.add('on'));
-  })();
-
-  /* B) blooming lotus where the plain text used to be */
-  (function(){
-    const canvas=document.getElementById('lotusCanvas'), host=document.getElementById('lotusSec'); if(!canvas||!host) return;
-    let renderer; try{ renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true}); }catch(e){ return; }
-    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-    const scene=new THREE.Scene();
-    const cam=new THREE.PerspectiveCamera(50,1,0.1,100); cam.position.set(0,3.4,9); cam.lookAt(0,0.2,0);
-    function size(){ const w=host.clientWidth,h=host.clientHeight; renderer.setSize(w,h); cam.aspect=w/h; cam.updateProjectionMatrix(); }
-    size(); addEventListener('resize',size);
-    const lotus=new THREE.Group(); lotus.position.y=-0.4; scene.add(lotus);
-    const S=new THREE.Shape(); S.moveTo(0,0); S.bezierCurveTo(0.55,0.35,0.42,1.35,0,1.9); S.bezierCurveTo(-0.42,1.35,-0.55,0.35,0,0);
-    const PG=new THREE.ShapeGeometry(S,24);
-    const rings=[{n:8,sc:1.25,col:0xff3d8b,cl:0.15,op:1.48,y:0},{n:10,sc:1.0,col:0xffb224,cl:0.05,op:1.18,y:0.05},{n:12,sc:0.78,col:0xff8a1e,cl:-0.05,op:0.86,y:0.12}];
-    const petals=[];
-    rings.forEach((R,ri)=>{ for(let i=0;i<R.n;i++){
-      const pivot=new THREE.Object3D(); pivot.rotation.y=(i/R.n)*Math.PI*2+ri*0.4;
-      const m=new THREE.Mesh(PG,new THREE.MeshBasicMaterial({color:R.col,side:THREE.DoubleSide,transparent:true,opacity:0.9}));
-      m.scale.setScalar(R.sc); m.position.y=R.y; pivot.add(m); lotus.add(pivot); petals.push({pivot,cl:R.cl,op:R.op});
-    }});
-    const pod=new THREE.Mesh(new THREE.SphereGeometry(0.42,24,24),new THREE.MeshBasicMaterial({color:0xffe08a})); pod.position.y=0.25; lotus.add(pod);
-    const podGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:SPRITE,color:0xffd060,transparent:true,opacity:0.7,blending:THREE.AdditiveBlending,depthWrite:false}));
-    podGlow.scale.set(3.4,3.4,1); podGlow.position.y=0.25; lotus.add(podGlow);
-    for(let i=0;i<40;i++){ const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:SPRITE,color:PAL[i%PAL.length],transparent:true,opacity:0.6,blending:THREE.AdditiveBlending,depthWrite:false}));
-      const a=Math.random()*Math.PI*2,r=2.5+Math.random()*3; sp.position.set(Math.cos(a)*r,(Math.random()-.4)*2.4,Math.sin(a)*r); const s=0.1+Math.random()*0.4; sp.scale.set(s,s,1); lotus.add(sp); }
-    let bloom=0;
-    if(window.ScrollTrigger&&window.gsap){ gsap.registerPlugin(ScrollTrigger);
-      ScrollTrigger.create({trigger:host,start:'top 80%',end:'bottom bottom',scrub:0.8,onUpdate:s=>{bloom=s.progress;}}); }
-    else bloom=1;
-    let pmx=0,pmy=0,tt=0,vis=true;
-    new IntersectionObserver(es=>{vis=es[0].isIntersecting;},{rootMargin:'200px'}).observe(host);
-    (function loop(){ requestAnimationFrame(loop); if(!vis) return;
-      tt+=0.016; const b=bloom<0?0:bloom>1?1:bloom;
-      petals.forEach(p=>{ p.pivot.rotation.x=p.cl+(p.op-p.cl)*b; });
-      pod.scale.setScalar(0.7+0.3*b); podGlow.material.opacity=0.4+0.5*b;
-      pmx+=(mX-pmx)*0.05; pmy+=(mY-pmy)*0.05;
-      lotus.rotation.y=tt*0.25+pmx*0.5; lotus.rotation.z=pmx*0.08; lotus.rotation.x=pmy*0.12;
+      tt+=0.016; pmx+=(mX-pmx)*0.06; pmy+=(mY-pmy)*0.06; zv+=(zoomV-zv)*0.08;
+      const osc=Math.sin(tt*0.5)*0.32;
+      fig.rotation.y=osc+pmx*0.55; fig.rotation.x=-pmy*0.4;
+      holo.material.uniforms.t.value=tt; holo.material.uniforms.tilt.value.set(pmx+osc,pmy);
+      fig.scale.setScalar((1+zv*1.7)*heroIntro);
       renderer.render(scene,cam);
     })();
   })();
