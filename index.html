@@ -682,26 +682,82 @@ if(window.Lenis && !reduce){
       s.lineTo(x,y+r); s.quadraticCurveTo(x,y,x+r,y); return s; }
     const CW=3.1,CH=4.3,CR=0.38;
     const body=new THREE.Mesh(new THREE.ExtrudeGeometry(rr(CW,CH,CR),{depth:0.3,bevelEnabled:true,bevelThickness:0.05,bevelSize:0.05,bevelSegments:2,curveSegments:20}),
-      new THREE.MeshBasicMaterial({color:0xff3d8b,transparent:true,opacity:0.34})); body.geometry.center(); fig.add(body);
+      new THREE.MeshBasicMaterial({color:0x2a0f1c,transparent:true,opacity:0.62})); body.geometry.center(); fig.add(body);
     const rim=new THREE.Mesh(new THREE.ExtrudeGeometry(rr(CW+0.18,CH+0.18,CR+0.08),{depth:0.02,bevelEnabled:false,curveSegments:20}),
       new THREE.MeshBasicMaterial({color:0xffb224,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false})); rim.geometry.center(); rim.position.z=-0.2; fig.add(rim);
     const tex=new THREE.TextureLoader().load('avatar.jpg'); tex.anisotropy=4;
-    const frame=new THREE.Mesh(new THREE.PlaneGeometry(2.78,2.78),new THREE.MeshBasicMaterial({color:0xffd060})); frame.position.set(0,0.55,0.16); fig.add(frame);
-    const img=new THREE.Mesh(new THREE.PlaneGeometry(2.62,2.62),new THREE.MeshBasicMaterial({map:tex})); img.position.set(0,0.55,0.166); fig.add(img);
-    const nc=document.createElement('canvas'); nc.width=512; nc.height=170; const g=nc.getContext('2d');
-    g.fillStyle='rgba(10,5,14,0.92)'; g.fillRect(0,0,512,170); g.textAlign='center';
-    g.fillStyle='#ffd060'; g.font='700 56px "Baloo 2",Arial,sans-serif'; g.fillText('DEVANSHI',256,74);
-    g.fillStyle='rgba(247,236,216,.82)'; g.font='400 24px "Space Mono",monospace'; g.fillText('THE WHOLE FLOWER · ED.01',256,118);
-    const ntex=new THREE.Texture(nc); ntex.needsUpdate=true;
-    const plate=new THREE.Mesh(new THREE.PlaneGeometry(2.62,0.84),new THREE.MeshBasicMaterial({map:ntex,transparent:true})); plate.position.set(0,-1.35,0.166); fig.add(plate);
-    const holo=new THREE.Mesh(new THREE.PlaneGeometry(CW,CH),new THREE.ShaderMaterial({transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,
+
+    // ---- portrait in a cusped-arch window, lit with faux-relief so it reads dimensional ----
+    const WW=2.0, WH=2.2, ARCH=0.5, WY=0.4;
+    function archShape(w,h,a){ const s=new THREE.Shape(), x=w/2, yb=-h/2, yt=h/2;
+      s.moveTo(-x,yb); s.lineTo(x,yb); s.lineTo(x,yt);
+      s.quadraticCurveTo(x,yt+a*0.6, x*0.5,yt+a*0.56);
+      s.quadraticCurveTo(x*0.16,yt+a*0.5, 0,yt+a);
+      s.quadraticCurveTo(-x*0.16,yt+a*0.5, -x*0.5,yt+a*0.56);
+      s.quadraticCurveTo(-x,yt+a*0.6, -x,yt); s.lineTo(-x,yb); return s; }
+    const pg=new THREE.ShapeGeometry(archShape(WW,WH,ARCH),22);
+    (function(){ const p=pg.attributes.position, uv=[]; for(let k=0;k<p.count;k++){
+      uv.push((p.getX(k)+WW/2)/WW, ((p.getY(k)+WH/2)/WH)*0.94+0.03); } pg.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2)); })();
+    const portMat=new THREE.ShaderMaterial({uniforms:{map:{value:tex},light:{value:new THREE.Vector2(0.3,0.4)}},
+      vertexShader:'varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
+      fragmentShader:'uniform sampler2D map; uniform vec2 light; varying vec2 vUv;'+
+        'void main(){ vec2 uv=clamp(vUv,0.0,1.0); vec4 c=texture2D(map,uv); float e=0.0025;'+
+        'float l=dot(c.rgb,vec3(0.299,0.587,0.114));'+
+        'float lx=dot(texture2D(map,uv+vec2(e,0.0)).rgb,vec3(0.299,0.587,0.114));'+
+        'float ly=dot(texture2D(map,uv+vec2(0.0,e)).rgb,vec3(0.299,0.587,0.114));'+
+        'vec3 n=normalize(vec3((l-lx)*5.0,(l-ly)*5.0,1.0)); vec3 L=normalize(vec3(light,0.9));'+
+        'float diff=0.84+0.3*max(dot(n,L),0.0); float spec=pow(max(dot(n,L),0.0),10.0)*0.5;'+
+        'gl_FragColor=vec4(c.rgb*diff+spec,1.0); }'});
+    const img=new THREE.Mesh(pg,portMat); img.position.set(0,WY,0.165); fig.add(img);
+
+    // ---- ornate jharokha frame (original), window punched transparent so the portrait shows ----
+    function jharokhaTex(){
+      const px=200, FW=3.4*px, FH=4.9*px, c=document.createElement('canvas'); c.width=FW;c.height=FH;
+      const g=c.getContext('2d'); g.lineJoin='round';
+      function gold(y0,y1){ const gr=g.createLinearGradient(0,y0,0,y1); gr.addColorStop(0,'#ffe9a8');gr.addColorStop(.5,'#c9972f');gr.addColorStop(1,'#8a5a0c'); return gr; }
+      const wW=WW*px, wH=WH*px, aH=ARCH*px, wx=FW/2, wy=FH/2;
+      const L=wx-wW/2, R=wx+wW/2, T=wy-wH/2, B=wy+wH/2;
+      function archPath(){ g.beginPath(); g.moveTo(L,B); g.lineTo(R,B); g.lineTo(R,T);
+        g.quadraticCurveTo(R,T-aH*0.6, wx+wW*0.25,T-aH*0.56);
+        g.quadraticCurveTo(wx+wW*0.08,T-aH*0.5, wx,T-aH);
+        g.quadraticCurveTo(wx-wW*0.08,T-aH*0.5, wx-wW*0.25,T-aH*0.56);
+        g.quadraticCurveTo(L,T-aH*0.6, L,T); g.closePath(); }
+      // pillars
+      [L-96,R+50].forEach(px0=>{ g.fillStyle=gold(T-aH*0.4,B+110); g.fillRect(px0,T-aH*0.4,46,(B+110)-(T-aH*0.4));
+        g.strokeStyle='rgba(90,58,8,.55)'; g.lineWidth=2; for(let k=1;k<4;k++){ g.beginPath(); g.moveTo(px0+k*11.5,T-aH*0.25); g.lineTo(px0+k*11.5,B+100); g.stroke(); }
+        g.fillStyle=gold(T-aH*0.55,T-aH*0.1); g.fillRect(px0-10,T-aH*0.55,66,28);
+        g.fillStyle=gold(B+92,B+118); g.fillRect(px0-10,B+92,66,24); });
+      // arch band
+      g.lineWidth=28; g.strokeStyle=gold(T-aH,T); archPath(); g.stroke();
+      g.lineWidth=6; g.strokeStyle='#fff2c0'; archPath(); g.stroke();
+      // chhajja (overhanging eave)
+      g.fillStyle=gold(T-aH-62,T-aH-14); g.beginPath();
+      g.moveTo(L-130,T-aH-14); g.lineTo(R+130,T-aH-14); g.lineTo(R+160,T-aH-60); g.lineTo(L-160,T-aH-60); g.closePath(); g.fill();
+      g.fillStyle='#8a5a0c'; for(let x=L-126;x<R+120;x+=24){ g.beginPath(); g.arc(x+12,T-aH-14,12,0,Math.PI); g.fill(); }
+      // kalash finial
+      g.fillStyle=gold(T-aH-150,T-aH-66);
+      g.beginPath(); g.ellipse(wx,T-aH-80,28,20,0,0,Math.PI*2); g.fill();
+      g.beginPath(); g.moveTo(wx-15,T-aH-90); g.lineTo(wx+15,T-aH-90); g.lineTo(wx,T-aH-152); g.closePath(); g.fill();
+      g.beginPath(); g.arc(wx,T-aH-158,9,0,Math.PI*2); g.fill();
+      // base sill + name
+      g.fillStyle=gold(B+14,B+92); g.fillRect(L-130,B+14,(R+130)-(L-130),78);
+      g.fillStyle='#2a0f12'; g.textAlign='center'; g.font='700 42px "Baloo 2",Arial,sans-serif'; g.fillText('DEVANSHI',wx,B+66);
+      // spandrel florets
+      g.fillStyle='#ffe9a8'; [[L+16,T-aH*0.15],[R-16,T-aH*0.15]].forEach(p=>{ for(let a=0;a<6;a++){ g.beginPath(); g.ellipse(p[0]+Math.cos(a)*9,p[1]+Math.sin(a)*9,4.5,2,a,0,Math.PI*2); g.fill(); } g.beginPath(); g.arc(p[0],p[1],4,0,Math.PI*2); g.fill(); });
+      // punch the window transparent
+      g.globalCompositeOperation='destination-out'; archPath(); g.fill(); g.globalCompositeOperation='source-over';
+      const t=new THREE.Texture(c); t.needsUpdate=true; t.anisotropy=4; return t;
+    }
+    const jhar=new THREE.Mesh(new THREE.PlaneGeometry(3.4,4.9),new THREE.MeshBasicMaterial({map:jharokhaTex(),transparent:true}));
+    jhar.position.set(0,WY,0.2); fig.add(jhar);
+    const holo=new THREE.Mesh(new THREE.PlaneGeometry(3.5,5.0),new THREE.ShaderMaterial({transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,
       uniforms:{t:{value:0},tilt:{value:new THREE.Vector2()}},
       vertexShader:'varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
       fragmentShader:'varying vec2 vUv; uniform float t; uniform vec2 tilt;'+
         'vec3 hue(float h){ return clamp(abs(mod(h*6.0+vec3(0.0,4.0,2.0),6.0)-3.0)-1.0,0.0,1.0); }'+
         'void main(){ float d=vUv.x*1.3+vUv.y*0.7+tilt.x*0.8-tilt.y*0.5+t*0.05;'+
         'vec3 c=hue(fract(d)); float band=smoothstep(0.2,0.9,abs(sin((vUv.x-vUv.y+tilt.x)*6.2831)));'+
-        'gl_FragColor=vec4(c,0.15*band); }'})); holo.position.z=0.18; fig.add(holo);
+        'gl_FragColor=vec4(c,0.08*band); }'})); holo.position.z=0.24; fig.add(holo);
     const ped=new THREE.Mesh(new THREE.CylinderGeometry(1.25,1.5,0.35,40),new THREE.MeshBasicMaterial({color:0x2a132f})); ped.position.y=-2.55; fig.add(ped);
     const pedTop=new THREE.Mesh(new THREE.CylinderGeometry(1.25,1.25,0.04,40),new THREE.MeshBasicMaterial({color:0xffb224,transparent:true,opacity:0.8})); pedTop.position.y=-2.37; fig.add(pedTop);
     const pedGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:SPRITE,color:0xff3d8b,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));
@@ -712,6 +768,7 @@ if(window.Lenis && !reduce){
       const osc=Math.sin(tt*0.5)*0.32;
       fig.rotation.y=osc+pmx*0.55; fig.rotation.x=-pmy*0.4;
       holo.material.uniforms.t.value=tt; holo.material.uniforms.tilt.value.set(pmx+osc,pmy);
+      portMat.uniforms.light.value.set(0.35+(pmx+osc)*0.9, 0.4-pmy*0.9);
       fig.scale.setScalar((1+zv*1.7)*heroIntro);
       renderer.render(scene,cam);
     })();
