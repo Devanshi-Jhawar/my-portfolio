@@ -104,7 +104,7 @@ body{
 .tile .bb{position:absolute;inset:0;border-radius:18px;overflow:hidden;cursor:pointer;
   background:linear-gradient(150deg,var(--c1),var(--c2));border:1px solid rgba(255,255,255,.14);
   box-shadow:0 14px 34px rgba(0,0,0,.4);display:flex;flex-direction:column;justify-content:flex-end;
-  padding:13px;transition:box-shadow .25s;backface-visibility:hidden}
+  padding:13px;transition:box-shadow .25s}
 .tile .bb::before{content:"";position:absolute;inset:0;background:
   radial-gradient(120% 90% at 20% 0%,rgba(255,255,255,.28),transparent 55%);mix-blend-mode:screen}
 .tile .bb::after{content:"";position:absolute;inset:0;opacity:.2;mix-blend-mode:overlay;
@@ -240,7 +240,6 @@ body.flat .grid{display:grid}
 <!-- top chrome -->
 <header class="topbar">
   <div class="brand pointer">Devanshi<small>देवांशी · a whole person</small></div>
-  <button class="navbtn pointer" id="toContact">नमस्ते ↓</button>
 </header>
 
 <!-- sphere stage -->
@@ -490,7 +489,7 @@ if(!FLAT){
       const bb=el.firstElementChild;               // .bb (billboard)
       const sc=0.74+0.26*t;
       bb.style.transform = `rotateY(${-ry}deg) rotateX(${-rx}deg) scale(${sc})`;
-      el.style.opacity=((0.10+0.90*t)*introA).toFixed(3);
+      el.style.opacity=((0.30+0.70*t)*introA).toFixed(3);
       el.style.zIndex=Math.round(z2+2000);
       el.style.pointerEvents = (t>0.42 && introA>0.9)?'auto':'none';
       // thread to center
@@ -602,9 +601,6 @@ if(window.Lenis && !reduce){
   function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
   requestAnimationFrame(raf);
   if(window.ScrollTrigger) lenis.on('scroll',ScrollTrigger.update);
-  document.getElementById('toContact').onclick=()=>lenis.scrollTo('#contact');
-} else {
-  document.getElementById('toContact').onclick=()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'});
 }
 
 /* ===================== ASCII lotus backdrop (2D canvas, behind the carousel) ===================== */
@@ -614,7 +610,17 @@ if(window.Lenis && !reduce){
   const CW=11, CH=13;
   const RAMP=' .:-=+*coe%@#';
   let W,H,cols,rows;
-  function size(){ W=canvas.width=innerWidth; H=canvas.height=innerHeight; cols=Math.ceil(W/CW); rows=Math.ceil(H/CH); }
+  let base;
+  function buildBase(){ base=document.createElement('canvas'); base.width=W; base.height=H; const b=base.getContext('2d');
+    b.fillStyle='#24060f'; b.fillRect(0,0,W,H);
+    const gl=(cx,cy,r,col)=>{ const gr=b.createRadialGradient(cx,cy,0,cx,cy,r); gr.addColorStop(0,col); gr.addColorStop(1,'rgba(0,0,0,0)'); b.fillStyle=gr; b.fillRect(0,0,W,H); };
+    gl(W*0.17,H*0.12,W*0.52,'rgba(255,61,139,0.58)');   // magenta
+    gl(W*0.9, H*0.22,W*0.5, 'rgba(122,107,255,0.48)');  // electric indigo
+    gl(W*0.5, H*0.98,W*0.68,'rgba(255,138,30,0.5)');    // saffron
+    gl(W*0.08,H*0.72,W*0.44,'rgba(54,211,154,0.34)');   // chili green
+    gl(W*0.84,H*0.82,W*0.46,'rgba(255,77,61,0.46)');    // tomato
+  }
+  function size(){ W=canvas.width=innerWidth; H=canvas.height=innerHeight; cols=Math.ceil(W/CW); rows=Math.ceil(H/CH); buildBase(); }
   size(); addEventListener('resize',size);
   let t=0, pmx=0, pmy=0, last=0;
   // one lotus petal: bright along its centre-line, tapering to a point
@@ -631,7 +637,7 @@ if(window.Lenis && !reduce){
               {x:.96,y:.8,r:.16},{x:.9,y:.96,r:.13}];
   const PADS=[{x:.15,y:.2,r:.14},{x:.12,y:.5,r:.16},{x:.16,y:.78,r:.14},{x:.86,y:.22,r:.13},{x:.9,y:.52,r:.16},{x:.85,y:.82,r:.14}];
   function draw(){
-    ctx.fillStyle='#3d0a11'; ctx.fillRect(0,0,W,H);          // deep-red ground
+    ctx.drawImage(base,0,0);                                 // bright desi colour base
     ctx.font=CW+'px "Space Mono", ui-monospace, monospace'; ctx.textBaseline='top';
     pmx+=(mX-pmx)*0.05; pmy+=(mY-pmy)*0.05;
     const mn=Math.min(W,H), rot=t*0.04;
