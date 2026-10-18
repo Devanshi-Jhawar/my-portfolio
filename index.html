@@ -600,7 +600,8 @@ if(window.Lenis && !reduce){
 (function(){
   const canvas=document.getElementById('bgCanvas'); if(!canvas) return;
   const ctx=canvas.getContext('2d'); if(!ctx) return;
-  const CW=13, CH=15, TW=CW-1.6, TH=CH-1.6;
+  const CW=11, CH=13;
+  const RAMP=' .:-=+*coe%@#';
   let W,H,cols,rows;
   function size(){ W=canvas.width=innerWidth; H=canvas.height=innerHeight; cols=Math.ceil(W/CW); rows=Math.ceil(H/CH); }
   size(); addEventListener('resize',size);
@@ -612,35 +613,40 @@ if(window.Lenis && !reduce){
     const halfW=pa*0.5*(1-0.72*rr), na=Math.abs(ao)/halfW; if(na>1) return 0;
     return (1-na)*Math.sin(rr*Math.PI)*1.15;
   }
-  // warm ember -> orange -> amber -> cream ramp
-  const STOPS=[[0,20,6,4],[0.26,78,20,8],[0.5,176,58,12],[0.72,240,150,24],[1,253,232,150]];
-  function warm(v){ v=v<0?0:v>1?1:v;
-    for(let k=1;k<STOPS.length;k++){ const b=STOPS[k]; if(v<=b[0]){ const a=STOPS[k-1],f=(v-a[0])/(b[0]-a[0]);
-      return ((a[1]+(b[1]-a[1])*f)|0)+','+((a[2]+(b[2]-a[2])*f)|0)+','+((a[3]+(b[3]-a[3])*f)|0); } }
-    return '253,232,150';
-  }
+  // lotus + lily-pad anchors (fractions of viewport), clustered down the sides so they frame the centre
+  const LOTI=[{x:.07,y:.15,r:.085},{x:.045,y:.37,r:.11},{x:.125,y:.56,r:.072},{x:.06,y:.78,r:.1},{x:.16,y:.94,r:.07},
+              {x:.94,y:.2,r:.08},{x:.955,y:.46,r:.1},{x:.9,y:.7,r:.072},{x:.95,y:.9,r:.088}];
+  const PADS=[{x:.15,y:.29,r:.1},{x:.11,y:.67,r:.12},{x:.88,y:.33,r:.085},{x:.9,y:.83,r:.1}];
   function draw(){
-    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#3d0a11'; ctx.fillRect(0,0,W,H);          // deep-red ground
+    ctx.font=CW+'px "Space Mono", ui-monospace, monospace'; ctx.textBaseline='top';
     pmx+=(mX-pmx)*0.05; pmy+=(mY-pmy)*0.05;
-    const cx=cols*0.5+pmx*2, cy=rows*0.47+pmy*1.2, bloom=0.92+0.08*Math.sin(t*0.5),
-          sc=1/(Math.min(W,H)*0.42), rot=t*0.05;
-    for(let j=0;j<rows;j++){ const dy=(j-cy)*CH;
-      for(let i=0;i<cols;i++){ const dx=(i-cx)*CW, r=Math.sqrt(dx*dx+dy*dy)*sc;
-        let pv=0;
-        if(r<=1.1){ const th=Math.atan2(dy,dx);
-          pv=Math.max(pv, petal(r,th,8, 0.46,1.06, rot));
-          pv=Math.max(pv, petal(r,th,12,0.30,0.72, rot+0.22));
-          pv=Math.max(pv, petal(r,th,18,0.16,0.50, rot+0.5));
-          pv=Math.max(pv, petal(r,th,26,0.07,0.32, rot+0.9));
-          pv=Math.max(pv, 1-r/0.12);               // bright seed-pod centre
-          pv*=bloom;
+    const mn=Math.min(W,H), rot=t*0.04;
+    for(let j=0;j<rows;j++){ const cyp=j*CH;
+      for(let i=0;i<cols;i++){ const cxp=i*CW;
+        // mottled maroon ground texture
+        let v=0.1+0.1*Math.sin(i*0.7+j*1.3+Math.sin(i*0.3-j*0.22)*2.0+t*0.15);
+        let R=120,G=26,B=30;
+        // green lily pads
+        for(let p=0;p<PADS.length;p++){ const P=PADS[p];
+          const ex=(cxp-(P.x*W+pmx*8))*0.8, ey=cyp-(P.y*H+pmy*6), rr=Math.hypot(ex,ey)/(P.r*mn);
+          if(rr<1){ const pv=(1-rr)*0.78*(0.85+0.15*Math.sin(Math.atan2(ey,ex)*7+rot*3));
+            if(pv>v){ v=pv; R=40+26*pv; G=150+55*pv; B=90+30*pv; } } }
+        // pink + gold lotus flowers
+        for(let f=0;f<LOTI.length;f++){ const F=LOTI[f];
+          const fx=cxp-(F.x*W+pmx*10), fy=cyp-(F.y*H+pmy*8), r=Math.hypot(fx,fy)/(F.r*mn);
+          if(r<1.1){ const th=Math.atan2(fy,fx); let pv=0;
+            pv=Math.max(pv, petal(r,th,8,0.3,1.0, rot+F.y*6));
+            pv=Math.max(pv, petal(r,th,6,0.07,0.5, rot+F.y*6+0.5));
+            pv=Math.max(pv, 1-r/0.13);
+            if(pv>v){ v=pv;
+              if(pv<0.42){ R=255;G=208;B=96; }                       // gold petal edge
+              else { const q=(pv-0.42)/0.58; R=(222+30*q)|0;G=(120+75*q)|0;B=(172+45*q)|0; } } }  // pink body
         }
-        const amb=0.34-r*0.26;                      // warm vignette base
-        const fl=0.9+0.1*Math.sin(i*12.9+j*7.3+t*2.6);   // ember flicker
-        let v=(pv>amb?pv:amb)*fl;
-        if(v<0.02) continue;                        // darkest cells stay black (grid vignette)
-        ctx.fillStyle='rgb('+warm(v)+')';
-        ctx.fillRect(i*CW, j*CH, TW, TH);
+        if(v<0.085) continue;                                        // sparse ground, solid flowers
+        const ch=RAMP[Math.min(RAMP.length-1,(v*RAMP.length)|0)]; if(ch===' ') continue;
+        ctx.fillStyle='rgba('+(R|0)+','+(G|0)+','+(B|0)+','+(0.25+v*0.6).toFixed(2)+')';
+        ctx.fillText(ch, cxp, cyp);
       }
     }
   }
@@ -682,9 +688,9 @@ if(window.Lenis && !reduce){
       s.lineTo(x,y+r); s.quadraticCurveTo(x,y,x+r,y); return s; }
     const CW=3.1,CH=4.3,CR=0.38;
     const body=new THREE.Mesh(new THREE.ExtrudeGeometry(rr(CW,CH,CR),{depth:0.3,bevelEnabled:true,bevelThickness:0.05,bevelSize:0.05,bevelSegments:2,curveSegments:20}),
-      new THREE.MeshBasicMaterial({color:0x2a0f1c,transparent:true,opacity:0.62})); body.geometry.center(); fig.add(body);
+      new THREE.MeshBasicMaterial({color:0x2a0f1c,transparent:true,opacity:0.62,depthWrite:false})); body.geometry.center(); body.renderOrder=0; fig.add(body);
     const rim=new THREE.Mesh(new THREE.ExtrudeGeometry(rr(CW+0.18,CH+0.18,CR+0.08),{depth:0.02,bevelEnabled:false,curveSegments:20}),
-      new THREE.MeshBasicMaterial({color:0xffb224,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false})); rim.geometry.center(); rim.position.z=-0.2; fig.add(rim);
+      new THREE.MeshBasicMaterial({color:0xffb224,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false})); rim.geometry.center(); rim.position.z=-0.2; rim.renderOrder=-1; fig.add(rim);
     const tex=new THREE.TextureLoader().load('avatar.jpg'); tex.anisotropy=4;
 
     // ---- portrait in a cusped-arch window, lit with faux-relief so it reads dimensional ----
@@ -708,7 +714,7 @@ if(window.Lenis && !reduce){
         'vec3 n=normalize(vec3((l-lx)*5.0,(l-ly)*5.0,1.0)); vec3 L=normalize(vec3(light,0.9));'+
         'float diff=0.84+0.3*max(dot(n,L),0.0); float spec=pow(max(dot(n,L),0.0),10.0)*0.5;'+
         'gl_FragColor=vec4(c.rgb*diff+spec,1.0); }'});
-    const img=new THREE.Mesh(pg,portMat); img.position.set(0,WY,0.165); fig.add(img);
+    const img=new THREE.Mesh(pg,portMat); img.position.set(0,WY,0.165); img.renderOrder=1; fig.add(img);
 
     // ---- ornate jharokha frame (original), window punched transparent so the portrait shows ----
     function jharokhaTex(){
@@ -748,8 +754,8 @@ if(window.Lenis && !reduce){
       g.globalCompositeOperation='destination-out'; archPath(); g.fill(); g.globalCompositeOperation='source-over';
       const t=new THREE.Texture(c); t.needsUpdate=true; t.anisotropy=4; return t;
     }
-    const jhar=new THREE.Mesh(new THREE.PlaneGeometry(3.4,4.9),new THREE.MeshBasicMaterial({map:jharokhaTex(),transparent:true}));
-    jhar.position.set(0,WY,0.2); fig.add(jhar);
+    const jhar=new THREE.Mesh(new THREE.PlaneGeometry(3.4,4.9),new THREE.MeshBasicMaterial({map:jharokhaTex(),transparent:true,depthWrite:false}));
+    jhar.position.set(0,WY,0.2); jhar.renderOrder=2; fig.add(jhar);
     const holo=new THREE.Mesh(new THREE.PlaneGeometry(3.5,5.0),new THREE.ShaderMaterial({transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,
       uniforms:{t:{value:0},tilt:{value:new THREE.Vector2()}},
       vertexShader:'varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
@@ -757,11 +763,7 @@ if(window.Lenis && !reduce){
         'vec3 hue(float h){ return clamp(abs(mod(h*6.0+vec3(0.0,4.0,2.0),6.0)-3.0)-1.0,0.0,1.0); }'+
         'void main(){ float d=vUv.x*1.3+vUv.y*0.7+tilt.x*0.8-tilt.y*0.5+t*0.05;'+
         'vec3 c=hue(fract(d)); float band=smoothstep(0.2,0.9,abs(sin((vUv.x-vUv.y+tilt.x)*6.2831)));'+
-        'gl_FragColor=vec4(c,0.08*band); }'})); holo.position.z=0.24; fig.add(holo);
-    const ped=new THREE.Mesh(new THREE.CylinderGeometry(1.25,1.5,0.35,40),new THREE.MeshBasicMaterial({color:0x2a132f})); ped.position.y=-2.55; fig.add(ped);
-    const pedTop=new THREE.Mesh(new THREE.CylinderGeometry(1.25,1.25,0.04,40),new THREE.MeshBasicMaterial({color:0xffb224,transparent:true,opacity:0.8})); pedTop.position.y=-2.37; fig.add(pedTop);
-    const pedGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:SPRITE,color:0xff3d8b,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));
-    pedGlow.scale.set(5,2.4,1); pedGlow.position.y=-2.4; fig.add(pedGlow);
+        'gl_FragColor=vec4(c,0.08*band); }'})); holo.position.z=0.24; holo.renderOrder=3; fig.add(holo);
     let pmx=0,pmy=0,tt=0,zv=0;
     (function loop(){ requestAnimationFrame(loop);
       tt+=0.016; pmx+=(mX-pmx)*0.06; pmy+=(mY-pmy)*0.06; zv+=(zoomV-zv)*0.08;
