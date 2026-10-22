@@ -103,7 +103,6 @@ body{background:var(--pink-soft);color:var(--ink);font-family:'Mukta',system-ui,
       </div>
     </div>
 
-    <h1 class="hello">Hi, I am <em>Devanshi</em>.</h1>
     <div class="scrollcue">scroll · देखो अंदर<span class="a">↓</span></div>
     <div class="wash" id="wash"></div>
   </div>
@@ -307,8 +306,6 @@ if(window.gsap && window.ScrollTrigger){
   const tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:'#intro',start:'top top',end:'bottom bottom',scrub:1}});
   window.__intro=tl;
 
-  tl.fromTo('.hello',{opacity:0,y:40},{opacity:1,y:0,duration:1.1},0.3)
-    .to('.hello',{opacity:0,y:-50,duration:1.1},2.6);
   tl.to('.scrollcue',{opacity:0,duration:1},1.8);
 
   clouds.forEach((c,i)=>{
