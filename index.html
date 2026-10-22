@@ -52,22 +52,23 @@ body.locked{overflow:hidden}
 /* ---------- top chrome ---------- */
 .topbar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:space-between;
   align-items:center;padding:20px clamp(16px,4vw,42px);mix-blend-mode:difference;pointer-events:none}
+.topbar{opacity:0;transition:opacity .5s}
+body.flat .topbar{opacity:1}
 .brand{font-family:'Rozha One',serif;font-size:19px;letter-spacing:.02em;color:#fff}
 .brand small{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.3em;display:block;opacity:.75;text-transform:uppercase}
 
 /* ---------- cover ---------- */
 #cover{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;isolation:isolate}
-#coverVid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:.6}
+#coverVid{display:none}   /* pulled: the clip has her name baked in, and page one is nameless */
 .cover-tint{position:absolute;inset:0;z-index:1;background:
-  radial-gradient(120% 90% at 50% 40%,rgba(12,23,64,.25),rgba(7,12,34,.86) 78%),
-  linear-gradient(180deg,rgba(12,23,64,.4),rgba(7,12,34,.9))}
+  radial-gradient(130% 100% at 50% 34%,rgba(12,23,64,.0),rgba(7,12,34,.55) 82%)}
 .cover-ht{position:absolute;inset:0;z-index:1;opacity:.12;mix-blend-mode:overlay;pointer-events:none;
   background-image:radial-gradient(#fff 1px,transparent 1.5px);background-size:9px 9px}
-/* nimbu-mirchi charm, hung + swaying */
-#nimbu{position:absolute;z-index:3;top:-8px;right:clamp(14px,8vw,120px);width:clamp(84px,12vw,148px);
-  transform-origin:50% 0;animation:sway 4.4s ease-in-out infinite}
-#nimbu img{width:100%;display:block;filter:drop-shadow(0 12px 22px rgba(0,0,0,.5))}
-@keyframes sway{0%,100%{transform:rotate(-5.5deg)}50%{transform:rotate(5.5deg)}}
+/* nimbu-mirchi charm, hung dead-centre + swaying like a pendulum — the whole of page one */
+#nimbu{position:absolute;z-index:3;top:-6px;left:50%;width:clamp(150px,26vw,300px);
+  transform-origin:50% 0;animation:sway 4.6s ease-in-out infinite}
+#nimbu img{width:100%;display:block;filter:drop-shadow(0 18px 30px rgba(0,0,0,.55))}
+@keyframes sway{0%,100%{transform:translateX(-50%) rotate(-6.5deg)}50%{transform:translateX(-50%) rotate(6.5deg)}}
 .cover-copy{position:relative;z-index:2;text-align:center;padding:0 20px}
 .cover-kick{font-family:'Space Mono',monospace;font-size:clamp(10px,1.4vw,13px);letter-spacing:.42em;
   text-transform:uppercase;color:var(--yellow);margin-bottom:18px}
@@ -79,7 +80,8 @@ body.locked{overflow:hidden}
   text-shadow:4px 5px 0 var(--orange),8px 10px 0 var(--crimson),12px 15px 24px rgba(0,0,0,.45)}
 .cover-sub{font-family:'Baloo 2',cursive;font-weight:600;font-size:clamp(15px,2.2vw,22px);color:var(--cream);margin-top:22px}
 .cover-sub b{color:var(--pink);font-weight:800}
-.cover-cue{margin-top:34px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.26em;
+.cover-copy{position:absolute;left:0;right:0;bottom:7vh;z-index:2}
+.cover-cue{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.26em;
   text-transform:uppercase;color:var(--muted)}
 .cover-cue .arr{display:block;margin-top:10px;font-size:18px;color:var(--yellow);animation:bob 1.8s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
@@ -89,7 +91,17 @@ body.locked{overflow:hidden}
 .viewport{position:sticky;top:0;height:100vh;overflow:hidden;perspective:1200px;perspective-origin:50% 48%;cursor:grab}
 .viewport.grabbing{cursor:grabbing}
 .scene{position:absolute;left:50%;top:48%;width:0;height:0;transform-style:preserve-3d;will-change:transform}
-#cubeCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:2000;pointer-events:none}
+
+/* ---------- cube section (its own screen, reached by scrolling past the blast) ---------- */
+.cubestage{position:relative;height:230vh}
+body.flat .cubestage{display:none}
+.cube-vp{position:sticky;top:0;height:100vh;overflow:hidden}
+#cubeCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.cube-cap{position:absolute;left:0;right:0;top:11vh;text-align:center;z-index:2;
+  font-family:'Space Mono',monospace;font-size:clamp(11px,1.5vw,13px);letter-spacing:.3em;text-transform:uppercase;
+  color:var(--muted);opacity:0;transition:opacity .5s;pointer-events:none;padding:0 20px}
+.cube-cap b{color:var(--yellow);font-weight:400}
+.cube-cap.on{opacity:1}
 
 /* tiles */
 .tile{position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px 0 0 -75px;
@@ -114,7 +126,7 @@ body.locked{overflow:hidden}
 .tile .kicker,.tile .ttl{z-index:2}
 
 /* cube controls + hint */
-.cube-ctrl{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);z-index:46;display:flex;gap:10px;
+.cube-ctrl{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);z-index:46;display:flex;gap:10px;
   opacity:0;transition:opacity .45s;pointer-events:none}
 .cube-ctrl.on{opacity:1;pointer-events:auto}
 .cube-ctrl button{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
@@ -123,7 +135,7 @@ body.locked{overflow:hidden}
 .cube-ctrl button:hover{transform:translateY(-2px)}
 .cube-ctrl button.alt{background:var(--pink);color:#fff}
 .cube-ctrl button.ghost{background:none;color:#fff;border:1px solid rgba(255,255,255,.4)}
-.cube-hint{position:fixed;left:50%;bottom:78px;transform:translateX(-50%);z-index:45;text-align:center;
+.cube-hint{position:absolute;left:50%;bottom:78px;transform:translateX(-50%);z-index:45;text-align:center;
   font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
   opacity:0;transition:opacity .45s;pointer-events:none}
 .cube-hint.on{opacity:1}
@@ -225,18 +237,14 @@ body.flat .grid-head{display:block;max-width:1100px;margin:0 auto;padding:30px 2
   <div class="cover-ht"></div>
   <div id="nimbu" aria-hidden="true"><img src="nimbu.png" alt=""></div>
   <div class="cover-copy">
-    <div class="cover-kick">XR · AI · देसी jugaad</div>
-    <h1 class="cover-name">DEVANSHI<br><span class="l2">JHAWAR</span></h1>
-    <p class="cover-sub">builder of immersive things · <b>co-founder</b> · forever curious</p>
-    <div class="cover-cue">scroll in · देखो अंदर<span class="arr">↓</span></div>
+    <div class="cover-cue">zoom in · देखो अंदर<span class="arr">↓</span></div>
   </div>
 </section>
 
-<!-- STAGE: blast → constellation + the one big cube -->
+<!-- STAGE: zoom in → the blast → the constellation spiral (empty centre, no cube) -->
 <section class="stage" id="stage">
   <div class="viewport" id="viewport">
     <div class="scene" id="scene"></div>
-    <canvas id="cubeCanvas" aria-hidden="true"></canvas>
   </div>
 </section>
 
@@ -244,12 +252,18 @@ body.flat .grid-head{display:block;max-width:1100px;margin:0 auto;padding:30px 2
 <div class="grid-head">the constellation — tap any piece of me</div>
 <div class="grid" id="grid"></div>
 
-<!-- cube controls + hint -->
-<div class="cube-hint" id="cubeHint">drag a face to <b>twist</b> · solve the cube</div>
-<div class="cube-ctrl" id="cubeCtrl">
-  <button id="btnScramble" class="alt">scramble</button>
-  <button id="btnSolve">solve</button>
-</div>
+<!-- CUBE: scroll past the blast and the cube comes up, on its own -->
+<section class="cubestage" id="cubeStage">
+  <div class="cube-vp" id="cubeVp">
+    <canvas id="cubeCanvas" aria-hidden="true"></canvas>
+    <div class="cube-cap" id="cubeCap">a cube of me — <b>pick it up</b></div>
+    <div class="cube-hint" id="cubeHint">drag a face to <b>twist</b> · then solve it</div>
+    <div class="cube-ctrl" id="cubeCtrl">
+      <button id="btnScramble" class="alt">scramble</button>
+      <button id="btnSolve">solve</button>
+    </div>
+  </div>
+</section>
 
 <!-- CHAPTER -->
 <div id="chapter" aria-hidden="true">
@@ -381,8 +395,10 @@ document.getElementById('yr').textContent = new Date().getFullYear();
 
 let mX=0, mY=0, emX=0, emY=0;
 let lenis=null;
-const zoomObj={v:0};                 // 0..1 over the stage scroll (the "zoom in")
+const zoomObj={v:0};                 // 0..1 over the stage scroll (the "zoom in" / blast)
+const cubeObj={v:0};                 // 0..1 over the cube section (scrolled past the blast)
 let scrollV=0;
+const topbar=document.querySelector('.topbar');
 window.addEventListener('pointermove', e=>{
   mX=(e.clientX/window.innerWidth)*2-1; mY=(e.clientY/window.innerHeight)*2-1;
 }, {passive:true});
@@ -437,10 +453,12 @@ if(!FLAT){
 
   if(window.ScrollTrigger){ gsap.registerPlugin(ScrollTrigger);
     gsap.to(zoomObj,{v:1,ease:'none',scrollTrigger:{trigger:'#stage',start:'top top',end:'bottom bottom',scrub:0.6}});
+    gsap.to(cubeObj,{v:1,ease:'none',scrollTrigger:{trigger:'#cubeStage',start:'top top',end:'bottom bottom',scrub:0.6}});
   }
 
   function frame(){
     scrollV=zoomObj.v;
+    if(topbar) topbar.style.opacity=Math.min(1,scrollV*6).toFixed(3);   // brand hidden on the cover
     introA=Math.max(0,Math.min(1,(scrollV-0.02)/0.22));     // tiles fade in as you enter
     burstP=Math.max(0,Math.min(1,scrollV/0.30));            // the blast
     if(!dragging){ ry+=0.06+velY; rx+=velX*0.4; velY*=0.93; velX*=0.93; if(Math.abs(velY)<0.002)velY=0; }
@@ -591,10 +609,10 @@ if(!FLAT){
   window.addEventListener('pointermove',e=>{ if(cubeGesture) cubeMove(e); },true);
   window.addEventListener('pointerup',()=>{ pick=null; setTimeout(()=>{cubeGesture=false;},0); });
 
-  /* ---- rise with scroll + render ---- */
-  const ctrl=document.getElementById('cubeCtrl'), hint=document.getElementById('cubeHint');
+  /* ---- rise with the cube-section scroll + render ---- */
+  const ctrl=document.getElementById('cubeCtrl'), hint=document.getElementById('cubeHint'), cap=document.getElementById('cubeCap');
   (function loop(){ requestAnimationFrame(loop);
-    const rise=Math.max(0,Math.min(1,(scrollV-0.06)/0.34));     // cube comes up as you zoom in
+    const rise=Math.max(0,Math.min(1,cubeObj.v/0.45));          // cube rises once you scroll DOWN into its own section
     const e=1-Math.pow(1-rise,3);
     root.position.y=-5.2*(1-e);
     root.scale.setScalar(0.12+0.88*e);
@@ -602,6 +620,7 @@ if(!FLAT){
     arrived = rise>0.96;
     ctrl.classList.toggle('on',arrived);
     hint.classList.toggle('on',arrived && history.length===0);
+    cap.classList.toggle('on',rise>0.12 && history.length===0);
     renderer.render(scene3,cam);
   })();
 })();
