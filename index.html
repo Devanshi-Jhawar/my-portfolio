@@ -10,20 +10,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Baloo+2:wght@500;700;800&family=Mukta:wght@300;400;600&family=Kalam:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#0c1740;        /* deep navy base */
-  --navy2:#0a1230;
-  --ink:#070c22;
-  --indigo:#3b2fae;      /* stamp indigo-purple */
-  --pink:#ff3d7f;
-  --crimson:#e8356b;
-  --orange:#ff7a1f;
-  --yellow:#ffc53d;
-  --green:#2fae6a;
-  --blue:#4b6bff;
-  --cream:#fff3e0;
-  --paper:#fff3e0;
-  --muted:#b9c2e8;
-  --line:rgba(255,243,224,.16);
+  /* warm desi festival palette — deep aubergine + marigold/magenta/saffron/chili/indigo */
+  --navy:#160a1a;        /* deep aubergine base */
+  --navy2:#20102a;
+  --ink:#0d0710;
+  --indigo:#7a6bff;      /* electric indigo */
+  --pink:#ff3d8b;        /* magenta */
+  --crimson:#ff4d3d;     /* tomato */
+  --orange:#ff8a1e;      /* saffron */
+  --yellow:#ffb224;      /* marigold */
+  --green:#36d39a;       /* chili green */
+  --blue:#6b7bff;        /* periwinkle indigo */
+  --cream:#f7ecd8;       /* warm cream */
+  --paper:#f7ecd8;
+  --muted:#caa9bd;
+  --line:rgba(247,236,216,.15);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -38,7 +39,14 @@ body.locked{overflow:hidden}
 
 /* ---------- navy festival background ---------- */
 .bg{position:fixed;inset:0;z-index:-3;pointer-events:none;overflow:hidden;background:
-  radial-gradient(135% 95% at 50% -12%, #16246b 0%, #0d1740 44%, #070c22 100%);}
+  radial-gradient(135% 95% at 50% -12%, #3a1030 0%, #1c0a20 46%, #0d0710 100%);}
+/* ASCII lotus backdrop (static 2D canvas) */
+#bgCanvas{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity 1.4s ease}
+#bgCanvas.on{opacity:1}
+/* blast shockwave */
+#flash{position:fixed;left:50%;top:50%;width:46vmax;height:46vmax;transform:translate(-50%,-50%) scale(0);
+  border-radius:50%;z-index:40;pointer-events:none;opacity:0;mix-blend-mode:screen;
+  background:radial-gradient(circle,rgba(255,228,170,.95),rgba(255,61,139,.55) 38%,transparent 70%)}
 .bg .glow{position:absolute;border-radius:50%;filter:blur(80px);opacity:.46;mix-blend-mode:screen}
 .g1{width:54vw;height:54vw;left:-12vw;top:-10vw;background:radial-gradient(circle,var(--pink),transparent 64%)}
 .g2{width:50vw;height:50vw;right:-12vw;top:6vh;background:radial-gradient(circle,var(--orange),transparent 64%)}
@@ -76,11 +84,11 @@ body.flat .topbar{opacity:1}
   radial-gradient(130% 100% at 50% 34%,rgba(12,23,64,.0),rgba(7,12,34,.55) 82%)}
 .cover-ht{position:absolute;inset:0;z-index:1;opacity:.12;mix-blend-mode:overlay;pointer-events:none;
   background-image:radial-gradient(#fff 1px,transparent 1.5px);background-size:9px 9px}
-/* nimbu-mirchi charm, hung dead-centre + swaying like a pendulum — the whole of page one */
-#nimbu{position:absolute;z-index:3;top:-6px;left:50%;width:clamp(150px,26vw,300px);
-  transform-origin:50% 0;animation:sway 4.6s ease-in-out infinite}
-#nimbu img{width:100%;display:block;filter:drop-shadow(0 18px 30px rgba(0,0,0,.55))}
-@keyframes sway{0%,100%{transform:translateX(-50%) rotate(-6.5deg)}50%{transform:translateX(-50%) rotate(6.5deg)}}
+/* nimbu-mirchi charm — fills page one top-to-bottom, bottom (handwritten text) cropped off */
+#nimbu{position:absolute;z-index:3;top:0;left:50%;height:124vh;
+  transform-origin:50% 0;animation:sway 5.4s ease-in-out infinite}
+#nimbu img{height:100%;width:auto;display:block;filter:drop-shadow(0 26px 46px rgba(0,0,0,.5))}
+@keyframes sway{0%,100%{transform:translateX(-50%) rotate(-3deg)}50%{transform:translateX(-50%) rotate(3deg)}}
 .cover-copy{position:relative;z-index:2;text-align:center;padding:0 20px}
 .cover-kick{font-family:'Space Mono',monospace;font-size:clamp(10px,1.4vw,13px);letter-spacing:.42em;
   text-transform:uppercase;color:var(--yellow);margin-bottom:18px}
@@ -92,14 +100,14 @@ body.flat .topbar{opacity:1}
   text-shadow:4px 5px 0 var(--orange),8px 10px 0 var(--crimson),12px 15px 24px rgba(0,0,0,.45)}
 .cover-sub{font-family:'Baloo 2',cursive;font-weight:600;font-size:clamp(15px,2.2vw,22px);color:var(--cream);margin-top:22px}
 .cover-sub b{color:var(--pink);font-weight:800}
-.cover-copy{position:absolute;left:0;right:0;bottom:7vh;z-index:2}
+.cover-copy{position:absolute;left:0;right:0;bottom:5vh;z-index:6}
 .cover-cue{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.26em;
-  text-transform:uppercase;color:var(--muted)}
+  text-transform:uppercase;color:var(--cream);text-shadow:0 2px 12px rgba(0,0,0,.75)}
 .cover-cue .arr{display:block;margin-top:10px;font-size:18px;color:var(--yellow);animation:bob 1.8s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 
 /* ---------- stage / sphere + cube ---------- */
-.stage{position:relative;height:280vh}
+.stage{position:relative;height:170vh}
 .viewport{position:sticky;top:0;height:100vh;overflow:hidden;perspective:1200px;perspective-origin:50% 48%;cursor:grab}
 .viewport.grabbing{cursor:grabbing}
 .scene{position:absolute;left:50%;top:48%;width:0;height:0;transform-style:preserve-3d;will-change:transform}
@@ -245,7 +253,9 @@ body.flat .grid-head{display:block;max-width:1100px;margin:0 auto;padding:30px 2
   <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div><div class="glow g4"></div>
   <div class="halftone"></div>
 </div>
+<canvas id="bgCanvas" aria-hidden="true"></canvas>
 <div class="grain" aria-hidden="true"></div>
+<div id="flash" aria-hidden="true"></div>
 
 <header class="topbar"><div class="brand">Devanshi<small>देवांशी</small></div></header>
 
@@ -380,8 +390,8 @@ const CARDS = [
     meta:['Gemini','2 speaker sessions','Great at talking']},
 ];
 /* festival palette cycled across the tiles */
-const FEST=[['#ff3d7f','#7a0f3c'],['#ff7a1f','#8a3600'],['#ffc53d','#8a5e00'],
-            ['#2fae6a','#0d4e30'],['#6a5cff','#231a6e'],['#e8356b','#6e0f33']];
+const FEST=[['#ff3d8b','#7a0f3c'],['#ff8a1e','#7a3500'],['#ffb224','#7a5200'],
+            ['#36d39a','#0d4e3a'],['#7a6bff','#2a1f6e'],['#ff4d3d','#6e1510']];
 CARDS.forEach((d,i)=>{ d.c1=FEST[i%FEST.length][0]; d.c2=FEST[i%FEST.length][1]; });
 
 /* ---- tiny inline art for tiles / chapter without media ---- */
@@ -456,8 +466,17 @@ let ry=0, rx=-6, velY=0, velX=0, dragging=false, moved=0;
 let cubeGesture=false;               // true while a pointer gesture is twisting the cube
 let introA=FLAT?1:0, burstP=FLAT?1:0;
 
-let stageVisible=false;
+let stageVisible=false, flashed=false;
 function pauseAllTileVids(){ for(const el of tiles){ if(el._vid && !el._vid.paused) el._vid.pause(); } }
+function fireFlash(){
+  const f=document.getElementById('flash'); if(!f) return;
+  if(window.gsap){
+    gsap.killTweensOf(f); gsap.set(f,{scale:0.12,opacity:0});
+    gsap.timeline()
+      .to(f,{opacity:1,scale:0.65,duration:.12,ease:'power2.out'})
+      .to(f,{opacity:0,scale:3.6,duration:.95,ease:'power3.out'});
+  }
+}
 
 if(!FLAT){
   const vp=document.getElementById('viewport');
@@ -482,7 +501,8 @@ if(!FLAT){
   vp.addEventListener('touchstart',down,{passive:true}); window.addEventListener('touchmove',move,{passive:true}); window.addEventListener('touchend',up);
 
   if(window.ScrollTrigger){ gsap.registerPlugin(ScrollTrigger);
-    gsap.to(zoomObj,{v:1,ease:'none',scrollTrigger:{trigger:'#stage',start:'top top',end:'bottom bottom',scrub:0.6}});
+    // blast is driven by the cover→stage scroll itself, so it fires the moment you scroll down
+    gsap.to(zoomObj,{v:1,ease:'none',scrollTrigger:{trigger:'#stage',start:'top bottom',end:'top top',scrub:0.6}});
     gsap.to(cubeObj,{v:1,ease:'none',scrollTrigger:{trigger:'#cubeStage',start:'top top',end:'bottom bottom',scrub:0.6}});
   }
 
@@ -490,8 +510,10 @@ if(!FLAT){
     requestAnimationFrame(frame);
     scrollV=zoomObj.v;
     if(topbar) topbar.style.opacity=Math.min(1,scrollV*6).toFixed(3);   // brand hidden on the cover
-    introA=Math.max(0,Math.min(1,(scrollV-0.02)/0.22));     // tiles fade in as you enter
-    burstP=Math.max(0,Math.min(1,scrollV/0.30));            // the blast
+    introA=Math.max(0,Math.min(1,scrollV/0.40));            // tiles appear as the cover scrolls away
+    burstP=Math.max(0,Math.min(1,scrollV/0.70));            // blast unfolds across the scroll-in
+    if(!flashed && scrollV>0.03){ flashed=true; fireFlash(); }    // shockwave as you start scrolling in
+    if(flashed && scrollV<0.008) flashed=false;             // re-arm if you scroll back to the cover
     if(!stageVisible) return;                               // blast off-screen → skip the 16-tile work
     if(!dragging){ ry+=0.06+velY; rx+=velX*0.4; velY*=0.93; velX*=0.93; if(Math.abs(velY)<0.002)velY=0; }
     rx=Math.max(-62,Math.min(62,rx));
@@ -540,7 +562,7 @@ if(!FLAT){
   const d2=new THREE.DirectionalLight(0xff9a4d,0.35); d2.position.set(-6,-3,-5); scene3.add(d2);
 
   const root=new THREE.Group(); scene3.add(root);
-  const FACE={'1,0,0':0xffc53d,'-1,0,0':0x2fae6a,'0,1,0':0x4b6bff,'0,-1,0':0xe8356b,'0,0,1':0xff3d7f,'0,0,-1':0xff7a1f};
+  const FACE={'1,0,0':0xffb224,'-1,0,0':0x36d39a,'0,1,0':0x7a6bff,'0,-1,0':0xff4d3d,'0,0,1':0xff3d8b,'0,0,-1':0xff8a1e};
   const GAP=1.04, SIZE=0.95;
   const bodyGeo=new THREE.BoxGeometry(SIZE,SIZE,SIZE);
   const studGeo=new THREE.CylinderGeometry(0.13,0.13,0.08,18);
@@ -707,6 +729,73 @@ chapter.addEventListener('click',e=>{
   if(nav){ const n=(chIndex+(+nav.dataset.nav)+CARDS.length)%CARDS.length; openChapter(n); }
 });
 window.addEventListener('keydown',e=>{ if(e.key==='Escape'&&chapter.classList.contains('open')) closeChapter(); });
+
+/* ===================== ASCII lotus backdrop (static 2D canvas) =================== */
+(function(){
+  const canvas=document.getElementById('bgCanvas'); if(!canvas) return;
+  const ctx=canvas.getContext('2d'); if(!ctx) return;
+  const CW=11, CH=13;
+  const RAMP=' .:-=+*coe%@#';
+  let W,H,cols,rows,base;
+  function buildBase(){ base=document.createElement('canvas'); base.width=W; base.height=H; const b=base.getContext('2d');
+    b.fillStyle='#24060f'; b.fillRect(0,0,W,H);
+    const gl=(cx,cy,r,col)=>{ const gr=b.createRadialGradient(cx,cy,0,cx,cy,r); gr.addColorStop(0,col); gr.addColorStop(1,'rgba(0,0,0,0)'); b.fillStyle=gr; b.fillRect(0,0,W,H); };
+    gl(W*0.17,H*0.12,W*0.52,'rgba(255,61,139,0.56)');   // magenta
+    gl(W*0.9, H*0.22,W*0.5, 'rgba(122,107,255,0.46)');  // electric indigo
+    gl(W*0.5, H*0.98,W*0.68,'rgba(255,138,30,0.5)');    // saffron
+    gl(W*0.08,H*0.72,W*0.44,'rgba(54,211,154,0.32)');   // chili green
+    gl(W*0.84,H*0.82,W*0.46,'rgba(255,77,61,0.46)');    // tomato
+  }
+  function size(){ W=canvas.width=innerWidth; H=canvas.height=innerHeight; cols=Math.ceil(W/CW); rows=Math.ceil(H/CH); buildBase(); }
+  size();
+  const rot=0.34;
+  function petal(r,th,n,rIn,rOut,phase){
+    const pa=2*Math.PI/n; let ao=((th+phase)%pa+pa)%pa-pa/2;
+    const rr=(r-rIn)/(rOut-rIn); if(rr<0||rr>1) return 0;
+    const halfW=pa*0.5*(1-0.72*rr), na=Math.abs(ao)/halfW; if(na>1) return 0;
+    return (1-na)*Math.sin(rr*Math.PI)*1.15;
+  }
+  // lotus + lily-pad anchors clustered down the sides so they frame the centre
+  const LOTI=[{x:.05,y:.1,r:.14},{x:.07,y:.3,r:.17},{x:.14,y:.47,r:.12},{x:.03,y:.58,r:.16},{x:.14,y:.73,r:.14},
+              {x:.06,y:.9,r:.15},
+              {x:.95,y:.12,r:.14},{x:.9,y:.31,r:.17},{x:.97,y:.5,r:.13},{x:.88,y:.64,r:.12},
+              {x:.96,y:.8,r:.16},{x:.9,y:.96,r:.13}];
+  const PADS=[{x:.15,y:.2,r:.14},{x:.12,y:.5,r:.16},{x:.16,y:.78,r:.14},{x:.86,y:.22,r:.13},{x:.9,y:.52,r:.16},{x:.85,y:.82,r:.14}];
+  function draw(){
+    ctx.drawImage(base,0,0);
+    ctx.font=CW+'px "Space Mono", ui-monospace, monospace'; ctx.textBaseline='top';
+    const mn=Math.min(W,H);
+    for(let j=0;j<rows;j++){ const cyp=j*CH;
+      for(let i=0;i<cols;i++){ const cxp=i*CW;
+        let v=0.1+0.1*Math.sin(i*0.7+j*1.3+Math.sin(i*0.3-j*0.22)*2.0);
+        let R=120,G=26,B=30;                                       // mottled maroon ground
+        for(let p=0;p<PADS.length;p++){ const P=PADS[p];
+          const ex=(cxp-P.x*W)*0.8, ey=cyp-P.y*H, rr=Math.hypot(ex,ey)/(P.r*mn);
+          if(rr<1){ const pv=(1-rr)*0.78*(0.85+0.15*Math.sin(Math.atan2(ey,ex)*7+rot*3));
+            if(pv>v){ v=pv; R=40+26*pv; G=150+55*pv; B=90+30*pv; } } }
+        for(let f=0;f<LOTI.length;f++){ const F=LOTI[f];
+          const fx=cxp-F.x*W, fy=cyp-F.y*H, r=Math.hypot(fx,fy)/(F.r*mn);
+          if(r<1.12){ const th=Math.atan2(fy,fx); let pv=0;
+            pv=Math.max(pv, petal(r,th,8,0.28,1.04, rot+F.y*6));
+            pv=Math.max(pv, petal(r,th,12,0.16,0.66, rot+F.y*6+0.3));
+            pv=Math.max(pv, petal(r,th,6,0.06,0.44, rot+F.y*6+0.6));
+            pv=Math.max(pv, 1-r/0.16); pv*=1.12;
+            if(pv>v){ v=pv;
+              if(pv<0.42){ R=255;G=214;B=110; }                    // gold petal edge
+              else { const q=(pv-0.42)/0.58; R=(230+25*q)|0;G=(130+80*q)|0;B=(180+45*q)|0; } } }  // pink body
+        }
+        if(v<0.07) continue;
+        const ch=RAMP[Math.min(RAMP.length-1,(v*RAMP.length)|0)]; if(ch===' ') continue;
+        ctx.fillStyle='rgba('+(R|0)+','+(G|0)+','+(B|0)+','+(0.42+v*0.55).toFixed(2)+')';
+        ctx.fillText(ch, cxp, cyp);
+      }
+    }
+  }
+  draw();                                                          // static: draw once (perf), redraw on resize / font load
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+  let rt; addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ size(); draw(); },160); });
+  requestAnimationFrame(()=>canvas.classList.add('on'));
+})();
 
 /* ===================== loading splash (reveal only — no auto-blast) =================== */
 (function(){
