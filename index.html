@@ -4,49 +4,42 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Devanshi Jhawar</title>
-<meta name="description" content="Devanshi Jhawar — XR/AI builder. Drift up through the clouds, through a window in the sky, down a corridor of words, into the work.">
+<meta name="description" content="Devanshi Jhawar — XR/AI builder. Up through the clouds, through a window in the sky, down an alley of words, into the work.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Baloo+2:wght@500;700;800&family=Mukta:wght@300;400;600&family=Kalam:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- open-source libs: Tailwind (styling), three.js (the 3D alley), GSAP+ScrollTrigger (scroll timeline), Lenis (smooth scroll) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={theme:{extend:{
+  colors:{olive:'#6f7a39',oliveDeep:'#454d22',oliveLight:'#a7b172',pink:'#f6b9d0',pinkSoft:'#fbdbe6',rose:'#d8477e',cream:'#fdf7ec',ink:'#30361b',muted:'#7a7a5f'},
+  fontFamily:{display:['"Rozha One"','serif'],baloo:['"Baloo 2"','cursive'],mono:['"Space Mono"','monospace'],mukta:['"Mukta"','sans-serif'],kalam:['"Kalam"','cursive']}
+}}}
+</script>
 <style>
 :root{
-  /* olive green + baby pink */
-  --pink:#f6b9d0;          /* baby pink */
-  --pink-soft:#fbdbe6;
-  --pink-deep:#e58bad;
-  --rose:#d8477e;
-  --olive:#6f7a39;         /* olive green */
-  --olive-deep:#454d22;
-  --olive-mid:#7e8a46;
-  --olive-light:#a7b172;
-  --cream:#fdf7ec;
-  --ink:#30361b;           /* deep olive text */
-  --muted:#7a7a5f;
+  --pink:#f6b9d0; --pink-soft:#fbdbe6; --rose:#d8477e;
+  --olive:#6f7a39; --olive-deep:#454d22; --cream:#fdf7ec; --ink:#30361b; --muted:#7a7a5f;
   --line:rgba(69,77,34,.18);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{background:var(--pink-soft);color:var(--ink);font-family:'Mukta',system-ui,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-img{max-width:100%;display:block}
 
-/* thin frame */
 .frame{position:fixed;inset:14px;border:1px solid rgba(69,77,34,.45);z-index:120;pointer-events:none;border-radius:3px}
-/* little sun, olive */
 .sun{position:fixed;top:24px;right:32px;z-index:121;width:26px;height:26px;pointer-events:none;opacity:.8}
 
-/* ================= INTRO (cinematic) ================= */
+/* ===== INTRO ===== */
 #intro{position:relative;height:780vh}
 #stage{position:sticky;top:0;height:100vh;overflow:hidden}
 
-/* --- baby-pink dawn sky --- */
-.sky{position:absolute;inset:0;z-index:1;
-  background:linear-gradient(180deg,
-    #c98ab4 0%, #e49cbb 20%, #f3b3cc 42%, #f9ccdc 64%, #fde0dd 82%, #fdeede 100%);}
+.sky{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,
+  #c98ab4 0%, #e49cbb 20%, #f3b3cc 42%, #f9ccdc 64%, #fde0dd 82%, #fdeede 100%);}
 .sky .sunglow{position:absolute;left:50%;bottom:-16vh;width:120vw;height:64vh;transform:translateX(-50%);
   background:radial-gradient(60% 100% at 50% 100%, rgba(255,246,236,.95), rgba(246,185,208,.5) 40%, transparent 74%);
   mix-blend-mode:screen;filter:blur(2px)}
 
-/* --- clouds (puffy cumulus, SVG sprites) --- */
 .clouds{position:absolute;inset:0;z-index:2}
 .cloud{position:absolute;left:50%;top:50%;width:88vw;height:60vh;transform:translate(-50%,-50%);
   background-repeat:no-repeat;background-position:center;background-size:contain;
@@ -54,95 +47,39 @@ img{max-width:100%;display:block}
 .cloud.c1{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='760' height='420'%3E%3Cdefs%3E%3CradialGradient id='g' cx='48%25' cy='34%25' r='72%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff'/%3E%3Cstop offset='58%25' stop-color='%23fdeef4'/%3E%3Cstop offset='100%25' stop-color='%23f3cedd'/%3E%3C/radialGradient%3E%3Cfilter id='b' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeGaussianBlur stdDeviation='7'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23b)' fill='url(%23g)'%3E%3Cellipse cx='250' cy='280' rx='180' ry='95'/%3E%3Cellipse cx='470' cy='290' rx='170' ry='90'/%3E%3Ccircle cx='300' cy='210' r='95'/%3E%3Ccircle cx='420' cy='185' r='105'/%3E%3Ccircle cx='520' cy='225' r='85'/%3E%3Ccircle cx='200' cy='250' r='78'/%3E%3Crect x='150' y='285' width='470' height='95' rx='48'/%3E%3C/g%3E%3C/svg%3E")}
 .cloud.c2{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='760' height='420'%3E%3Cdefs%3E%3CradialGradient id='g2' cx='52%25' cy='36%25' r='72%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff'/%3E%3Cstop offset='60%25' stop-color='%23fdeaf1'/%3E%3Cstop offset='100%25' stop-color='%23eec4d6'/%3E%3C/radialGradient%3E%3Cfilter id='b2' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeGaussianBlur stdDeviation='8'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23b2)' fill='url(%23g2)'%3E%3Cellipse cx='300' cy='275' rx='200' ry='100'/%3E%3Ccircle cx='250' cy='205' r='88'/%3E%3Ccircle cx='380' cy='175' r='110'/%3E%3Ccircle cx='500' cy='210' r='92'/%3E%3Crect x='140' y='280' width='470' height='90' rx='45'/%3E%3C/g%3E%3C/svg%3E")}
 
-/* --- hello --- */
-.hello{position:absolute;left:0;right:0;top:28%;text-align:center;z-index:5;padding:0 18px;
+.hello{position:absolute;left:0;right:0;top:28%;text-align:center;z-index:6;padding:0 18px;
   font-family:'Rozha One',serif;font-size:clamp(30px,6vw,76px);color:var(--olive-deep);letter-spacing:.01em;
   opacity:0;will-change:transform,opacity;text-shadow:0 2px 20px rgba(255,255,255,.5)}
 .hello em{font-style:italic;color:var(--rose)}
-.scrollcue{position:absolute;left:0;right:0;bottom:7vh;text-align:center;z-index:5;
+.scrollcue{position:absolute;left:0;right:0;bottom:7vh;text-align:center;z-index:6;
   font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--olive-deep)}
 .scrollcue .a{display:block;margin-top:8px;font-size:15px;color:var(--rose);animation:bob 1.8s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 
-/* --- the window in the sky (white casement, slightly ajar) --- */
-.winwrap{position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;
+/* the window in the sky — smaller */
+.winwrap{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;
   opacity:0;will-change:transform,opacity;perspective:1200px}
-.window{position:relative;width:19vmin;height:26vmin;transform-style:preserve-3d;will-change:transform}
-.window .jamb{position:absolute;inset:0;border:1.5vmin solid #fff;border-radius:1vmin;
+.window{position:relative;width:14vmin;height:19vmin;transform-style:preserve-3d;will-change:transform}
+.window .jamb{position:absolute;inset:0;border:1.3vmin solid #fff;border-radius:1vmin;
   background:linear-gradient(135deg, rgba(246,185,208,.5), rgba(255,255,255,.2));
   box-shadow:0 2vmin 5vmin rgba(150,90,120,.35), inset 0 0 2vmin rgba(255,255,255,.6)}
-.window .sash{position:absolute;top:1.5vmin;bottom:1.5vmin;width:calc(50% - 1.5vmin);
+.window .sash{position:absolute;top:1.3vmin;bottom:1.3vmin;width:calc(50% - 1.3vmin);
   background:linear-gradient(135deg, rgba(255,255,255,.35), rgba(201,138,180,.25));
-  border:1vmin solid #fff;border-radius:.6vmin;box-shadow:inset 0 0 1.4vmin rgba(255,255,255,.7)}
-.window .sash.l{left:1.5vmin;transform-origin:left center;transform:rotateY(32deg)}
-.window .sash.r{right:1.5vmin;transform-origin:right center;transform:rotateY(-12deg)}
-.window .handle{position:absolute;top:50%;left:1vmin;width:1vmin;height:2.4vmin;margin-top:-1.2vmin;
-  background:#e9e2d2;border-radius:1vmin;z-index:3}
+  border:.9vmin solid #fff;border-radius:.6vmin;box-shadow:inset 0 0 1.4vmin rgba(255,255,255,.7)}
+.window .sash.l{left:1.3vmin;transform-origin:left center;transform:rotateY(32deg)}
+.window .sash.r{right:1.3vmin;transform-origin:right center;transform:rotateY(-12deg)}
+.window .handle{position:absolute;top:50%;left:.9vmin;width:.9vmin;height:2.2vmin;margin-top:-1.1vmin;background:#e9e2d2;border-radius:1vmin;z-index:3}
 
-/* --- the corridor of words ("rectangle alley with stuff written on it") --- */
-.wordalley{position:absolute;inset:0;z-index:3;perspective:900px;perspective-origin:50% 48%;opacity:0;will-change:opacity}
-.wtrack{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
-.word{position:absolute;left:50%;top:50%;transform-style:preserve-3d;white-space:nowrap;
-  font-family:'Rozha One',serif;font-weight:400;line-height:.9;color:var(--olive-deep);
-  text-transform:uppercase;letter-spacing:.01em}
-.word span{color:var(--rose)}
-.endcard{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateZ(-3400px);
-  width:40vmin;height:30vmin;margin:-15vmin 0 0 -20vmin;border-radius:2vmin;
-  background:linear-gradient(140deg,var(--olive),var(--olive-deep));
-  box-shadow:0 0 0 1vmin rgba(255,255,255,.5),0 3vmin 8vmin rgba(80,60,40,.4)}
+/* three.js alley canvas */
+#alley{position:absolute;inset:0;z-index:3;opacity:0;will-change:opacity}
 
-/* final wash to content */
-.wash{position:absolute;inset:0;z-index:8;background:
-  radial-gradient(circle at 50% 46%, #fdeede, var(--pink) 48%, var(--pink-deep) 100%);
-  opacity:0;pointer-events:none;will-change:opacity}
-
-/* ================= SITE ================= */
-#site{position:relative;z-index:30;background:
-  linear-gradient(180deg, var(--pink) 0%, var(--pink-soft) 24%, #fdeef0 100%)}
-.wrap{max-width:1120px;margin:0 auto;padding:0 clamp(18px,5vw,48px)}
-
-.arrive{min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding:14vh 0 8vh}
-.arrive .kick{font-family:'Space Mono',monospace;font-size:clamp(11px,1.5vw,13px);letter-spacing:.4em;text-transform:uppercase;color:var(--olive);margin-bottom:18px}
-.arrive h1{font-family:'Rozha One',serif;font-size:clamp(52px,12vw,160px);line-height:.9;color:var(--olive-deep)}
-.arrive h1 .b{display:block;color:var(--rose)}
-.arrive .tag{font-family:'Kalam',cursive;font-size:clamp(18px,2.6vw,30px);color:var(--rose);margin-top:22px;transform:rotate(-1.2deg)}
-.arrive .sub{font-family:'Baloo 2',cursive;font-weight:600;font-size:clamp(15px,2vw,21px);color:var(--ink);margin-top:14px;max-width:42ch}
-
-.sec{padding:9vh 0}
-.sec-h{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--olive);display:flex;align-items:center;gap:16px;margin-bottom:34px}
-.sec-h::after{content:"";flex:1;height:1px;background:var(--line)}
-
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
-.card{position:relative;border-radius:18px;overflow:hidden;min-height:230px;
-  background:linear-gradient(155deg,var(--c1),var(--c2));border:1px solid rgba(255,255,255,.4);
-  box-shadow:0 16px 36px rgba(150,100,120,.24);display:flex;flex-direction:column;justify-content:flex-end;
-  padding:18px;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s;will-change:transform}
-.card:hover{transform:translateY(-6px);box-shadow:0 26px 54px rgba(150,100,120,.34)}
-.card video,.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
-.card .scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(40,30,20,.05) 35%,rgba(40,30,20,.66))}
-.card .ck{position:relative;z-index:2;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.92);margin-bottom:6px}
-.card .ct{position:relative;z-index:2;font-family:'Baloo 2',cursive;font-weight:800;font-size:22px;line-height:1.02;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.4)}
-.card .cd{position:relative;z-index:2;font-size:13.5px;line-height:1.5;color:rgba(255,255,255,.92);margin-top:8px;max-width:34ch}
-
-.life{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
-.chip{border:1px solid var(--line);border-radius:14px;padding:18px;background:rgba(255,255,255,.45)}
-.chip .lk{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--olive)}
-.chip .lt{font-family:'Baloo 2',cursive;font-weight:700;font-size:18px;color:var(--olive-deep);margin:4px 0 6px}
-.chip .ld{font-size:13px;line-height:1.5;color:var(--muted)}
-
-.contact{text-align:center;padding:12vh 0}
-.contact .lead{font-family:'Rozha One',serif;font-size:clamp(30px,6vw,66px);line-height:1.05;color:var(--olive-deep)}
-.contact .lead em{font-style:normal;color:var(--rose)}
-.links{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:34px}
-.links a{font-family:'Baloo 2',cursive;font-weight:700;font-size:17px;color:var(--olive-deep);text-decoration:none;border:1px solid var(--line);border-radius:40px;padding:12px 22px;transition:.25s}
-.links a:hover{background:var(--olive);color:var(--cream);border-color:var(--olive);transform:translateY(-2px)}
-.foot{text-align:center;padding:40px 18px 56px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--muted)}
+.wash{position:absolute;inset:0;z-index:8;background:radial-gradient(circle at 50% 46%, #fdeede, var(--pink) 48%, #e58bad 100%);opacity:0;pointer-events:none;will-change:opacity}
 
 .reveal{opacity:0;transform:translateY(26px)}
 @media (prefers-reduced-motion:reduce){.scrollcue .a{animation:none}}
 </style>
 </head>
-<body>
+<body class="bg-pinkSoft text-ink">
 
 <div class="frame" aria-hidden="true"></div>
 <div class="sun" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#6f7a39" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.8 4.8l2.1 2.1M17.1 17.1l2.1 2.1M19.2 4.8l-2.1 2.1M6.9 17.1l-2.1 2.1"/></svg></div>
@@ -158,24 +95,11 @@ img{max-width:100%;display:block}
       <div class="cloud c2" data-sp="2.0" style="transform:translate(-52%,-30%) scale(1.15)"></div>
     </div>
 
-    <div class="wordalley" id="wordalley">
-      <div class="wtrack" id="wtrack">
-        <div class="endcard"></div>
-        <div class="word" style="font-size:19vmin;transform:translate(-50%,-50%) translateZ(-3100px) translateX(34vmin) translateY(-20vmin) rotateY(-26deg)">XR</div>
-        <div class="word" style="font-size:17vmin;transform:translate(-50%,-50%) translateZ(-2550px) translateX(-40vmin) translateY(18vmin) rotateY(28deg)"><span>AI</span></div>
-        <div class="word" style="font-size:13vmin;transform:translate(-50%,-50%) translateZ(-2000px) translateX(8vmin) translateY(28vmin) rotateY(-10deg)">IMMERSIVE</div>
-        <div class="word" style="font-size:15vmin;transform:translate(-50%,-50%) translateZ(-1500px) translateX(-34vmin) translateY(-24vmin) rotateY(22deg)">BUILDER</div>
-        <div class="word" style="font-size:16vmin;transform:translate(-50%,-50%) translateZ(-1000px) translateX(40vmin) translateY(14vmin) rotateY(-26deg)">देसी</div>
-        <div class="word" style="font-size:15vmin;transform:translate(-50%,-50%) translateZ(-520px) translateX(-20vmin) translateY(-14vmin) rotateY(16deg)"><span>DREAMER</span></div>
-      </div>
-    </div>
+    <canvas id="alley"></canvas>
 
     <div class="winwrap" id="winwrap">
       <div class="window" id="window">
-        <div class="jamb"></div>
-        <div class="sash l"></div>
-        <div class="sash r"></div>
-        <div class="handle"></div>
+        <div class="jamb"></div><div class="sash l"></div><div class="sash r"></div><div class="handle"></div>
       </div>
     </div>
 
@@ -185,39 +109,41 @@ img{max-width:100%;display:block}
   </div>
 </section>
 
-<!-- ===== SITE ===== -->
-<main id="site">
-  <div class="wrap">
-    <header class="arrive">
-      <div class="kick reveal">XR · AI · देसी jugaad</div>
-      <h1 class="reveal">DEVANSHI<span class="b">JHAWAR</span></h1>
-      <div class="tag reveal">“builder of immersive things · forever curious”</div>
-      <p class="sub reveal">I make XR &amp; AI that feels like magic — war-sims wired to real hardware, agents that style your closet, a digital twin of the real world. Also: 11 tattoos, Bharatnatyam, and a startup that gloriously didn’t.</p>
+<!-- ===== SITE (Tailwind) ===== -->
+<main id="site" class="relative z-30" style="background:linear-gradient(180deg,#f6b9d0 0%,#fbdbe6 24%,#fdeef0 100%)">
+  <div class="max-w-[1120px] mx-auto px-[clamp(18px,5vw,48px)]">
+
+    <header class="min-h-[92vh] flex flex-col justify-center pt-[14vh] pb-[8vh]">
+      <div class="reveal font-mono uppercase tracking-[.4em] text-olive text-[clamp(11px,1.5vw,13px)] mb-[18px]">XR · AI · देसी jugaad</div>
+      <h1 class="reveal font-display leading-[.9] text-oliveDeep text-[clamp(52px,12vw,160px)]">DEVANSHI<span class="block text-rose">JHAWAR</span></h1>
+      <div class="reveal font-kalam text-rose text-[clamp(18px,2.6vw,30px)] mt-[22px] -rotate-1">“builder of immersive things · forever curious”</div>
+      <p class="reveal font-baloo font-semibold text-ink text-[clamp(15px,2vw,21px)] mt-[14px] max-w-[42ch]">I make XR &amp; AI that feels like magic — war-sims wired to real hardware, agents that style your closet, a digital twin of the real world. Also: 11 tattoos, Bharatnatyam, and a startup that gloriously didn’t.</p>
     </header>
 
-    <section class="sec">
-      <div class="sec-h reveal">selected work</div>
-      <div class="grid" id="grid"></div>
+    <section class="py-[9vh]">
+      <div class="reveal font-mono text-[12px] tracking-[.34em] uppercase text-olive flex items-center gap-4 mb-[34px]">selected work<span class="flex-1 h-px bg-oliveDeep/20"></span></div>
+      <div class="grid gap-[18px]" style="grid-template-columns:repeat(auto-fill,minmax(270px,1fr))" id="grid"></div>
     </section>
 
-    <section class="sec">
-      <div class="sec-h reveal">a few true things about me</div>
-      <div class="life" id="life"></div>
+    <section class="py-[9vh]">
+      <div class="reveal font-mono text-[12px] tracking-[.34em] uppercase text-olive flex items-center gap-4 mb-[34px]">a few true things about me<span class="flex-1 h-px bg-oliveDeep/20"></span></div>
+      <div class="grid gap-[14px]" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))" id="life"></div>
     </section>
 
-    <section class="contact">
-      <p class="lead reveal">let’s make something <em>loud</em>,<br>colourful &amp; a little बिंदास.</p>
-      <div class="links reveal">
-        <a href="mailto:devanshijhawar337@gmail.com">✉ email</a>
-        <a href="https://www.linkedin.com/in/devanshi-jhawar" target="_blank" rel="noopener">in · linkedin</a>
-        <a href="https://github.com/devanshi-jhawar" target="_blank" rel="noopener">⌥ github</a>
-        <a href="resume.pdf" target="_blank" rel="noopener">↗ résumé</a>
+    <section class="text-center py-[12vh]">
+      <p class="reveal font-display text-oliveDeep leading-[1.05] text-[clamp(30px,6vw,66px)]">let’s make something <em class="not-italic text-rose">loud</em>,<br>colourful &amp; a little बिंदास.</p>
+      <div class="reveal flex flex-wrap gap-3 justify-center mt-[34px]">
+        <a class="font-baloo font-bold text-[17px] text-oliveDeep no-underline border border-oliveDeep/20 rounded-full px-[22px] py-3 transition hover:bg-olive hover:text-cream hover:border-olive hover:-translate-y-0.5" href="mailto:devanshijhawar337@gmail.com">✉ email</a>
+        <a class="font-baloo font-bold text-[17px] text-oliveDeep no-underline border border-oliveDeep/20 rounded-full px-[22px] py-3 transition hover:bg-olive hover:text-cream hover:border-olive hover:-translate-y-0.5" href="https://www.linkedin.com/in/devanshi-jhawar" target="_blank" rel="noopener">in · linkedin</a>
+        <a class="font-baloo font-bold text-[17px] text-oliveDeep no-underline border border-oliveDeep/20 rounded-full px-[22px] py-3 transition hover:bg-olive hover:text-cream hover:border-olive hover:-translate-y-0.5" href="https://github.com/devanshi-jhawar" target="_blank" rel="noopener">⌥ github</a>
+        <a class="font-baloo font-bold text-[17px] text-oliveDeep no-underline border border-oliveDeep/20 rounded-full px-[22px] py-3 transition hover:bg-olive hover:text-cream hover:border-olive hover:-translate-y-0.5" href="resume.pdf" target="_blank" rel="noopener">↗ résumé</a>
       </div>
     </section>
-    <div class="foot">© <span id="yr"></span> देवांशी Jhawar · नई दिल्ली / New Delhi</div>
+    <div class="text-center pt-10 pb-14 font-mono text-[11px] tracking-[.12em] text-muted">© <span id="yr"></span> देवांशी Jhawar · नई दिल्ली / New Delhi</div>
   </div>
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
@@ -244,66 +170,143 @@ const LIFE=[
 const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 document.getElementById('yr').textContent=new Date().getFullYear();
 
+/* ---- content (Tailwind-styled cards) ---- */
 const grid=document.getElementById('grid');
 PROJECTS.forEach(p=>{
-  const el=document.createElement('article'); el.className='card reveal';
-  el.style.setProperty('--c1',p.c1); el.style.setProperty('--c2',p.c2);
+  const el=document.createElement('article');
+  el.className='card reveal group relative rounded-[18px] overflow-hidden min-h-[230px] flex flex-col justify-end p-[18px] border border-white/40 transition-transform duration-300 hover:-translate-y-1.5';
+  el.style.background=`linear-gradient(155deg,${p.c1},${p.c2})`;
+  el.style.boxShadow='0 16px 36px rgba(150,100,120,.24)';
   let m='';
-  if(!reduce && p.vid) m=`<video src="${encodeURI(p.vid)}" muted loop playsinline preload="none"></video><div class="scrim"></div>`;
-  else if(p.img) m=`<img src="${encodeURI(p.img)}" alt="" loading="lazy"><div class="scrim"></div>`;
-  el.innerHTML=`${m}<div class="ck">${p.k}</div><div class="ct">${p.t}</div><div class="cd">${p.d}</div>`;
+  if(!reduce && p.vid) m=`<video class="absolute inset-0 w-full h-full object-cover z-0" src="${encodeURI(p.vid)}" muted loop playsinline preload="none"></video><div class="absolute inset-0 z-[1]" style="background:linear-gradient(180deg,rgba(40,30,20,.05) 35%,rgba(40,30,20,.66))"></div>`;
+  else if(p.img) m=`<img class="absolute inset-0 w-full h-full object-cover z-0" src="${encodeURI(p.img)}" alt="" loading="lazy"><div class="absolute inset-0 z-[1]" style="background:linear-gradient(180deg,rgba(40,30,20,.05) 35%,rgba(40,30,20,.66))"></div>`;
+  el.innerHTML=`${m}<div class="relative z-[2] font-mono text-[9px] tracking-[.22em] uppercase text-white/90 mb-1.5">${p.k}</div><div class="relative z-[2] font-baloo font-extrabold text-[22px] leading-none text-white" style="text-shadow:0 2px 12px rgba(0,0,0,.4)">${p.t}</div><div class="relative z-[2] text-[13.5px] leading-snug text-white/90 mt-2 max-w-[34ch]">${p.d}</div>`;
   grid.appendChild(el);
   const v=el.querySelector('video');
   if(v){ el.addEventListener('pointerenter',()=>v.play().catch(()=>{})); el.addEventListener('pointerleave',()=>v.pause()); }
 });
 const life=document.getElementById('life');
 LIFE.forEach(l=>{
-  const el=document.createElement('div'); el.className='chip reveal';
-  el.innerHTML=`<div class="lk">${l.k}</div><div class="lt">${l.t}</div><div class="ld">${l.d}</div>`;
+  const el=document.createElement('div');
+  el.className='reveal rounded-[14px] p-[18px] border border-oliveDeep/20 bg-white/45';
+  el.innerHTML=`<div class="font-mono text-[9px] tracking-[.2em] uppercase text-olive">${l.k}</div><div class="font-baloo font-bold text-[18px] text-oliveDeep mt-1 mb-1.5">${l.t}</div><div class="text-[13px] leading-snug text-muted">${l.d}</div>`;
   life.appendChild(el);
 });
 
+/* ---- smooth scroll ---- */
 let lenis=null;
 if(window.Lenis && !reduce){
   lenis=new Lenis({lerp:0.08});
-  function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
-  requestAnimationFrame(raf);
+  (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })();
   if(window.ScrollTrigger) lenis.on('scroll',ScrollTrigger.update);
 }
 
+/* ============ the three.js ALLEY (a real corridor of words) ============ */
+const alley=(function(){
+  if(!window.THREE) return null;
+  const canvas=document.getElementById('alley');
+  let renderer; try{ renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true}); }catch(e){ return null; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));
+  const PINK=0xf6b9d0, OLIVE=0x6f7a39, OLIVE_DEEP=0x3a4120, CREAM=0xfdf7ec, ROSE=0xd8477e, MARIGOLD=0xffc24b;
+  const scene=new THREE.Scene();
+  scene.background=new THREE.Color(PINK);
+  scene.fog=new THREE.Fog(PINK, 34, 150);
+  const cam=new THREE.PerspectiveCamera(62,1,0.1,400);
+  function rsize(){ renderer.setSize(innerWidth,innerHeight); cam.aspect=innerWidth/innerHeight; cam.updateProjectionMatrix(); }
+  rsize(); addEventListener('resize',rsize);
+
+  scene.add(new THREE.HemisphereLight(0xfff0f6, 0x5a5a30, 0.95));
+  const amb=new THREE.AmbientLight(0xffffff,0.35); scene.add(amb);
+  const lantern=new THREE.PointLight(MARIGOLD, 1.2, 60, 2); scene.add(lantern); // follows camera
+
+  const W=11, H=7, L=200, CZ=-L/2+10;
+  const wallMat=new THREE.MeshStandardMaterial({color:OLIVE,roughness:.95,metalness:0});
+  const floorMat=new THREE.MeshStandardMaterial({color:OLIVE_DEEP,roughness:1});
+  const ceilMat=new THREE.MeshStandardMaterial({color:PINK,roughness:1});
+  const corridor=new THREE.Group(); scene.add(corridor);
+  const wallGeo=new THREE.PlaneGeometry(L,H), floorGeo=new THREE.PlaneGeometry(W,L);
+  const left=new THREE.Mesh(wallGeo,wallMat); left.rotation.y=Math.PI/2; left.position.set(-W/2,0,CZ); corridor.add(left);
+  const right=new THREE.Mesh(wallGeo,wallMat); right.rotation.y=-Math.PI/2; right.position.set(W/2,0,CZ); corridor.add(right);
+  const floor=new THREE.Mesh(floorGeo,floorMat); floor.rotation.x=-Math.PI/2; floor.position.set(0,-H/2,CZ); corridor.add(floor);
+  const ceil=new THREE.Mesh(floorGeo,ceilMat); ceil.rotation.x=Math.PI/2; ceil.position.set(0,H/2,CZ); corridor.add(ceil);
+
+  // words painted on the walls
+  function wordTex(text,color){
+    const c=document.createElement('canvas'); c.width=1024; c.height=256;
+    const g=c.getContext('2d'); g.clearRect(0,0,1024,256);
+    g.fillStyle=color; g.textAlign='center'; g.textBaseline='middle';
+    g.font='700 170px "Rozha One","Mukta",Georgia,serif';
+    g.fillText(text,512,138);
+    const t=new THREE.CanvasTexture(c); t.anisotropy=renderer.capabilities.getMaxAnisotropy(); return t;
+  }
+  const WORDS=['XR','AI','UNITY','IMMERSIVE','देसी','BUILDER','DREAMER','DANCER','देसी jugaad'];
+  const COLORS=['#fdf7ec','#d8477e','#fdf7ec','#a7b172','#d8477e','#fdf7ec','#f6b9d0','#fdf7ec','#d8477e'];
+  const wordMeshes=[];
+  WORDS.forEach((w,i)=>{
+    const tex=wordTex(w,COLORS[i]);
+    const mat=new THREE.MeshBasicMaterial({map:tex,transparent:true});
+    const pw=11, ph=pw*256/1024;
+    const m=new THREE.Mesh(new THREE.PlaneGeometry(pw,ph),mat);
+    const onLeft=i%2===0;
+    m.position.set(onLeft?-W/2+0.08:W/2-0.08, (i%3-1)*1.1, -14-i*20);
+    m.rotation.y=onLeft?Math.PI/2:-Math.PI/2;
+    corridor.add(m); wordMeshes.push({m,tex});
+  });
+
+  // hanging lanterns (emissive, glow)
+  const lanternGeo=new THREE.SphereGeometry(0.28,16,16);
+  for(let i=0;i<9;i++){
+    const mat=new THREE.MeshStandardMaterial({color:MARIGOLD,emissive:MARIGOLD,emissiveIntensity:1.4});
+    const s=new THREE.Mesh(lanternGeo,mat);
+    s.position.set((i%2?1:-1)*(W/2-0.8), H/2-0.7, -10-i*21); corridor.add(s);
+    const str=new THREE.Mesh(new THREE.CylinderGeometry(0.02,0.02,0.7,6),new THREE.MeshBasicMaterial({color:0x3a4120}));
+    str.position.set(s.position.x,H/2-0.35,s.position.z); corridor.add(str);
+  }
+
+  const camPos={z:6};
+  function render(){
+    cam.position.set(0,0.4,camPos.z);
+    cam.lookAt(0,0.1,camPos.z-12);
+    lantern.position.set(0,1.2,camPos.z-2);
+    // refresh word textures once fonts are ready (first few frames)
+    renderer.render(scene,cam);
+  }
+  // rebuild word textures after webfont loads so they aren't fallback
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{
+    wordMeshes.forEach((o,i)=>{ o.m.material.map=wordTex(WORDS[i],COLORS[i]); o.m.material.needsUpdate=true; });
+  });
+  return {camPos,render,canvas};
+})();
+
+/* ============ the scroll cinematic ============ */
 if(window.gsap && window.ScrollTrigger){
   gsap.registerPlugin(ScrollTrigger);
   const clouds=gsap.utils.toArray('.cloud');
-
-  const tl=gsap.timeline({defaults:{ease:'none'},
-    scrollTrigger:{trigger:'#intro',start:'top top',end:'bottom bottom',scrub:1}});
+  const tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:'#intro',start:'top top',end:'bottom bottom',scrub:1}});
   window.__intro=tl;
 
-  // hello in / out
   tl.fromTo('.hello',{opacity:0,y:40},{opacity:1,y:0,duration:1.1},0.3)
     .to('.hello',{opacity:0,y:-50,duration:1.1},2.6);
   tl.to('.scrollcue',{opacity:0,duration:1},1.8);
 
-  // rise + swell through the clouds, then they thin out
   clouds.forEach((c,i)=>{
     const sp=parseFloat(c.dataset.sp||1);
-    const baseX = c.style.transform.match(/translate\(([^,]+),/);
-    tl.fromTo(c,{yPercent:16*sp, scale:gsap.getProperty(c,'scaleX')||1, opacity:.95},
-      {yPercent:-125*sp, scale:(gsap.getProperty(c,'scaleX')||1)*1.9+0.2*i, opacity:0, duration:5.4},0.2+i*0.14);
+    const base=gsap.getProperty(c,'scaleX')||1;
+    tl.fromTo(c,{yPercent:16*sp,scale:base,opacity:.95},{yPercent:-125*sp,scale:base*1.9+0.2*i,opacity:0,duration:5.4},0.2+i*0.14);
   });
 
-  // the window fades in against clear sky, then grows as we fly toward it, then we pass through
+  // window (smaller) grows + we fly through
   tl.fromTo('.winwrap',{opacity:0},{opacity:1,duration:1.2},3.4);
-  tl.fromTo('.window',{scale:0.5,rotateY:-6},{scale:9,rotateY:4,duration:3.6,ease:'power2.in'},3.8)
+  tl.fromTo('.window',{scale:0.5,rotateY:-6},{scale:7,rotateY:4,duration:3.6,ease:'power2.in'},3.8)
     .to('.winwrap',{opacity:0,duration:.5},6.9);
 
-  // the corridor of words — fly down it
-  tl.fromTo('.wordalley',{opacity:0},{opacity:1,duration:.8},6.4);
-  tl.fromTo('.wtrack',{z:0},{z:3400,duration:3.6,ease:'power1.in'},6.6);
+  // the three.js ALLEY: fade the canvas in, fly the camera down the corridor
+  tl.to('#alley',{opacity:1,duration:.8},6.4);
+  if(alley) tl.to(alley.camPos,{z:-168,duration:3.6,ease:'power1.inOut'},6.6);
+  tl.to('#alley',{opacity:0,duration:.7},9.5);
 
-  // warm/soft wash → hand off to the site
   tl.to('.wash',{opacity:1,duration:1.2},9.0)
-    .to('#stage',{opacity:0,duration:.6},9.7);
+    .to('#stage',{opacity:0,duration:.6},9.8);
 
   gsap.utils.toArray('.reveal').forEach((el)=>{
     gsap.to(el,{opacity:1,y:0,duration:.9,ease:'expo.out',scrollTrigger:{trigger:el,start:'top 88%'}});
@@ -311,6 +314,14 @@ if(window.gsap && window.ScrollTrigger){
 }else{
   document.querySelectorAll('.reveal').forEach(e=>{e.style.opacity=1;e.style.transform='none';});
   document.getElementById('intro').style.height='100vh';
+}
+
+/* ---- render the alley only while its canvas is visible ---- */
+if(alley){
+  (function loop(){ requestAnimationFrame(loop);
+    const op=parseFloat(alley.canvas.style.opacity||0);
+    if(op>0.01) alley.render();
+  })();
 }
 </script>
 </body>
