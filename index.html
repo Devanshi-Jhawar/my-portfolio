@@ -81,14 +81,12 @@ body{background:var(--pink-soft);color:var(--ink);font-family:'Mukta',system-ui,
 /* ---- work shown as macOS-style windows on a dotted canvas (à la abhijitrout) ---- */
 .deskbg{background-image:radial-gradient(rgba(69,77,34,.18) 1.2px, transparent 1.4px);background-size:22px 22px;
   border-radius:16px;padding:clamp(18px,3.5vw,40px)}
-.wins{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:40px 30px;align-items:start}
-.win{position:relative;background:var(--cream);border:1px solid rgba(69,77,34,.16);border-radius:11px;overflow:hidden;
-  box-shadow:0 16px 40px rgba(150,100,120,.18);transition:transform .4s cubic-bezier(.2,.7,.2,1),box-shadow .4s;
-  transform:rotate(var(--rot,0deg))}
-.wins .win:nth-child(3n+1){--rot:-1.5deg;margin-top:6px}
-.wins .win:nth-child(3n+2){--rot:1.1deg;margin-top:34px}
-.wins .win:nth-child(3n+3){--rot:-.6deg;margin-top:16px}
-.win:hover{transform:rotate(0deg) translateY(-7px) scale(1.015);box-shadow:0 30px 64px rgba(150,100,120,.3);z-index:6}
+.wins{position:relative;height:1640px;margin-top:6px}
+.win{position:absolute;background:var(--cream);border:1px solid rgba(69,77,34,.16);border-radius:11px;overflow:hidden;
+  box-shadow:0 16px 40px rgba(150,100,120,.2);transition:transform .4s cubic-bezier(.2,.7,.2,1),box-shadow .4s;
+  transform:rotate(var(--rot,0deg));cursor:pointer}
+.win:hover{transform:rotate(0deg) translateY(-8px) scale(1.02);box-shadow:0 34px 70px rgba(120,80,100,.34);z-index:40}
+.win-cap .open{margin-top:9px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--rose)}
 .win-bar{display:flex;align-items:center;gap:7px;padding:9px 12px;background:#efe9da;border-bottom:1px solid rgba(69,77,34,.12)}
 .win-bar .dot{width:11px;height:11px;border-radius:50%;flex:none}
 .dot.r{background:#ff6159}.dot.y{background:#ffbd2e}.dot.g{background:#28c940}
@@ -110,6 +108,46 @@ body{background:var(--pink-soft);color:var(--ink);font-family:'Mukta',system-ui,
 .arch .thumb::after{content:"";position:absolute;inset:0;opacity:.14;mix-blend-mode:overlay;background-image:radial-gradient(#fff 1px,transparent 1.3px);background-size:9px 9px}
 .arch .thumb .lt{position:relative;font-family:'Baloo 2',cursive;font-weight:800;font-size:15px;line-height:1.05;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.4)}
 .arch .ad{font-size:11.5px;line-height:1.4;color:var(--muted);margin-top:9px}
+
+/* ---- running tape ---- */
+.tape{position:relative;overflow:hidden;background:#ffb224;color:#3a2a10;transform:rotate(-2deg);
+  margin:48px -8vw;padding:11px 0;box-shadow:0 12px 26px rgba(150,100,120,.16);
+  border-top:1px dashed rgba(58,42,16,.28);border-bottom:1px dashed rgba(58,42,16,.28)}
+.tape.alt{background:var(--rose);color:#fff;transform:rotate(1.6deg)}
+.tape .run{display:inline-flex;white-space:nowrap;will-change:transform;animation:marq 26s linear infinite;
+  font-family:'Space Mono',monospace;font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase}
+.tape.alt .run{animation-duration:31s}
+.tape .run span{padding:0 20px}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---- story sidebar ---- */
+#storyBack{position:fixed;inset:0;z-index:300;background:rgba(40,28,30,.4);opacity:0;pointer-events:none;transition:opacity .4s}
+#storyBack.open{opacity:1;pointer-events:auto}
+#story{position:fixed;top:0;right:0;height:100%;width:min(560px,94vw);z-index:301;background:var(--cream);
+  box-shadow:-24px 0 70px rgba(80,40,60,.3);transform:translateX(102%);transition:transform .5s cubic-bezier(.2,.75,.2,1);
+  overflow-y:auto;padding:clamp(26px,4vw,48px)}
+#story.open{transform:translateX(0)}
+.story-close{position:sticky;top:0;float:right;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--olive-deep);background:var(--cream);border:1px solid rgba(69,77,34,.3);border-radius:40px;padding:8px 14px;cursor:pointer;transition:.2s;z-index:2}
+.story-close:hover{background:var(--olive);color:var(--cream);border-color:var(--olive)}
+.story-kick{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--olive);margin:20px 0 8px}
+.story-t{font-family:'Rozha One',serif;font-size:clamp(34px,5vw,56px);line-height:.98;color:var(--olive-deep)}
+.story-meta{font-family:'Baloo 2',cursive;font-weight:700;font-size:14px;color:var(--rose);margin-top:9px}
+.story-body{font-size:16px;line-height:1.72;color:var(--ink);margin-top:20px}
+.story-sec{margin-top:26px}
+.story-sec label{display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--olive);margin-bottom:11px}
+.story-nums{list-style:none;display:flex;flex-direction:column;gap:7px}
+.story-nums li{font-family:'Baloo 2',cursive;font-weight:600;font-size:15px;color:var(--olive-deep);padding-left:18px;position:relative}
+.story-nums li::before{content:"→";position:absolute;left:0;color:var(--rose)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.05em;color:var(--olive-deep);border:1px solid rgba(69,77,34,.2);border-radius:30px;padding:6px 12px;background:rgba(255,255,255,.5)}
+.story-rec{font-family:'Baloo 2',cursive;font-weight:700;font-size:15px;color:var(--rose)}
+
+@media(max-width:920px){
+  .wins{position:static;height:auto;display:flex;flex-direction:column;gap:26px}
+  .wins .win{position:static!important;left:auto!important;top:auto!important;width:auto!important;transform:none!important}
+  #story{width:100vw}
+}
 
 .reveal{opacity:0;transform:translateY(26px)}
 @media (prefers-reduced-motion:reduce){.scrollcue .a{animation:none}}
@@ -156,15 +194,15 @@ body{background:var(--pink-soft);color:var(--ink);font-family:'Mukta',system-ui,
       <p class="reveal font-baloo font-semibold text-ink text-[clamp(15px,2vw,21px)] mt-[14px] max-w-[42ch]">I make XR &amp; AI that feels like magic — war-sims wired to real hardware, agents that style your closet, a digital twin of the real world. Also: 11 tattoos, Bharatnatyam, and a startup that gloriously didn’t.</p>
     </header>
 
-    <section class="py-[9vh]">
-      <div class="reveal font-mono text-[12px] tracking-[.34em] uppercase text-olive flex items-center gap-4 mb-[30px]">selected work · काम<span class="flex-1 h-px bg-oliveDeep/20"></span></div>
+    <div class="tape"><div class="run"><span>Devanshi&nbsp;Jhawar</span><span>✦</span><span>XR</span><span>✦</span><span>AI</span><span>✦</span><span>देसी&nbsp;jugaad</span><span>✦</span><span>selected&nbsp;work&nbsp;·&nbsp;काम</span><span>✦</span><span>बिंदास</span><span>✦</span></div></div>
+
+    <section class="py-[6vh]">
+      <div class="reveal font-mono text-[12px] tracking-[.34em] uppercase text-olive flex items-center gap-4 mb-[16px]">selected work · काम<span class="flex-1 h-px bg-oliveDeep/20"></span></div>
+      <div class="reveal font-mono text-[11px] text-muted mb-[18px]">click any window to open its story →</div>
       <div class="wins deskbg" id="grid"></div>
     </section>
 
-    <section class="py-[9vh]">
-      <div class="reveal font-mono text-[12px] tracking-[.34em] uppercase text-olive flex items-center gap-4 mb-[34px]">archive · a few true things<span class="flex-1 h-px bg-oliveDeep/20"></span></div>
-      <div class="arch" id="life"></div>
-    </section>
+    <div class="tape alt"><div class="run"><span>let’s&nbsp;build&nbsp;something&nbsp;loud</span><span>✦</span><span>colourful</span><span>✦</span><span>&amp;&nbsp;a&nbsp;little&nbsp;बिंदास</span><span>✦</span><span>open&nbsp;for&nbsp;work</span><span>✦</span></div></div>
 
     <section class="text-center py-[12vh]">
       <p class="reveal font-display text-oliveDeep leading-[1.05] text-[clamp(30px,6vw,66px)]">let’s make something <em class="not-italic text-rose">loud</em>,<br>colourful &amp; a little बिंदास.</p>
@@ -179,58 +217,109 @@ body{background:var(--pink-soft);color:var(--ink);font-family:'Mukta',system-ui,
   </div>
 </main>
 
+<!-- story sidebar -->
+<div id="storyBack"></div>
+<aside id="story"><button class="story-close">✕&nbsp;&nbsp;close</button><div id="storyIn"></div></aside>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
 <script>
+/* pos: [left%, topPx, widthPx, rotDeg, zIndex] — scattered, overlapping desktop
+   story = DRAFT from Devanshi's résumé facts; she'll replace with her own telling */
 const PROJECTS=[
-  {k:'VR · DEFENCE',t:'CombatXR',d:'An immersive VR war-sim wired to physical hardware — the trigger you pull is one you actually hold.',vid:'combatXR.mp4',c1:'#8a9a4c',c2:'#454d22'},
-  {k:'5G · DIGITAL TWIN',t:'TeleTwin',d:'A 5G digital twin mirroring real sites in real time — 97% accuracy, 1,000 models in ~25 min.',vid:'teletwin.mp4',c1:'#e58bad',c2:'#8a3a5e'},
-  {k:'AI · TOOLING',t:'Claude → Unity',d:'An MCP server that lets Claude build Unity scenes from a prompt — 4–5 hrs of work down to ~1. Shown with Snapchat.',c1:'#6f7a39',c2:'#2e331b'},
-  {k:'AI AGENT · JIO',t:'Wardrobe AI',d:'An AJIO styling agent that sees your closet — 10k+ images, YOLOv11 at 93%, tested by 500+ people.',c1:'#d8477e',c2:'#6e1540'},
-  {k:'VR · DESIGN',t:'XRchitect',d:'Design a whole room from inside VR — place, scale and rearrange before a wall is ever built.',vid:'xrchitect.mp4',c1:'#a7b172',c2:'#5a6330'},
-  {k:'ROBOTICS · ANDROID',t:'Fleet Control',d:'A handheld app to drive a fleet of delivery robots — live map, 20+ services, ~15 screens.',img:'TM_dashboard.png',c1:'#e07aa6',c2:'#7a2f52'},
-  {k:'WEB · AR',t:'Indoor Nav',d:'WebAR wayfinding — point your phone, follow AR arrows through a building. No app, no paper map.',vid:'indoornav.mp4',c1:'#7e8a46',c2:'#3a4120'},
-  {k:'CV · MOTION',t:'Motion Tracking',d:'Real-time full-body tracking driving a live avatar skeleton — XR that feels like it’s really you.',vid:'advanced motion tracking.mp4',c1:'#e58bad',c2:'#8a3a5e'},
-];
-const LIFE=[
-  {k:'SINCE I WAS LITTLE',t:'Bharatnatyam',d:'Years of classical training — where I learned to hold a stage long before a keyboard.'},
-  {k:'ELEVEN & COUNTING',t:'11 Tattoos',d:'I regret exactly two and will never tell you which. Each one a tiny permanent diary entry.'},
-  {k:'CO-FOUNDER · EXIT',t:'A Startup That Didn’t',d:'Co-founded XR/AI, led ~10 people, won an iDEX grant, demoed to Fortune-500s. Best failure of my life.'},
-  {k:'VERY LAZY, SOMEHOW',t:'Windsurfing',d:'Never stuck with one sport, yet learned to windsurf. Adventure over the gym, every time.'},
-  {k:'AN ACCIDENT',t:'Why CS?',d:'Switched to CS because a movie made it look impossibly cool. Best accidental call ever.'},
-  {k:'GEMINI ENERGY',t:'People Person',d:'Two speaker sessions, will talk to literally anyone. Communication is the actual superpower.'},
+  {k:'VR · DEFENCE',t:'CombatXR',co:'Personal project',role:'Solo build',when:'',
+   vid:'combatXR.mp4',c1:'#8a9a4c',c2:'#454d22',pos:[1,0,440,-1.6,3],
+   d:'An immersive VR war-sim wired to physical hardware.',
+   story:'An immersive VR military war-simulation built for combat practice — and wired to real physical hardware, so the trigger you pull in the headset is a trigger you actually hold. The goal was to close the gap between a simulation and real muscle memory.',
+   stack:['Unity','C#','XR Interaction Toolkit','Hardware I/O'],metrics:[],rec:''},
+  {k:'5G · DIGITAL TWIN',t:'TeleTwin',co:'XRVision Labs',role:'Co-Founder (exit)',when:'May 2025 – Apr 2026',
+   vid:'teletwin.mp4',c1:'#e58bad',c2:'#8a3a5e',pos:[53,72,420,1.3,5],
+   d:'A 5G digital twin mirroring real sites in real time.',
+   story:'At the XR/AI startup I co-founded, TeleTwin mirrored physical sites into a live 5G digital twin. I led a ~10-person team across product and engineering, ran 200+ user interviews, and we turned builds into enterprise pilots demoed to Fortune-500 clients and regulators.',
+   metrics:['97% twin accuracy','1,000 models in ~25 min (RTX 8000)','~10-person team · 200+ interviews'],
+   stack:['Unity','Unreal','C#','Python','YOLO','Node.js','Docker'],rec:'Won the iDEX defence grant'},
+  {k:'AI · TOOLING',t:'Claude → Unity',co:'Tap4Technologies',role:'SWE Intern',when:'Oct – Dec 2025',
+   c1:'#6f7a39',c2:'#2e331b',pos:[20,360,404,-0.8,7],
+   d:'An MCP server that lets Claude build Unity scenes from a prompt.',
+   story:'I built an MCP server that connects Claude straight into Unity — describe a scene in plain language and it assembles it, reaching Fortnite-style environments. It handled most Unity actions (everything but materials and physics) and spun up template scenes on run.',
+   metrics:['Scenes of 4–5 hrs done in ~1–1.5 hrs (~70% faster)','Builds 5+ scene environments','~2 min to ~1 hr per scene'],
+   stack:['MCP','Claude','Unity','C#','Python'],rec:'Showcased at a Snapchat-collab event · LOR'},
+  {k:'AI AGENT · JIO',t:'Wardrobe AI',co:'Jio',role:'AI & Cloud Intern',when:'Sep – Nov 2026 · present',
+   c1:'#d8477e',c2:'#6e1540',pos:[58,440,420,1.6,6],
+   d:'An AJIO styling agent that sees your closet and suggests outfits.',
+   story:'An AJIO styling agent that actually sees your wardrobe and suggests outfits from it. I collected and labelled the dataset, trained the detector, and wired a LangGraph agent over a vector + relational store, then put it in front of real internal testers.',
+   metrics:['10,000+ images across 35 categories','YOLOv11 at 93.02%','511 testers · ~85% found what they wanted'],
+   stack:['LangGraph','YOLOv11','FAISS','Python'],rec:'Letter of recommendation'},
+  {k:'VR · DESIGN',t:'XRchitect',co:'Personal project',role:'Solo build',when:'',
+   vid:'xrchitect.mp4',c1:'#a7b172',c2:'#5a6330',pos:[3,720,384,1.1,4],
+   d:'Design a whole room from inside VR.',
+   story:'Interior design you do from inside VR — place, scale and rearrange a whole room in real space before a single wall is ever built. A sandbox for trying it before you build it.',
+   stack:['Unity','C#','VR','3D'],metrics:[],rec:''},
+  {k:'ROBOTICS · ANDROID',t:'Fleet Control',co:'Ottonomy.io',role:'DevOps Intern',when:'Jun – Aug 2026',
+   img:'TM_dashboard.png',c1:'#e07aa6',c2:'#7a2f52',pos:[40,820,440,-1.2,8],
+   d:'A handheld app to drive a fleet of delivery robots.',
+   story:'The delivery robots’ own top screens kept drowning in the monsoon, so the controls moved to a tablet the operator holds. I built that Android app from scratch — live map, motors, states and commands — talking to the robots over ROS.',
+   metrics:['2 sites · fleets of 4–7 robots','~15 screens · 20–23 services','Live fleet data at ~3 s latency'],
+   stack:['Kotlin','Android','ROS','REST','Postman'],rec:'Letter of recommendation'},
+  {k:'WEB · AR',t:'Indoor Nav',co:'Personal project',role:'Solo build',when:'',
+   vid:'indoornav.mp4',c1:'#7e8a46',c2:'#3a4120',pos:[8,1120,400,-0.7,5],
+   d:'WebAR wayfinding — point your phone, follow AR arrows.',
+   story:'WebAR indoor wayfinding — point your phone and follow AR arrows through a building, with no app install and no paper map.',
+   stack:['WebAR','JavaScript','Computer Vision'],metrics:[],rec:''},
+  {k:'CV · MOTION',t:'Motion Tracking',co:'DU Research',role:'Research Intern',when:'Jan 2024 – Jan 2026',
+   vid:'advanced motion tracking.mp4',c1:'#e58bad',c2:'#8a3a5e',pos:[56,1200,400,1.3,6],
+   d:'Real-time full-body tracking driving a live avatar.',
+   story:'Real-time full-body motion tracking driving a live avatar skeleton — part of the AR/VR prototyping I did as a research intern. The kind of thing that makes XR feel like it’s really you in there.',
+   stack:['Computer Vision','Unity','Real-time'],metrics:[],rec:''},
 ];
 
 const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 document.getElementById('yr').textContent=new Date().getFullYear();
 
-/* ---- content (Tailwind-styled cards) ---- */
+/* ---- work: scattered, overlapping macOS windows ---- */
 const grid=document.getElementById('grid');
-PROJECTS.forEach(p=>{
-  const el=document.createElement('article'); el.className='win reveal';
+PROJECTS.forEach((p,i)=>{
+  const el=document.createElement('article'); el.className='win reveal'; el.dataset.i=i;
+  const [x,y,w,rot,z]=p.pos;
+  el.style.cssText=`left:${x}%;top:${y}px;width:${w}px;--rot:${rot}deg;z-index:${z}`;
   const slug=p.t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
   let media;
   if(!reduce && p.vid) media=`<video src="${encodeURI(p.vid)}" muted loop playsinline preload="none"></video>`;
   else if(p.img) media=`<img src="${encodeURI(p.img)}" alt="" loading="lazy">`;
   else media=`<div class="artwrap" style="--c1:${p.c1};--c2:${p.c2}"></div>`;
-  el.innerHTML=`<div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">${slug}.app</span></div>`
+  el.innerHTML=`<div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="win-title">${slug}.app — ${p.co}</span></div>`
     +`<div class="win-body">${media}</div>`
-    +`<div class="win-cap"><div class="k">${p.k}</div><div class="t">${p.t}</div><div class="d">${p.d}</div></div>`;
+    +`<div class="win-cap"><div class="k">${p.k} · ${p.co}</div><div class="t">${p.t}</div><div class="d">${p.d}</div><div class="open">open story →</div></div>`;
   grid.appendChild(el);
   const v=el.querySelector('video');
   if(v){ el.addEventListener('pointerenter',()=>v.play().catch(()=>{})); el.addEventListener('pointerleave',()=>v.pause()); }
+  el.addEventListener('click',()=>openStory(i));
 });
-const life=document.getElementById('life');
-const APAL=[['#8a9a4c','#454d22'],['#e58bad','#8a3a5e'],['#6f7a39','#2e331b'],['#d8477e','#6e1540'],['#a7b172','#5a6330'],['#e07aa6','#7a2f52']];
-LIFE.forEach((l,i)=>{
-  const n=String(LIFE.length-i).padStart(2,'0');
-  const [c1,c2]=APAL[i%APAL.length];
-  const el=document.createElement('div'); el.className='item reveal';
-  el.innerHTML=`<div class="no">( ${n} )</div><div class="thumb" style="--c1:${c1};--c2:${c2}"><span class="lt">${l.t}</span></div><div class="ad">${l.d}</div>`;
-  life.appendChild(el);
-});
+
+/* ---- story sidebar ---- */
+const storyEl=document.getElementById('story'), storyBack=document.getElementById('storyBack'), storyIn=document.getElementById('storyIn');
+function openStory(i){
+  const p=PROJECTS[i];
+  const meta=[p.co,p.role,p.when].filter(Boolean).join(' · ');
+  storyIn.innerHTML=`<div class="story-kick">${p.k}</div>`
+    +`<h2 class="story-t">${p.t}</h2>`
+    +`<div class="story-meta">${meta}</div>`
+    +`<p class="story-body">${p.story}</p>`
+    +(p.metrics&&p.metrics.length?`<div class="story-sec"><label>by the numbers</label><ul class="story-nums">${p.metrics.map(m=>`<li>${m}</li>`).join('')}</ul></div>`:'')
+    +(p.stack&&p.stack.length?`<div class="story-sec"><label>built with</label><div class="chips">${p.stack.map(s=>`<span>${s}</span>`).join('')}</div></div>`:'')
+    +(p.rec?`<div class="story-sec"><label>recognition</label><div class="story-rec">★ ${p.rec}</div></div>`:'');
+  storyEl.classList.add('open'); storyBack.classList.add('open'); document.body.classList.add('nolock');
+  if(typeof lenis!=='undefined'&&lenis) lenis.stop();
+}
+function closeStory(){ storyEl.classList.remove('open'); storyBack.classList.remove('open'); document.body.classList.remove('nolock'); if(typeof lenis!=='undefined'&&lenis) lenis.start(); }
+storyBack.addEventListener('click',closeStory);
+storyEl.querySelector('.story-close').addEventListener('click',closeStory);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeStory(); });
+
+/* ---- running tape: duplicate the strip so the marquee loops seamlessly ---- */
+document.querySelectorAll('.tape .run').forEach(r=>{ r.innerHTML+=r.innerHTML; });
 
 /* ---- three.js sky lanterns (real 3D, glowing, drifting in the pink sky) ---- */
 const sky=(function(){
