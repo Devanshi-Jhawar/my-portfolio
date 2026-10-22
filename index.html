@@ -7,7 +7,7 @@
 <meta name="description" content="Devanshi Jhawar — XR/AI builder, Bharatnatyam dancer, 11 tattoos. A cover, a blast, a solvable cube, and a constellation of stories. Scroll in.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Baloo+2:wght@500;700;800&family=Mukta:wght@300;400;600&family=Kalam:wght@400;700&family=Space+Mono:wght@400;700&family=Lilita+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Baloo+2:wght@500;700;800&family=Mukta:wght@300;400;600&family=Kalam:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy:#0c1740;        /* deep navy base */
@@ -48,6 +48,18 @@ body.locked{overflow:hidden}
   background-image:radial-gradient(var(--paper) 1px, transparent 1.4px);background-size:13px 13px;}
 .grain{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");}
+
+/* ---------- loading splash ---------- */
+#splash{position:fixed;inset:0;z-index:200;background:var(--ink);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:18px;transition:opacity .9s ease}
+#splash.gone{opacity:0;pointer-events:none}
+.splash-glyph{font-family:'Rozha One',serif;font-size:clamp(70px,16vw,190px);line-height:.9;
+  background:linear-gradient(120deg,var(--yellow),var(--pink) 55%,var(--indigo));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.splash-name{font-family:'Space Mono',monospace;letter-spacing:.42em;text-transform:uppercase;
+  font-size:12px;color:var(--muted);padding-left:.42em;overflow:hidden;white-space:nowrap}
+.splash-bar{width:min(240px,60vw);height:2px;background:var(--line);overflow:hidden;border-radius:2px}
+.splash-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--yellow),var(--pink))}
 
 /* ---------- top chrome ---------- */
 .topbar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:space-between;
@@ -222,6 +234,13 @@ body.flat .grid-head{display:block;max-width:1100px;margin:0 auto;padding:30px 2
 </head>
 <body>
 
+<!-- loading splash -->
+<div id="splash">
+  <div class="splash-glyph">दे</div>
+  <div class="splash-name" id="splashName">देवांशी&nbsp;·&nbsp;DEVANSHI&nbsp;JHAWAR</div>
+  <div class="splash-bar"><i id="splashBar"></i></div>
+</div>
+
 <div class="bg" aria-hidden="true">
   <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div><div class="glow g4"></div>
   <div class="halftone"></div>
@@ -232,7 +251,6 @@ body.flat .grid-head{display:block;max-width:1100px;margin:0 auto;padding:30px 2
 
 <!-- COVER -->
 <section id="cover">
-  <video id="coverVid" src="cover.mp4" muted loop autoplay playsinline preload="auto"></video>
   <div class="cover-tint"></div>
   <div class="cover-ht"></div>
   <div id="nimbu" aria-hidden="true"><img src="nimbu.png" alt=""></div>
@@ -411,10 +429,11 @@ CARDS.forEach((d,i)=>{
   t.className='tile'; t.dataset.kind=d.k; t.dataset.i=i;
   t.style.setProperty('--c1',d.c1); t.style.setProperty('--c2',d.c2);
   let media='';
-  if(!FLAT && d.vid) media='<video class="tv" src="'+encodeURI(d.vid)+'" muted loop autoplay playsinline preload="metadata"></video><div class="tscrim"></div>';
-  else if(d.img) media='<img class="ti" src="'+encodeURI(d.img)+'" alt=""><div class="tscrim"></div>';
+  if(!FLAT && d.vid) media='<video class="tv" src="'+encodeURI(d.vid)+'" muted loop playsinline preload="none"></video><div class="tscrim"></div>';
+  else if(d.img) media='<img class="ti" src="'+encodeURI(d.img)+'" alt="" loading="lazy"><div class="tscrim"></div>';
   t.innerHTML=`<div class="bb">${media}<span class="dot"></span><div class="kicker">${d.kick}</div><div class="ttl">${d.ttl}</div></div>`;
   (FLAT?grid:scene).appendChild(t);
+  t._vid = t.querySelector('video') || null;   // cached for play/pause gating in the loop
   t.querySelector('.bb').addEventListener('click',()=>{ if(cubeGesture||moved>8)return; openChapter(i); });
   tiles.push(t);
 });
@@ -437,9 +456,20 @@ let ry=0, rx=-6, velY=0, velX=0, dragging=false, moved=0;
 let cubeGesture=false;               // true while a pointer gesture is twisting the cube
 let introA=FLAT?1:0, burstP=FLAT?1:0;
 
+let stageVisible=false;
+function pauseAllTileVids(){ for(const el of tiles){ if(el._vid && !el._vid.paused) el._vid.pause(); } }
+
 if(!FLAT){
   const vp=document.getElementById('viewport');
   let px=0, py=0;
+
+  /* only run the heavy sphere work + tile videos while the blast stage is on screen */
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(es=>{
+      stageVisible=es[0].isIntersecting;
+      if(!stageVisible) pauseAllTileVids();
+    },{threshold:0}).observe(document.getElementById('stage'));
+  } else stageVisible=true;
   const down=e=>{ if(cubeGesture)return; dragging=true; moved=0; vp.classList.add('grabbing');
     const p=e.touches?e.touches[0]:e; px=p.clientX; py=p.clientY; };
   const move=e=>{ if(cubeGesture||!dragging)return; const p=e.touches?e.touches[0]:e;
@@ -457,10 +487,12 @@ if(!FLAT){
   }
 
   function frame(){
+    requestAnimationFrame(frame);
     scrollV=zoomObj.v;
     if(topbar) topbar.style.opacity=Math.min(1,scrollV*6).toFixed(3);   // brand hidden on the cover
     introA=Math.max(0,Math.min(1,(scrollV-0.02)/0.22));     // tiles fade in as you enter
     burstP=Math.max(0,Math.min(1,scrollV/0.30));            // the blast
+    if(!stageVisible) return;                               // blast off-screen → skip the 16-tile work
     if(!dragging){ ry+=0.06+velY; rx+=velX*0.4; velY*=0.93; velX*=0.93; if(Math.abs(velY)<0.002)velY=0; }
     rx=Math.max(-62,Math.min(62,rx));
     emX+=(mX-emX)*0.05; emY+=(mY-emY)*0.05;
@@ -482,8 +514,12 @@ if(!FLAT){
       el.style.opacity=((0.26+0.74*t)*introA).toFixed(3);
       el.style.zIndex=Math.round(z2+2000);
       el.style.pointerEvents=(t>0.42 && introA>0.9)?'auto':'none';
+      if(el._vid){                                          // play only front-facing tiles, pause the rest
+        const want = introA>0.4 && t>0.52 && !document.body.classList.contains('locked');
+        if(want){ if(el._vid.paused) el._vid.play().catch(()=>{}); }
+        else if(!el._vid.paused) el._vid.pause();
+      }
     }
-    requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
   window.addEventListener('resize',layout);
@@ -494,7 +530,7 @@ if(!FLAT){
   if(!window.THREE || FLAT) return;
   const canvas=document.getElementById('cubeCanvas'); if(!canvas) return;
   let renderer; try{ renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true}); }catch(e){ return; }
-  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
   const scene3=new THREE.Scene();
   const cam=new THREE.PerspectiveCamera(42,1,0.1,100); cam.position.set(4.4,4.0,6.6); cam.lookAt(0,0,0);
   function rsize(){ renderer.setSize(innerWidth,innerHeight); cam.aspect=innerWidth/innerHeight; cam.updateProjectionMatrix(); }
@@ -621,7 +657,7 @@ if(!FLAT){
     ctrl.classList.toggle('on',arrived);
     hint.classList.toggle('on',arrived && history.length===0);
     cap.classList.toggle('on',rise>0.12 && history.length===0);
-    renderer.render(scene3,cam);
+    if(rise>0.002 || twisting) renderer.render(scene3,cam);    // only render once the cube starts rising
   })();
 })();
 
@@ -653,6 +689,7 @@ function openChapter(i){
     </div>`;
   chapter.classList.add('open'); chapter.setAttribute('aria-hidden','false');
   document.body.classList.add('locked'); if(lenis) lenis.stop(); chapter.scrollTop=0;
+  if(typeof pauseAllTileVids==='function') pauseAllTileVids();   // free decoders behind the overlay
   if(window.gsap){
     gsap.fromTo(chapter,{opacity:0},{opacity:1,duration:.4,ease:'power2.out'});
     gsap.fromTo('#chSplit .ch-body',{y:26,opacity:0},{y:0,opacity:1,duration:.6,ease:'expo.out',delay:.05});
@@ -670,6 +707,19 @@ chapter.addEventListener('click',e=>{
   if(nav){ const n=(chIndex+(+nav.dataset.nav)+CARDS.length)%CARDS.length; openChapter(n); }
 });
 window.addEventListener('keydown',e=>{ if(e.key==='Escape'&&chapter.classList.contains('open')) closeChapter(); });
+
+/* ===================== loading splash (reveal only — no auto-blast) =================== */
+(function(){
+  const sp=document.getElementById('splash'), bar=document.getElementById('splashBar');
+  const gone=()=>{ if(sp && !sp.classList.contains('gone')) sp.classList.add('gone'); };
+  window.addEventListener('load',()=>{
+    if(window.gsap && !reduce){
+      gsap.to(bar,{width:'100%',duration:1.1,ease:'power2.inOut'});
+      gsap.timeline({delay:1.1}).to('#splash',{opacity:0,duration:.6,ease:'power2.in',onComplete:gone});
+    } else { if(bar) bar.style.width='100%'; gone(); }
+  });
+  setTimeout(gone,4000);   // safety net: never let the splash trap the page if a CDN stalls
+})();
 
 /* ===================== smooth scroll =================== */
 if(window.Lenis && !reduce){
