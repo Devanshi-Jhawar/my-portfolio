@@ -219,79 +219,85 @@ const alley=(function(){
   const amb=new THREE.AmbientLight(0xffffff,0.35); scene.add(amb);
   const lantern=new THREE.PointLight(MARIGOLD, 1.2, 60, 2); scene.add(lantern); // follows camera
 
-  const W=11, H=7, L=200, CZ=-L/2+10;
-  const wallMat=new THREE.MeshStandardMaterial({color:OLIVE,roughness:.95,metalness:0});
-  const floorMat=new THREE.MeshStandardMaterial({color:OLIVE_DEEP,roughness:1});
-  const ceilMat=new THREE.MeshStandardMaterial({color:PINK,roughness:1});
+  // ---- a tapering tunnel: wide at the entrance, narrows as you go deeper ----
   const corridor=new THREE.Group(); scene.add(corridor);
-  const wallGeo=new THREE.PlaneGeometry(L,H), floorGeo=new THREE.PlaneGeometry(W,L);
-  const left=new THREE.Mesh(wallGeo,wallMat); left.rotation.y=Math.PI/2; left.position.set(-W/2,0,CZ); corridor.add(left);
-  const right=new THREE.Mesh(wallGeo,wallMat); right.rotation.y=-Math.PI/2; right.position.set(W/2,0,CZ); corridor.add(right);
-  const floor=new THREE.Mesh(floorGeo,floorMat); floor.rotation.x=-Math.PI/2; floor.position.set(0,-H/2,CZ); corridor.add(floor);
-  const ceil=new THREE.Mesh(floorGeo,ceilMat); ceil.rotation.x=Math.PI/2; ceil.position.set(0,H/2,CZ); corridor.add(ceil);
+  const zN=4;                         // entrance (near)
+  const w0=9.0, h0=5.5;               // near half-width / half-height (wide)
+  const w1=2.2, h1=1.5;               // far half-width / half-height (narrow)
+  const wallMat=new THREE.MeshStandardMaterial({color:OLIVE,roughness:.95,metalness:0,side:THREE.DoubleSide});
+  const floorMat=new THREE.MeshStandardMaterial({color:OLIVE_DEEP,roughness:1,side:THREE.DoubleSide});
+  const ceilMat=new THREE.MeshStandardMaterial({color:PINK,roughness:1,side:THREE.DoubleSide});
+  const V=(x,y,z)=>new THREE.Vector3(x,y,z);
+  function quad(a,b,c,d,mat,uv){
+    const g=new THREE.BufferGeometry();
+    g.setAttribute('position',new THREE.BufferAttribute(new Float32Array([
+      a.x,a.y,a.z, b.x,b.y,b.z, c.x,c.y,c.z, a.x,a.y,a.z, c.x,c.y,c.z, d.x,d.y,d.z]),3));
+    g.setAttribute('uv',new THREE.BufferAttribute(new Float32Array(uv||[0,0,0,1,1,1,0,0,1,1,1,0]),2));
+    g.computeVertexNormals();
+    return new THREE.Mesh(g,mat);
+  }
 
-  // words painted on the walls
-  // the two sentences — English written in Devanagari — broken into phrases
-  const PHRASES=[
-    ['वॉन्डरर, कलेक्टर ऑफ़','#fdf7ec'],
-    ['इलेवन टैटूज़ एंड क्वेश्चनेबल हॉबीज़','#fdf7ec'],
-    ['आइल आउटटॉक अ होल रूम,','#fdf7ec'],
-    ['देन डिसअपीयर ऑन अ ट्रिप विद नो प्लान।','#fdf7ec'],
-    ['लाउड, कलरफुल एंड','#fdf7ec'],
-    ['अ लिटल बिंदास,','#f6b9d0'],
-    ['आइम क्यूरियस अबाउट एवरीथिंग','#fdf7ec'],
-    ['एंड कम्प्लीटली एलर्जिक टू प्लेइंग इट सेफ़।','#fdf7ec'],
-  ];
-  const H_TEXT=1.7, Y_TEXT=0.3, Z0=-14, DZ=18;   // consistent height, even spacing — top & bottom stay clear
-  function phraseTex(text,color){
-    const fs=130, pad=56, h=220;
+  // one continuous sentence (English written in Devanagari), as tall as the alley, no breaks
+  const SENTENCE='वॉन्डरर, कलेक्टर ऑफ़ इलेवन टैटूज़ एंड क्वेश्चनेबल हॉबीज़ — आइल आउटटॉक अ होल रूम, देन डिसअपीयर ऑन अ ट्रिप विद नो प्लान। लाउड, कलरफुल एंड अ लिटल बिंदास, आइम क्यूरियस अबाउट एवरीथिंग एंड कम्प्लीटली एलर्जिक टू प्लेइंग इट सेफ़।';
+  function sentenceTex(){
+    const fs=185, ch=252;            // text fills ~75% of the band height
     const meas=document.createElement('canvas').getContext('2d');
-    meas.font='700 '+fs+'px "Baloo 2","Mukta",sans-serif';
-    const w=Math.max(280,Math.ceil(meas.measureText(text).width)+pad*2);
-    const c=document.createElement('canvas'); c.width=w; c.height=h;
+    meas.font='800 '+fs+'px "Baloo 2","Mukta",sans-serif';
+    const tw=Math.ceil(meas.measureText(SENTENCE).width);
+    const cw=Math.min(16000,tw+260);
+    const c=document.createElement('canvas'); c.width=cw; c.height=ch;
     const g=c.getContext('2d');
-    g.font='700 '+fs+'px "Baloo 2","Mukta",sans-serif';
-    g.fillStyle=color; g.textAlign='center'; g.textBaseline='middle';
-    g.fillText(text,w/2,h/2+8);
+    g.font='800 '+fs+'px "Baloo 2","Mukta",sans-serif';
+    g.fillStyle='#fdf7ec'; g.textAlign='left'; g.textBaseline='middle';
+    g.fillText(SENTENCE,130,ch/2+6);
     const t=new THREE.CanvasTexture(c); t.anisotropy=renderer.capabilities.getMaxAnisotropy();
-    return {tex:t,aspect:w/h};
+    return {tex:t,aspect:cw/ch};
   }
-  const wordMeshes=[];
-  PHRASES.forEach(([text,color],i)=>{
-    const {tex,aspect}=phraseTex(text,color);
-    const mat=new THREE.MeshBasicMaterial({map:tex,transparent:true});
-    const m=new THREE.Mesh(new THREE.PlaneGeometry(H_TEXT*aspect,H_TEXT),mat);
-    const onLeft=i%2===0;
-    m.position.set(onLeft?-W/2+0.08:W/2-0.08, Y_TEXT, Z0-i*DZ);
-    m.rotation.y=onLeft?Math.PI/2:-Math.PI/2;
-    corridor.add(m); wordMeshes.push({m,i});
-  });
+  let sTex=sentenceTex();
+  const L=Math.min(440,Math.max(170,(2*h0)*sTex.aspect*0.82));   // length so the big text stays mostly undistorted
+  const zF=zN-L;
 
-  // hanging lanterns (emissive, glow)
-  const lanternGeo=new THREE.SphereGeometry(0.28,16,16);
-  for(let i=0;i<9;i++){
-    const mat=new THREE.MeshStandardMaterial({color:MARIGOLD,emissive:MARIGOLD,emissiveIntensity:1.4});
-    const s=new THREE.Mesh(lanternGeo,mat);
-    s.position.set((i%2?1:-1)*(W/2-0.8), H/2-0.7, -10-i*21); corridor.add(s);
-    const str=new THREE.Mesh(new THREE.CylinderGeometry(0.02,0.02,0.7,6),new THREE.MeshBasicMaterial({color:0x3a4120}));
-    str.position.set(s.position.x,H/2-0.35,s.position.z); corridor.add(str);
+  // tapered walls / floor / ceiling
+  corridor.add(quad(V(-w0,-h0,zN),V(-w0,h0,zN),V(-w1,h1,zF),V(-w1,-h1,zF),wallMat));
+  corridor.add(quad(V(w0,-h0,zN),V(w0,h0,zN),V(w1,h1,zF),V(w1,-h1,zF),wallMat));
+  corridor.add(quad(V(-w0,-h0,zN),V(w0,-h0,zN),V(w1,-h1,zF),V(-w1,-h1,zF),floorMat));
+  corridor.add(quad(V(-w0,h0,zN),V(w0,h0,zN),V(w1,h1,zF),V(-w1,h1,zF),ceilMat));
+
+  // the sentence on both walls (inset slightly), filling the wall height, running the full length
+  const inset=0.05;
+  const leftText=quad(V(-w0+inset,-h0,zN),V(-w0+inset,h0,zN),V(-w1+inset,h1,zF),V(-w1+inset,-h1,zF),
+    new THREE.MeshBasicMaterial({map:sTex.tex,transparent:true,side:THREE.DoubleSide}));
+  const rightText=quad(V(w0-inset,-h0,zN),V(w0-inset,h0,zN),V(w1-inset,h1,zF),V(w1-inset,-h1,zF),
+    new THREE.MeshBasicMaterial({map:sTex.tex,transparent:true,side:THREE.DoubleSide}),
+    [1,0,1,1,0,1,1,0,0,1,0,0]);   // mirror u so it reads forward on the right wall too
+  corridor.add(leftText); corridor.add(rightText);
+
+  // a few lanterns along the tapering ceiling
+  const lanternGeo=new THREE.SphereGeometry(0.26,16,16);
+  for(let i=0;i<7;i++){
+    const t=(i+0.5)/7, z=zN+(zF-zN)*t, hh=h0+(h1-h0)*t, ww=w0+(w1-w0)*t;
+    const s=new THREE.Mesh(lanternGeo,new THREE.MeshStandardMaterial({color:MARIGOLD,emissive:MARIGOLD,emissiveIntensity:1.5}));
+    s.scale.setScalar(Math.max(.4,1-t*0.7));
+    s.position.set((i%2?1:-1)*ww*0.4, hh-0.45, z); corridor.add(s);
   }
 
-  const camPos={z:6};
+  scene.fog=new THREE.Fog(PINK, L*0.28, L*0.98);
+
+  const camPos={z:zN-1};
+  const endZ=zF+12;                  // stop just short of the far opening
   function render(){
-    cam.position.set(0,0.4,camPos.z);
-    cam.lookAt(0,0.1,camPos.z-12);
-    lantern.position.set(0,1.2,camPos.z-2);
-    // refresh word textures once fonts are ready (first few frames)
+    cam.position.set(0,0.2,camPos.z);
+    cam.lookAt(0,0.1,camPos.z-16);
+    lantern.position.set(0,0.8,camPos.z-2);
     renderer.render(scene,cam);
   }
-  // rebuild word textures after webfont loads so they aren't fallback
+  // rebuild the sentence texture once the webfont loads
   if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{
-    wordMeshes.forEach(o=>{ const {tex,aspect}=phraseTex(PHRASES[o.i][0],PHRASES[o.i][1]);
-      o.m.material.map=tex; o.m.material.needsUpdate=true;
-      o.m.geometry.dispose(); o.m.geometry=new THREE.PlaneGeometry(H_TEXT*aspect,H_TEXT); });
+    sTex=sentenceTex();
+    leftText.material.map=sTex.tex; leftText.material.needsUpdate=true;
+    rightText.material.map=sTex.tex; rightText.material.needsUpdate=true;
   });
-  return {camPos,render,canvas};
+  return {camPos,endZ,render,canvas};
 })();
 
 /* ============ the scroll cinematic ============ */
@@ -318,11 +324,11 @@ if(window.gsap && window.ScrollTrigger){
 
   // the three.js ALLEY: fade the canvas in, fly the camera down the corridor
   tl.to('#alley',{opacity:1,duration:.8},6.4);
-  if(alley) tl.to(alley.camPos,{z:-168,duration:3.6,ease:'power1.inOut'},6.6);
-  tl.to('#alley',{opacity:0,duration:.7},9.5);
+  if(alley) tl.to(alley.camPos,{z:alley.endZ,duration:4.2,ease:'power1.inOut'},6.6);
+  tl.to('#alley',{opacity:0,duration:.7},10.6);
 
-  tl.to('.wash',{opacity:1,duration:1.2},9.0)
-    .to('#stage',{opacity:0,duration:.6},9.8);
+  tl.to('.wash',{opacity:1,duration:1.2},10.4)
+    .to('#stage',{opacity:0,duration:.6},11.3);
 
   gsap.utils.toArray('.reveal').forEach((el)=>{
     gsap.to(el,{opacity:1,y:0,duration:.9,ease:'expo.out',scrollTrigger:{trigger:el,start:'top 88%'}});
