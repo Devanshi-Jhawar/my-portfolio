@@ -12,10 +12,10 @@
 <!-- open-source libs: Tailwind (styling), three.js (the 3D alley), GSAP+ScrollTrigger (scroll timeline), Lenis (smooth scroll) -->
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
-tailwind.config={theme:{extend:{
+if(window.tailwind) tailwind.config={theme:{extend:{
   colors:{olive:'#6f7a39',oliveDeep:'#454d22',oliveLight:'#a7b172',pink:'#f6b9d0',pinkSoft:'#fbdbe6',rose:'#d8477e',cream:'#fdf7ec',ink:'#30361b',muted:'#7a7a5f'},
   fontFamily:{display:['"Rozha One"','serif'],baloo:['"Baloo 2"','cursive'],mono:['"Space Mono"','monospace'],mukta:['"Mukta"','sans-serif'],kalam:['"Kalam"','cursive']}
-}}}
+}}};
 </script>
 <style>
 :root{
