@@ -67,15 +67,15 @@ body{background:var(--pink-soft);color:var(--ink);font-family:'Mukta',system-ui,
 .winwrap{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;
   opacity:0;will-change:transform,opacity;perspective:1200px}
 .window{position:relative;width:14vmin;height:19vmin;transform-style:preserve-3d;will-change:transform}
-.window .jamb{position:absolute;inset:0;border:1.3vmin solid #fff;border-radius:1vmin;
-  background:linear-gradient(135deg, rgba(246,185,208,.5), rgba(255,255,255,.2));
-  box-shadow:0 2vmin 5vmin rgba(150,90,120,.35), inset 0 0 2vmin rgba(255,255,255,.6)}
-.window .sash{position:absolute;top:1.3vmin;bottom:1.3vmin;width:calc(50% - 1.3vmin);
-  background:linear-gradient(135deg, rgba(255,255,255,.35), rgba(201,138,180,.25));
-  border:.9vmin solid #fff;border-radius:.6vmin;box-shadow:inset 0 0 1.4vmin rgba(255,255,255,.7)}
-.window .sash.l{left:1.3vmin;transform-origin:left center;transform:rotateY(32deg)}
-.window .sash.r{right:1.3vmin;transform-origin:right center;transform:rotateY(-12deg)}
-.window .handle{position:absolute;top:50%;left:.9vmin;width:.9vmin;height:2.2vmin;margin-top:-1.1vmin;background:#e9e2d2;border-radius:1vmin;z-index:3}
+.window .jamb{position:absolute;inset:0;border:1.1vmin solid #fff;border-radius:.2vmin;
+  background:linear-gradient(135deg, rgba(246,185,208,.38), rgba(255,255,255,.12));
+  box-shadow:0 1vmin 2.6vmin rgba(150,90,120,.26)}
+.window .sash{position:absolute;top:1.1vmin;bottom:1.1vmin;width:calc(50% - 1.1vmin);
+  background:linear-gradient(135deg, rgba(255,255,255,.22), rgba(201,138,180,.16));
+  border:.8vmin solid #fff;border-radius:.1vmin}
+.window .sash.l{left:1.1vmin;transform-origin:left center;transform:rotateY(32deg)}
+.window .sash.r{right:1.1vmin;transform-origin:right center;transform:rotateY(-12deg)}
+.window .handle{position:absolute;top:50%;left:.8vmin;width:.8vmin;height:2vmin;margin-top:-1vmin;background:#e9e2d2;border-radius:.2vmin;z-index:3}
 
 /* three.js alley canvas */
 #alley{position:absolute;inset:0;z-index:3;opacity:0;will-change:opacity}
