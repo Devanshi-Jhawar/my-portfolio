@@ -43,10 +43,6 @@ body.locked{overflow:hidden}
 /* ASCII lotus backdrop (static 2D canvas) */
 #bgCanvas{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity 1.4s ease}
 #bgCanvas.on{opacity:1}
-/* blast shockwave */
-#flash{position:fixed;left:50%;top:50%;width:46vmax;height:46vmax;transform:translate(-50%,-50%) scale(0);
-  border-radius:50%;z-index:40;pointer-events:none;opacity:0;mix-blend-mode:screen;
-  background:radial-gradient(circle,rgba(255,228,170,.95),rgba(255,61,139,.55) 38%,transparent 70%)}
 .bg .glow{position:absolute;border-radius:50%;filter:blur(80px);opacity:.46;mix-blend-mode:screen}
 .g1{width:54vw;height:54vw;left:-12vw;top:-10vw;background:radial-gradient(circle,var(--pink),transparent 64%)}
 .g2{width:50vw;height:50vw;right:-12vw;top:6vh;background:radial-gradient(circle,var(--orange),transparent 64%)}
@@ -78,7 +74,7 @@ body.flat .topbar{opacity:1}
 .brand small{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.3em;display:block;opacity:.75;text-transform:uppercase}
 
 /* ---------- cover ---------- */
-#cover{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;isolation:isolate}
+#cover{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;isolation:isolate;will-change:transform,opacity}
 #coverVid{display:none}   /* pulled: the clip has her name baked in, and page one is nameless */
 .cover-tint{position:absolute;inset:0;z-index:1;background:
   radial-gradient(130% 100% at 50% 34%,rgba(12,23,64,.0),rgba(7,12,34,.55) 82%)}
@@ -107,7 +103,7 @@ body.flat .topbar{opacity:1}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 
 /* ---------- stage / sphere + cube ---------- */
-.stage{position:relative;height:170vh}
+.stage{position:relative;height:250vh}
 .viewport{position:sticky;top:0;height:100vh;overflow:hidden;perspective:1200px;perspective-origin:50% 48%;cursor:grab}
 .viewport.grabbing{cursor:grabbing}
 .scene{position:absolute;left:50%;top:48%;width:0;height:0;transform-style:preserve-3d;will-change:transform}
@@ -249,13 +245,9 @@ body.flat .grid-head{display:block;max-width:1100px;margin:0 auto;padding:30px 2
   <div class="splash-bar"><i id="splashBar"></i></div>
 </div>
 
-<div class="bg" aria-hidden="true">
-  <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div><div class="glow g4"></div>
-  <div class="halftone"></div>
-</div>
+<div class="bg" aria-hidden="true"></div>
 <canvas id="bgCanvas" aria-hidden="true"></canvas>
 <div class="grain" aria-hidden="true"></div>
-<div id="flash" aria-hidden="true"></div>
 
 <header class="topbar"><div class="brand">Devanshi<small>देवांशी</small></div></header>
 
@@ -466,17 +458,8 @@ let ry=0, rx=-6, velY=0, velX=0, dragging=false, moved=0;
 let cubeGesture=false;               // true while a pointer gesture is twisting the cube
 let introA=FLAT?1:0, burstP=FLAT?1:0;
 
-let stageVisible=false, flashed=false;
+let stageVisible=false;
 function pauseAllTileVids(){ for(const el of tiles){ if(el._vid && !el._vid.paused) el._vid.pause(); } }
-function fireFlash(){
-  const f=document.getElementById('flash'); if(!f) return;
-  if(window.gsap){
-    gsap.killTweensOf(f); gsap.set(f,{scale:0.12,opacity:0});
-    gsap.timeline()
-      .to(f,{opacity:1,scale:0.65,duration:.12,ease:'power2.out'})
-      .to(f,{opacity:0,scale:3.6,duration:.95,ease:'power3.out'});
-  }
-}
 
 if(!FLAT){
   const vp=document.getElementById('viewport');
@@ -501,8 +484,11 @@ if(!FLAT){
   vp.addEventListener('touchstart',down,{passive:true}); window.addEventListener('touchmove',move,{passive:true}); window.addEventListener('touchend',up);
 
   if(window.ScrollTrigger){ gsap.registerPlugin(ScrollTrigger);
-    // blast is driven by the cover→stage scroll itself, so it fires the moment you scroll down
-    gsap.to(zoomObj,{v:1,ease:'none',scrollTrigger:{trigger:'#stage',start:'top bottom',end:'top top',scrub:0.6}});
+    // 1) zoom INTO the cover as you scroll it away — the actual "zoom in"
+    gsap.fromTo('#cover',{scale:1,opacity:1},{scale:1.45,opacity:0,ease:'none',transformOrigin:'50% 40%',
+      scrollTrigger:{trigger:'#cover',start:'top top',end:'bottom top',scrub:0.7}});
+    // 2) then the constellation blooms, pinned + centred, smoothly
+    gsap.to(zoomObj,{v:1,ease:'none',scrollTrigger:{trigger:'#stage',start:'top top',end:'bottom bottom',scrub:0.9}});
     gsap.to(cubeObj,{v:1,ease:'none',scrollTrigger:{trigger:'#cubeStage',start:'top top',end:'bottom bottom',scrub:0.6}});
   }
 
@@ -510,10 +496,8 @@ if(!FLAT){
     requestAnimationFrame(frame);
     scrollV=zoomObj.v;
     if(topbar) topbar.style.opacity=Math.min(1,scrollV*6).toFixed(3);   // brand hidden on the cover
-    introA=Math.max(0,Math.min(1,scrollV/0.40));            // tiles appear as the cover scrolls away
-    burstP=Math.max(0,Math.min(1,scrollV/0.70));            // blast unfolds across the scroll-in
-    if(!flashed && scrollV>0.03){ flashed=true; fireFlash(); }    // shockwave as you start scrolling in
-    if(flashed && scrollV<0.008) flashed=false;             // re-arm if you scroll back to the cover
+    introA=Math.max(0,Math.min(1,scrollV/0.07));            // tiles present almost immediately once pinned
+    burstP=Math.max(0,Math.min(1,scrollV/0.46));            // smooth, gradual bloom — not a snap
     if(!stageVisible) return;                               // blast off-screen → skip the 16-tile work
     if(!dragging){ ry+=0.06+velY; rx+=velX*0.4; velY*=0.93; velX*=0.93; if(Math.abs(velY)<0.002)velY=0; }
     rx=Math.max(-62,Math.min(62,rx));
