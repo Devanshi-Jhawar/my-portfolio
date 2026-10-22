@@ -143,11 +143,20 @@ body{background:var(--pink-soft);color:var(--ink);font-family:'Mukta',system-ui,
 .chips span{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.05em;color:var(--olive-deep);border:1px solid rgba(69,77,34,.2);border-radius:30px;padding:6px 12px;background:rgba(255,255,255,.5)}
 .story-rec{font-family:'Baloo 2',cursive;font-weight:700;font-size:15px;color:var(--rose)}
 
+/* ---- experience list ---- */
+.exp-row{display:grid;grid-template-columns:1fr auto;gap:6px 22px;padding:18px 0;border-bottom:1px solid rgba(69,77,34,.16);align-items:start}
+.exp .exp-row:first-child{border-top:1px solid rgba(69,77,34,.16)}
+.exp-row .co{font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(18px,2.3vw,23px);color:var(--olive-deep);line-height:1.05}
+.exp-row .ro{font-family:'Space Mono',monospace;font-size:11.5px;letter-spacing:.05em;color:var(--rose);text-transform:uppercase;margin-top:3px}
+.exp-row .dt{font-family:'Space Mono',monospace;font-size:12px;color:var(--olive);white-space:nowrap;text-align:right;padding-top:3px}
+.exp-row .ds{grid-column:1/-1;font-size:14px;line-height:1.52;color:var(--muted);max-width:72ch;margin-top:4px}
+
 @media(max-width:920px){
   .wins{position:static;height:auto;display:flex;flex-direction:column;gap:26px}
   .wins .win{position:static!important;left:auto!important;top:auto!important;width:auto!important;transform:none!important}
   #story{width:100vw}
 }
+@media(max-width:600px){.exp-row{grid-template-columns:1fr}.exp-row .dt{text-align:left}}
 
 .reveal{opacity:0;transform:translateY(26px)}
 @media (prefers-reduced-motion:reduce){.scrollcue .a{animation:none}}
@@ -201,6 +210,30 @@ body{background:var(--pink-soft);color:var(--ink);font-family:'Mukta',system-ui,
       <div class="reveal font-mono text-[12px] tracking-[.34em] uppercase text-olive flex items-center gap-4 mb-[16px]">selected work · काम<span class="flex-1 h-px bg-oliveDeep/20"></span></div>
       <div class="reveal font-mono text-[11px] text-muted mb-[18px]">click any window to open its story →</div>
       <div class="wins deskbg" id="grid"></div>
+    </section>
+
+    <section class="py-[6vh]">
+      <div class="reveal font-mono text-[12px] tracking-[.34em] uppercase text-olive flex items-center gap-4 mb-[22px]">experience · अनुभव<span class="flex-1 h-px bg-oliveDeep/20"></span></div>
+      <div class="exp reveal">
+        <div class="exp-row"><div><div class="co">Jio</div><div class="ro">AI &amp; Cloud Intern</div></div><div class="dt">Sep – Nov 2026 · present</div><div class="ds">AJIO wardrobe-AI styling agent — a LangGraph agent + YOLOv11 (93.02%) over a vector + relational store; 10k+ labelled images across 35 categories, tested by 511 people.</div></div>
+        <div class="exp-row"><div><div class="co">Ottonomy.io</div><div class="ro">DevOps Intern</div></div><div class="dt">Jun – Aug 2026</div><div class="ds">Built an Android robot-fleet control app from scratch — live map, ~15 screens, 20–23 services over ROS, ~3 s latency across 2 sites.</div></div>
+        <div class="exp-row"><div><div class="co">XRVision Labs</div><div class="ro">Co-Founder · exit</div></div><div class="dt">May 2025 – Apr 2026</div><div class="ds">Co-founded an XR/AI startup; led a ~10-person team, ran 200+ interviews, shipped TeleTwin (5G digital twin, 97% accuracy). Won the iDEX defence grant.</div></div>
+        <div class="exp-row"><div><div class="co">Tap4Technologies</div><div class="ro">Software Engineering Intern</div></div><div class="dt">Oct – Dec 2025</div><div class="ds">Built an MCP server connecting Claude → Unity for prompt-driven 3D scene generation (~70% faster); showcased at a Snapchat-collab event.</div></div>
+        <div class="exp-row"><div><div class="co">SoulAI</div><div class="ro">AI Intern · AR</div></div><div class="dt">Mar – May 2025</div><div class="ds">Benchmarked 200+ model outputs; Python eval scripts cut review time by ~1/3.</div></div>
+        <div class="exp-row"><div><div class="co">Delhi University</div><div class="ro">Research Intern</div></div><div class="dt">Jan 2024 – Jan 2026</div><div class="ds">Built 5+ AR/VR prototypes and technical reports.</div></div>
+      </div>
+
+      <div class="reveal grid gap-8 mt-[42px]" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+        <div>
+          <div class="font-mono text-[11px] tracking-[.22em] uppercase text-olive mb-2">education</div>
+          <div class="font-baloo font-bold text-[18px] text-oliveDeep">BSc Computer Science (Hons.)</div>
+          <div class="text-[14px] text-muted mt-1">Delhi University · Ramanujan College — expected 2027 · CGPA 8.1</div>
+        </div>
+        <div>
+          <div class="font-mono text-[11px] tracking-[.22em] uppercase text-olive mb-2">toolkit</div>
+          <div class="chips"><span>Python</span><span>C#</span><span>Unity</span><span>Unreal</span><span>LangGraph</span><span>MCP</span><span>YOLOv11</span><span>FAISS</span><span>FastAPI</span><span>Docker</span><span>ROS</span><span>Android</span><span>WebAR</span></div>
+        </div>
+      </div>
     </section>
 
     <div class="tape alt"><div class="run"><span>let’s&nbsp;build&nbsp;something&nbsp;loud</span><span>✦</span><span>colourful</span><span>✦</span><span>&amp;&nbsp;a&nbsp;little&nbsp;बिंदास</span><span>✦</span><span>open&nbsp;for&nbsp;work</span><span>✦</span></div></div>
