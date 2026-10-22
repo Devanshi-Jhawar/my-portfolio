@@ -4,336 +4,267 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Devanshi Jhawar</title>
-<meta name="description" content="Devanshi Jhawar — XR/AI builder, Bharatnatyam dancer, windsurfer, 11 tattoos. A constellation of projects and a person. Drag to rotate, scroll to zoom in.">
+<meta name="description" content="Devanshi Jhawar — XR/AI builder, Bharatnatyam dancer, 11 tattoos. A cover, a blast, a solvable cube, and a constellation of stories. Scroll in.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Baloo+2:wght@500;600;700;800&family=Mukta:wght@300;400;500;600&family=Kalam:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Baloo+2:wght@500;700;800&family=Mukta:wght@300;400;600&family=Kalam:wght@400;700&family=Space+Mono:wght@400;700&family=Lilita+One&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#140a16;        /* deep aubergine ink */
-  --ink2:#1d0f22;
-  --paper:#f7ecd8;      /* warm cream */
-  --tomato:#ff4d3d;
-  --marigold:#ffb224;
-  --magenta:#ff3d8b;
-  --indigo:#7a6bff;
-  --chili:#36d39a;
-  --saffron:#ff8a1e;
-  --cream:#f7ecd8;
-  --muted:#c9b7bf;
-  --glass:rgba(32,16,38,.55);
-  --line:rgba(247,236,216,.16);
+  --navy:#0c1740;        /* deep navy base */
+  --navy2:#0a1230;
+  --ink:#070c22;
+  --indigo:#3b2fae;      /* stamp indigo-purple */
+  --pink:#ff3d7f;
+  --crimson:#e8356b;
+  --orange:#ff7a1f;
+  --yellow:#ffc53d;
+  --green:#2fae6a;
+  --blue:#4b6bff;
+  --cream:#fff3e0;
+  --paper:#fff3e0;
+  --muted:#b9c2e8;
+  --line:rgba(255,243,224,.16);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
-  background:var(--ink);
+  background:var(--navy);
   color:var(--cream);
   font-family:'Mukta',system-ui,sans-serif;
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
 }
-/* ---------- desi-maximalist background ---------- */
-.bg{position:fixed;inset:0;z-index:-3;pointer-events:none;overflow:hidden;background:
-  radial-gradient(130% 90% at 50% -10%, #2a132f 0%, #1a0d1f 42%, #120810 100%);}
-.bg .glow{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;mix-blend-mode:screen}
-.g1{width:52vw;height:52vw;left:-12vw;top:-8vw;background:radial-gradient(circle,var(--magenta),transparent 65%)}
-.g2{width:46vw;height:46vw;right:-10vw;top:8vh;background:radial-gradient(circle,var(--indigo),transparent 65%)}
-.g3{width:60vw;height:60vw;left:20vw;bottom:-22vw;background:radial-gradient(circle,var(--saffron),transparent 62%);opacity:.38}
-.bg .halftone{position:absolute;inset:-20%;opacity:.14;mix-blend-mode:overlay;
-  background-image:radial-gradient(var(--paper) 1px, transparent 1.4px);
-  background-size:13px 13px;}
-.bg .paisley{position:absolute;inset:0;opacity:.07;background-repeat:repeat;background-size:360px 360px}
-.grain{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.055;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");}
+body.locked{overflow:hidden}
 
-/* ---------- splash ---------- */
-#splash{position:fixed;inset:0;z-index:90;background:var(--ink);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:18px;transition:opacity .9s ease}
-#splash.gone{opacity:0;pointer-events:none}
-.splash-glyph{font-family:'Rozha One',serif;font-size:clamp(70px,16vw,190px);line-height:.9;
-  background:linear-gradient(120deg,var(--marigold),var(--magenta) 55%,var(--indigo));
-  -webkit-background-clip:text;background-clip:text;color:transparent}
-.splash-name{font-family:'Space Mono',monospace;letter-spacing:.42em;text-transform:uppercase;
-  font-size:12px;color:var(--muted);padding-left:.42em;overflow:hidden;white-space:nowrap}
-.splash-bar{width:min(240px,60vw);height:2px;background:var(--line);overflow:hidden;border-radius:2px}
-.splash-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--marigold),var(--magenta))}
+/* ---------- navy festival background ---------- */
+.bg{position:fixed;inset:0;z-index:-3;pointer-events:none;overflow:hidden;background:
+  radial-gradient(135% 95% at 50% -12%, #16246b 0%, #0d1740 44%, #070c22 100%);}
+.bg .glow{position:absolute;border-radius:50%;filter:blur(80px);opacity:.46;mix-blend-mode:screen}
+.g1{width:54vw;height:54vw;left:-12vw;top:-10vw;background:radial-gradient(circle,var(--pink),transparent 64%)}
+.g2{width:50vw;height:50vw;right:-12vw;top:6vh;background:radial-gradient(circle,var(--orange),transparent 64%)}
+.g3{width:60vw;height:60vw;left:22vw;bottom:-24vw;background:radial-gradient(circle,var(--yellow),transparent 62%);opacity:.34}
+.g4{width:40vw;height:40vw;right:14vw;bottom:-6vw;background:radial-gradient(circle,var(--indigo),transparent 66%);opacity:.5}
+.bg .halftone{position:absolute;inset:-20%;opacity:.13;mix-blend-mode:overlay;
+  background-image:radial-gradient(var(--paper) 1px, transparent 1.4px);background-size:13px 13px;}
+.grain{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");}
 
 /* ---------- top chrome ---------- */
 .topbar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:space-between;
   align-items:center;padding:20px clamp(16px,4vw,42px);mix-blend-mode:difference;pointer-events:none}
-.topbar .pointer{pointer-events:auto}
 .brand{font-family:'Rozha One',serif;font-size:19px;letter-spacing:.02em;color:#fff}
 .brand small{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.3em;display:block;opacity:.75;text-transform:uppercase}
-.navbtn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;
-  color:#fff;background:none;border:1px solid rgba(255,255,255,.5);border-radius:40px;
-  padding:9px 16px;cursor:pointer;transition:.25s}
-.navbtn:hover{background:#fff;color:#111}
 
-/* ---------- stage / sphere ---------- */
-.stage{position:relative;height:200vh}           /* scroll length drives the zoom */
-.viewport{position:sticky;top:0;height:100vh;overflow:hidden;
-  perspective:1150px;perspective-origin:50% 48%;cursor:grab}
+/* ---------- cover ---------- */
+#cover{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;isolation:isolate}
+#coverVid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:.6}
+.cover-tint{position:absolute;inset:0;z-index:1;background:
+  radial-gradient(120% 90% at 50% 40%,rgba(12,23,64,.25),rgba(7,12,34,.86) 78%),
+  linear-gradient(180deg,rgba(12,23,64,.4),rgba(7,12,34,.9))}
+.cover-ht{position:absolute;inset:0;z-index:1;opacity:.12;mix-blend-mode:overlay;pointer-events:none;
+  background-image:radial-gradient(#fff 1px,transparent 1.5px);background-size:9px 9px}
+/* nimbu-mirchi charm, hung + swaying */
+#nimbu{position:absolute;z-index:3;top:-8px;right:clamp(14px,8vw,120px);width:clamp(84px,12vw,148px);
+  transform-origin:50% 0;animation:sway 4.4s ease-in-out infinite}
+#nimbu img{width:100%;display:block;filter:drop-shadow(0 12px 22px rgba(0,0,0,.5))}
+@keyframes sway{0%,100%{transform:rotate(-5.5deg)}50%{transform:rotate(5.5deg)}}
+.cover-copy{position:relative;z-index:2;text-align:center;padding:0 20px}
+.cover-kick{font-family:'Space Mono',monospace;font-size:clamp(10px,1.4vw,13px);letter-spacing:.42em;
+  text-transform:uppercase;color:var(--yellow);margin-bottom:18px}
+.cover-name{font-family:'Lilita One',cursive;line-height:.82;color:#fff;letter-spacing:.01em;
+  font-size:clamp(62px,16vw,210px);
+  -webkit-text-stroke:clamp(2px,.5vw,4px) #0a1230;
+  text-shadow:4px 5px 0 var(--pink),8px 10px 0 var(--indigo),12px 15px 24px rgba(0,0,0,.45)}
+.cover-name .l2{color:var(--yellow);-webkit-text-stroke:clamp(2px,.5vw,4px) #0a1230;
+  text-shadow:4px 5px 0 var(--orange),8px 10px 0 var(--crimson),12px 15px 24px rgba(0,0,0,.45)}
+.cover-sub{font-family:'Baloo 2',cursive;font-weight:600;font-size:clamp(15px,2.2vw,22px);color:var(--cream);margin-top:22px}
+.cover-sub b{color:var(--pink);font-weight:800}
+.cover-cue{margin-top:34px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--muted)}
+.cover-cue .arr{display:block;margin-top:10px;font-size:18px;color:var(--yellow);animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* ---------- stage / sphere + cube ---------- */
+.stage{position:relative;height:280vh}
+.viewport{position:sticky;top:0;height:100vh;overflow:hidden;perspective:1200px;perspective-origin:50% 48%;cursor:grab}
 .viewport.grabbing{cursor:grabbing}
 .scene{position:absolute;left:50%;top:48%;width:0;height:0;transform-style:preserve-3d;will-change:transform}
-
-/* center medallion */
-.core{position:absolute;left:50%;top:50%;width:300px;height:300px;margin:-150px 0 0 -150px;
-  transform-style:preserve-3d;pointer-events:none}
-.core-bb{position:absolute;inset:0;transform-style:preserve-3d}
-.core .halo{position:absolute;inset:-22% ;border-radius:50%;filter:blur(2px);
-  background:radial-gradient(circle,rgba(255,178,36,.35),rgba(255,61,139,.12) 55%,transparent 72%);
-  animation:breathe 5.5s ease-in-out infinite}
-@keyframes breathe{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.08);opacity:1}}
-.core svg{width:100%;height:100%;display:block}
-.ringwrap{position:absolute;inset:0}
-.ringwrap .ring{position:absolute;inset:0;filter:drop-shadow(0 8px 30px rgba(255,61,139,.3));
-  animation:spin 46s linear infinite;transform-origin:50% 50%}
-@keyframes spin{to{transform:rotate(360deg)}}
-.av{position:absolute;inset:42px;border-radius:50%;overflow:hidden;background:#2a132f;
-  box-shadow:inset 0 0 0 2px rgba(255,255,255,.18),0 14px 48px rgba(255,61,139,.42);
-  animation:bobble 6s ease-in-out infinite}
-@keyframes bobble{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-5px) scale(1.012)}}
-.av img{width:100%;height:100%;object-fit:cover;object-position:center 24%;display:block}
-.core .corelabel{position:absolute;left:50%;bottom:-42px;transform:translateX(-50%);white-space:nowrap;
-  font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
+#cubeCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:2000;pointer-events:none}
 
 /* tiles */
 .tile{position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px 0 0 -75px;
   transform-style:preserve-3d;will-change:transform,opacity}
 .tile .bb{position:absolute;inset:0;border-radius:18px;overflow:hidden;cursor:pointer;
-  background:linear-gradient(150deg,var(--c1),var(--c2));border:1px solid rgba(255,255,255,.14);
-  box-shadow:0 14px 34px rgba(0,0,0,.4);display:flex;flex-direction:column;justify-content:flex-end;
+  background:linear-gradient(150deg,var(--c1),var(--c2));border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 14px 34px rgba(0,0,0,.45);display:flex;flex-direction:column;justify-content:flex-end;
   padding:13px;transition:box-shadow .25s}
 .tile .bb::before{content:"";position:absolute;inset:0;background:
-  radial-gradient(120% 90% at 20% 0%,rgba(255,255,255,.28),transparent 55%);mix-blend-mode:screen}
+  radial-gradient(120% 90% at 20% 0%,rgba(255,255,255,.3),transparent 55%);mix-blend-mode:screen}
 .tile .bb::after{content:"";position:absolute;inset:0;opacity:.2;mix-blend-mode:overlay;
   background-image:radial-gradient(#fff 1px,transparent 1.4px);background-size:9px 9px}
-.tile .bb:hover{box-shadow:0 18px 44px rgba(0,0,0,.55)}
+.tile .bb:hover{box-shadow:0 18px 44px rgba(0,0,0,.6)}
 .tile .kicker{position:relative;font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.2em;
-  text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:4px}
+  text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:4px}
 .tile .ttl{position:relative;font-family:'Baloo 2',cursive;font-weight:800;font-size:17px;line-height:1.02;color:#fff;
   text-shadow:0 2px 10px rgba(0,0,0,.35)}
-.tile .dot{position:absolute;top:11px;right:11px;width:8px;height:8px;border-radius:50%;background:#fff;opacity:.9}
+.tile .dot{position:absolute;top:11px;right:11px;width:8px;height:8px;border-radius:50%;background:#fff;opacity:.9;z-index:3}
 .tile[data-kind="life"] .dot{border-radius:1px;transform:rotate(45deg)}
 .tile .bb .tv,.tile .bb .ti{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .tile .bb .tscrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.05) 35%,rgba(0,0,0,.72))}
 .tile .kicker,.tile .ttl{z-index:2}
-.tile .dot{z-index:3}
 
-/* connective threads */
-.threads{position:fixed;inset:0;z-index:5;pointer-events:none}
-.threads line{stroke:var(--marigold);stroke-width:1;opacity:0}
-
-/* hint + scroll cue */
-.hint{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:40;text-align:center;
-  font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;
-  color:var(--muted);transition:opacity .5s}
-.hint b{color:var(--marigold);font-weight:400}
-.hint .hi{display:block;margin-top:6px;font-family:'Mukta',sans-serif;font-size:13.5px;letter-spacing:.12em;color:var(--marigold);opacity:.92}
-.hint .cue{display:block;margin-top:8px;font-size:15px;animation:bob 1.8s ease-in-out infinite;color:var(--cream)}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+/* cube controls + hint */
+.cube-ctrl{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);z-index:46;display:flex;gap:10px;
+  opacity:0;transition:opacity .45s;pointer-events:none}
+.cube-ctrl.on{opacity:1;pointer-events:auto}
+.cube-ctrl button{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:#0a1230;background:var(--yellow);border:none;border-radius:40px;padding:10px 18px;cursor:pointer;
+  box-shadow:0 8px 20px rgba(0,0,0,.35);transition:.2s}
+.cube-ctrl button:hover{transform:translateY(-2px)}
+.cube-ctrl button.alt{background:var(--pink);color:#fff}
+.cube-ctrl button.ghost{background:none;color:#fff;border:1px solid rgba(255,255,255,.4)}
+.cube-hint{position:fixed;left:50%;bottom:78px;transform:translateX(-50%);z-index:45;text-align:center;
+  font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
+  opacity:0;transition:opacity .45s;pointer-events:none}
+.cube-hint.on{opacity:1}
+.cube-hint b{color:var(--yellow);font-weight:400}
 
 /* flat-grid fallback */
-.grid{display:none;max-width:1100px;margin:0 auto;padding:120px 20px 80px;
+.grid{display:none;max-width:1100px;margin:0 auto;padding:60px 20px 80px;
   grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
 body.flat .stage{display:none}
-body.flat .hint{display:none}
+body.flat .cube-ctrl,body.flat .cube-hint{display:none}
 body.flat .grid{display:grid}
-.grid .tile{position:relative;left:auto;top:auto;width:auto;height:170px;margin:0}
+.grid .tile{position:relative;left:auto;top:auto;width:auto;height:170px;margin:0;opacity:1}
 .grid .tile .bb{position:relative;inset:auto;height:100%}
+.grid-head{display:none}
+body.flat .grid-head{display:block;max-width:1100px;margin:0 auto;padding:30px 20px 0;
+  font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--yellow)}
 
-/* ---------- chapter (full-screen project takeover) ---------- */
+/* ---------- chapter (half-page split story) ---------- */
 #chapter{position:fixed;inset:0;z-index:85;display:none;overflow-y:auto;overflow-x:hidden;
-  background:var(--ink);--cc1:#ff4d3d;--cc2:#8a1d2a;--cc1b:#ffb224}
+  background:var(--navy);--cc1:#ff3d7f;--cc2:#7a0f3c;--cc1b:#ffc53d}
 #chapter.open{display:block}
-body.ch-open{overflow:hidden}
-.ch-atmo{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.ch-atmo .ga{position:absolute;border-radius:50%;filter:blur(80px);opacity:.42;mix-blend-mode:screen}
-.ch-a1{width:60vw;height:60vw;right:-14vw;top:-18vw;background:radial-gradient(circle,var(--cc1),transparent 64%)}
-.ch-a2{width:52vw;height:52vw;left:-16vw;bottom:-20vw;background:radial-gradient(circle,var(--cc2),transparent 64%)}
-.ch-a3{width:40vw;height:40vw;left:40vw;top:46vh;background:radial-gradient(circle,var(--indigo),transparent 66%);opacity:.3}
-.ch-atmo .ht{position:absolute;inset:-10%;opacity:.12;mix-blend-mode:overlay;
-  background-image:radial-gradient(var(--paper) 1px,transparent 1.4px);background-size:14px 14px}
-.ch-wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto;min-height:100vh;
-  padding:clamp(20px,4vw,42px) clamp(20px,5vw,58px) 12vh}
-/* crop marks */
-.cm{position:fixed;width:26px;height:26px;z-index:4;pointer-events:none;border:0 solid rgba(247,236,216,.5)}
-.cm.tl{left:22px;top:20px;border-left-width:2px;border-top-width:2px}
-.cm.tr{right:22px;top:20px;border-right-width:2px;border-top-width:2px}
-.cm.bl{left:22px;bottom:20px;border-left-width:2px;border-bottom-width:2px}
-.cm.br{right:22px;bottom:20px;border-right-width:2px;border-bottom-width:2px}
-.ch-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:clamp(18px,4vh,46px)}
-.ch-no{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
-.ch-no b{display:block;font-family:'Rozha One',serif;font-size:clamp(30px,6vw,62px);letter-spacing:0;color:#fff;text-transform:none;margin-top:2px}
-.chclose{flex:none;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#fff;
-  background:none;border:1px solid rgba(255,255,255,.4);border-radius:40px;padding:10px 18px;cursor:pointer;transition:.25s}
-.chclose:hover{background:#fff;color:#111}
-.ch-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(24px,5vw,64px);align-items:start}
-/* hero cube */
-.ch-hero{position:sticky;top:11vh;display:flex;flex-direction:column;align-items:center;gap:22px}
-.cube-stage{width:100%;height:min(46vh,380px);display:flex;align-items:center;justify-content:center;perspective:900px}
-.cube{--cs:clamp(170px,30vw,250px);position:relative;width:var(--cs);height:var(--cs);
-  transform-style:preserve-3d;animation:cubespin 22s linear infinite}
-@keyframes cubespin{from{transform:rotateX(-24deg) rotateY(-30deg)}to{transform:rotateX(-24deg) rotateY(330deg)}}
-.cube .face{position:absolute;width:var(--cs);height:var(--cs);display:grid;
-  grid-template:repeat(3,1fr)/repeat(3,1fr);gap:calc(var(--cs)*0.03);padding:calc(var(--cs)*0.05);
-  border-radius:calc(var(--cs)*0.07);background:#150910;box-shadow:inset 0 0 0 3px #0c0509}
-.cube .f-front {transform:translateZ(calc(var(--cs)/2))}
-.cube .f-back  {transform:rotateY(180deg) translateZ(calc(var(--cs)/2))}
-.cube .f-right {transform:rotateY(90deg)  translateZ(calc(var(--cs)/2))}
-.cube .f-left  {transform:rotateY(-90deg) translateZ(calc(var(--cs)/2))}
-.cube .f-top   {transform:rotateX(90deg)  translateZ(calc(var(--cs)/2))}
-.cube .f-bottom{transform:rotateX(-90deg) translateZ(calc(var(--cs)/2))}
-.cube .st{border-radius:calc(var(--cs)*0.045);
-  box-shadow:inset 0 2px 6px rgba(255,255,255,.4),inset 0 -4px 8px rgba(0,0,0,.4),0 1px 2px rgba(0,0,0,.35)}
-.ch-label{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);text-align:center}
-.ch-label b{color:var(--cc1b);font-weight:400}
-/* story */
-.ch-story{min-width:0}
+.ch-split{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
+.ch-media{position:sticky;top:0;height:100vh;overflow:hidden;background:linear-gradient(160deg,var(--cc1),var(--cc2));display:flex;align-items:center;justify-content:center}
+.ch-media video,.ch-media img{width:100%;height:100%;object-fit:cover;display:block}
+.ch-media .artwrap{width:60%;height:60%;display:flex;align-items:center;justify-content:center}
+.ch-media .artwrap svg{width:100%;height:100%}
+.ch-media::after{content:"";position:absolute;inset:0;opacity:.16;mix-blend-mode:overlay;pointer-events:none;
+  background-image:radial-gradient(#fff 1px,transparent 1.5px);background-size:12px 12px}
+.ch-media .mlabel{position:absolute;left:0;right:0;bottom:26px;text-align:center;z-index:2;
+  font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.92)}
+.ch-body{position:relative;padding:clamp(60px,9vh,110px) clamp(26px,5vw,72px) 12vh;
+  background:radial-gradient(120% 70% at 110% -10%,color-mix(in srgb,var(--cc1) 30%,transparent),transparent 60%),var(--navy)}
+.ch-no{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:26px}
 .ch-kicker{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--cc1b);margin-bottom:14px}
-.ch-title{font-family:'Rozha One',serif;font-size:clamp(40px,7.5vw,92px);line-height:.94;color:#fff;margin-bottom:12px}
-.ch-tag{font-family:'Kalam',cursive;font-size:clamp(19px,2.6vw,26px);color:var(--magenta);transform:rotate(-1.4deg);display:inline-block;margin-bottom:12px}
+.ch-title{font-family:'Rozha One',serif;font-size:clamp(40px,6vw,82px);line-height:.96;color:#fff;margin-bottom:12px}
+.ch-tag{font-family:'Kalam',cursive;font-size:clamp(19px,2.4vw,26px);color:var(--pink);transform:rotate(-1.4deg);display:inline-block;margin-bottom:10px}
 .ch-sec{margin-top:30px}
 .ch-sec .lbl{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);
   display:flex;align-items:center;gap:12px;margin-bottom:13px}
 .ch-sec .lbl::after{content:"";flex:1;height:1px;background:var(--line)}
-.ch-sec p{font-size:17px;line-height:1.72;color:var(--cream)}
+.ch-sec p{font-size:17px;line-height:1.74;color:var(--cream);max-width:48ch}
 .ch-chips{display:flex;flex-wrap:wrap;gap:8px}
 .ch-chips span{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cream);
-  border:1px solid var(--line);border-radius:30px;padding:7px 14px;background:rgba(255,178,36,.06)}
-.ch-footage{border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.3);position:relative}
-.ch-footage video,.ch-footage img{width:100%;display:block}
-.ch-footage .artwrap{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center}
-.ch-footage .artwrap svg{width:42%;height:42%}
-.ch-footage::after{content:"";position:absolute;inset:0;opacity:.14;mix-blend-mode:overlay;pointer-events:none;
-  background-image:radial-gradient(#fff 1px,transparent 1.5px);background-size:11px 11px}
-.ch-cap{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:10px}
-.ch-end{margin-top:56px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+  border:1px solid var(--line);border-radius:30px;padding:7px 14px;background:rgba(255,197,61,.07)}
+.ch-end{margin-top:54px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
   border-top:1px solid var(--line);padding-top:24px}
-.ch-end .fin{font-family:'Kalam',cursive;font-size:20px;color:var(--marigold)}
+.ch-end .fin{font-family:'Kalam',cursive;font-size:20px;color:var(--yellow)}
 .ch-nav{display:flex;gap:10px}
 .ch-nav button{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#fff;
   background:none;border:1px solid rgba(255,255,255,.4);border-radius:40px;padding:9px 15px;cursor:pointer;transition:.25s}
 .ch-nav button:hover{background:#fff;color:#111}
+.chclose{position:fixed;top:20px;right:22px;z-index:6;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:#fff;background:rgba(10,18,48,.6);border:1px solid rgba(255,255,255,.4);
+  border-radius:40px;padding:10px 18px;cursor:pointer;transition:.25s;backdrop-filter:blur(6px)}
+.chclose:hover{background:#fff;color:#111}
+.cm{position:fixed;width:24px;height:24px;z-index:5;pointer-events:none;border:0 solid rgba(255,243,224,.5)}
+.cm.tl{left:22px;top:20px;border-left-width:2px;border-top-width:2px}
+.cm.bl{left:22px;bottom:20px;border-left-width:2px;border-bottom-width:2px}
+.cm.br{right:22px;bottom:20px;border-right-width:2px;border-bottom-width:2px}
 
-/* ---------- about / contact (scroll past the sphere) ---------- */
-.after{position:relative;z-index:10;background:linear-gradient(180deg,transparent,var(--ink) 16%);padding-top:4vh}
-.about{max-width:900px;margin:0 auto;padding:30px clamp(20px,5vw,40px) 10px}
-.about .lead{font-family:'Rozha One',serif;font-size:clamp(28px,5.5vw,58px);line-height:1.08}
-.about .lead em{font-style:normal;color:var(--marigold)}
-.about .lead .pink{color:var(--magenta)}
-.about .sub{font-size:17px;line-height:1.7;color:var(--muted);margin-top:22px;max-width:620px}
-.marq{margin:48px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  overflow:hidden;white-space:nowrap;padding:16px 0}
-.marq div{display:inline-block;animation:scroll 26s linear infinite;font-family:'Rozha One',serif;font-size:30px}
-.marq span{margin:0 26px;color:var(--cream)}
-.marq b{color:var(--marigold);font-weight:400}
-@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.contact{max-width:900px;margin:0 auto;padding:10px clamp(20px,5vw,40px) 90px}
-.contact h3{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
-.links{display:flex;flex-wrap:wrap;gap:12px}
+/* ---------- contact (below the cube) ---------- */
+.after{position:relative;z-index:10;background:linear-gradient(180deg,transparent,var(--navy) 14%);padding-top:6vh}
+.contact{max-width:960px;margin:0 auto;padding:40px clamp(20px,5vw,40px) 30px;text-align:center}
+.contact .lead{font-family:'Rozha One',serif;font-size:clamp(30px,6vw,64px);line-height:1.04;color:#fff}
+.contact .lead em{font-style:normal;color:var(--yellow)}
+.contact .lead .pink{color:var(--pink)}
+.contact h3{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin:30px 0 20px}
+.links{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 .links a{font-family:'Baloo 2',cursive;font-weight:700;font-size:18px;color:var(--cream);text-decoration:none;
   border:1px solid var(--line);border-radius:40px;padding:12px 22px;transition:.25s;display:inline-flex;gap:10px;align-items:center}
-.links a:hover{background:var(--marigold);color:#1a0d1f;border-color:var(--marigold);transform:translateY(-2px)}
-.foot{max-width:900px;margin:0 auto;padding:0 clamp(20px,5vw,40px) 50px;
-  font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;color:#6b5a62}
+.links a:hover{background:var(--yellow);color:#0a1230;border-color:var(--yellow);transform:translateY(-2px)}
+.foot{max-width:960px;margin:0 auto;padding:40px clamp(20px,5vw,40px) 50px;text-align:center;
+  font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;color:#7e88b8}
 
-/* ---------- WebGL atmosphere + lotus ---------- */
-#bgCanvas{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity 1.4s ease}
-#bgCanvas.on{opacity:1}
-#heroCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:100;pointer-events:none}
-#flash{position:absolute;left:50%;top:48%;width:62vmin;height:62vmin;transform:translate(-50%,-50%) scale(.2);
-  border-radius:50%;z-index:140;pointer-events:none;opacity:0;mix-blend-mode:screen;filter:blur(4px);
-  background:radial-gradient(circle,rgba(255,255,255,.95),rgba(255,178,36,.55) 30%,rgba(255,61,139,.22) 56%,transparent 72%)}
-.lotus-sec{position:relative;min-height:122vh;display:flex;flex-direction:column;
-  align-items:center;justify-content:flex-start;padding:13vh 0 8vh;overflow:hidden}
-.lotus-sec::before{content:"";position:absolute;left:50%;top:60%;width:86vmin;height:86vmin;
-  transform:translate(-50%,-50%);pointer-events:none;
-  background:radial-gradient(circle,rgba(255,61,139,.22),rgba(122,107,255,.10) 46%,transparent 70%);filter:blur(12px)}
-#lotusCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:1}
-.lotus-copy{position:relative;z-index:2;text-align:center;max-width:720px;padding:0 24px;pointer-events:none}
-.lotus-copy .lk{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.32em;
-  text-transform:uppercase;color:var(--marigold);margin-bottom:16px}
-.lotus-copy h2{font-family:'Rozha One',serif;font-size:clamp(30px,5.2vw,58px);line-height:1.05;
-  color:#fff;text-shadow:0 3px 30px rgba(0,0,0,.65)}
-.lotus-copy h2 em{font-style:normal;color:var(--magenta)}
-.lotus-copy .ls{font-family:'Mukta',sans-serif;font-size:16px;line-height:1.62;color:var(--muted);margin-top:18px}
-
-@media (max-width:820px){
-  .ch-grid{grid-template-columns:1fr;gap:30px}
-  .ch-hero{position:static;top:auto;order:-1}
-  .cube{--cs:clamp(150px,52vw,220px)}
-  .cube-stage{height:min(42vh,300px)}
-  .ch-wrap{padding-top:66px}
-  .cm{width:18px;height:18px}
+@media (max-width:900px){
+  .ch-split{grid-template-columns:1fr}
+  .ch-media{position:relative;height:46vh;top:auto}
+  .ch-body{padding-top:48px}
 }
 @media (prefers-reduced-motion:reduce){
-  .core .halo{animation:none}.marq div{animation:none}.hint .cue{animation:none}
-  .cube{animation:none;transform:rotateX(-24deg) rotateY(-30deg)}
+  #nimbu{animation:none}.cover-cue .arr{animation:none}
 }
 </style>
 </head>
 <body>
 
 <div class="bg" aria-hidden="true">
-  <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
-  <div class="paisley" id="paisley"></div>
+  <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div><div class="glow g4"></div>
   <div class="halftone"></div>
 </div>
 <div class="grain" aria-hidden="true"></div>
-<canvas id="bgCanvas" aria-hidden="true"></canvas>
 
-<!-- splash -->
-<div id="splash">
-  <div class="splash-glyph">दे</div>
-  <div class="splash-name" id="splashName">देवांशी&nbsp;·&nbsp;DEVANSHI&nbsp;JHAWAR</div>
-  <div class="splash-bar"><i id="splashBar"></i></div>
-</div>
+<header class="topbar"><div class="brand">Devanshi<small>देवांशी</small></div></header>
 
-<!-- top chrome -->
-<header class="topbar">
-  <div class="brand pointer">Devanshi<small>देवांशी</small></div>
-</header>
-
-<!-- sphere stage -->
-<section class="stage" id="stage">
-  <div class="viewport" id="viewport">
-    <div class="scene" id="scene">
-      <!-- core medallion injected -->
-      <div class="core" id="core" title="that's me">
-       <div class="core-bb" id="coreBB">
-        <!-- the collectible renders on #heroCanvas above; no glow -->
-       </div>
-      </div>
-    </div>
-    <canvas id="heroCanvas" aria-hidden="true"></canvas>
-    <div id="flash" aria-hidden="true"></div>
-    <svg class="threads" id="threads" aria-hidden="true"></svg>
+<!-- COVER -->
+<section id="cover">
+  <video id="coverVid" src="cover.mp4" muted loop autoplay playsinline preload="auto"></video>
+  <div class="cover-tint"></div>
+  <div class="cover-ht"></div>
+  <div id="nimbu" aria-hidden="true"><img src="nimbu.png" alt=""></div>
+  <div class="cover-copy">
+    <div class="cover-kick">XR · AI · देसी jugaad</div>
+    <h1 class="cover-name">DEVANSHI<br><span class="l2">JHAWAR</span></h1>
+    <p class="cover-sub">builder of immersive things · <b>co-founder</b> · forever curious</p>
+    <div class="cover-cue">scroll in · देखो अंदर<span class="arr">↓</span></div>
   </div>
 </section>
 
-<!-- flat grid fallback mount (filled by JS) -->
+<!-- STAGE: blast → constellation + the one big cube -->
+<section class="stage" id="stage">
+  <div class="viewport" id="viewport">
+    <div class="scene" id="scene"></div>
+    <canvas id="cubeCanvas" aria-hidden="true"></canvas>
+  </div>
+</section>
+
+<!-- flat fallback -->
+<div class="grid-head">the constellation — tap any piece of me</div>
 <div class="grid" id="grid"></div>
 
-<div class="hint" id="hint">drag to <b>rotate</b> · scroll to <b>zoom in</b> · tap any piece of me
-  <span class="hi">घुमाओ · पास लाओ · छू लो</span>
-  <span class="cue">↓</span>
+<!-- cube controls + hint -->
+<div class="cube-hint" id="cubeHint">drag a face to <b>twist</b> · solve the cube</div>
+<div class="cube-ctrl" id="cubeCtrl">
+  <button id="btnScramble" class="alt">scramble</button>
+  <button id="btnSolve">solve</button>
 </div>
 
-<!-- chapter (full-screen project takeover) -->
+<!-- CHAPTER -->
 <div id="chapter" aria-hidden="true">
-  <div class="ch-atmo" aria-hidden="true"><span class="ga ch-a1"></span><span class="ga ch-a2"></span><span class="ga ch-a3"></span><span class="ht"></span></div>
-  <span class="cm tl"></span><span class="cm tr"></span><span class="cm bl"></span><span class="cm br"></span>
-  <div class="ch-wrap" id="chWrap"></div>
+  <button class="chclose" aria-label="close">✕&nbsp;&nbsp;close</button>
+  <span class="cm tl"></span><span class="cm bl"></span><span class="cm br"></span>
+  <div class="ch-split" id="chSplit"></div>
 </div>
 
-<!-- after the sphere -->
+<!-- CONTACT -->
 <div class="after">
   <section class="contact" id="contact">
-    <h3>नमस्ते — let's make something · या बस बातें करें</h3>
+    <p class="lead">let's make something <em>loud</em>,<br>colourful &amp; a little <span class="pink">बिंदास</span>.</p>
+    <h3>नमस्ते — reach me</h3>
     <div class="links">
-      <a href="mailto:devanshijhawar337@gmail.com">✉ email me</a>
+      <a href="mailto:devanshijhawar337@gmail.com">✉ email</a>
       <a href="https://www.linkedin.com/in/devanshi-jhawar" target="_blank" rel="noopener">in · linkedin</a>
       <a href="https://github.com/devanshi-jhawar" target="_blank" rel="noopener">⌥ github</a>
       <a href="resume.pdf" target="_blank" rel="noopener">↗ résumé (pdf)</a>
@@ -348,77 +279,80 @@ body.ch-open{overflow:hidden}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 /* =========================================================
-   Devanshi Jhawar — constellation of me
-   dark desi-maximalist sphere · drag-rotate · scroll-zoom
+   Devanshi Jhawar — cover · blast · a solvable lego cube · a constellation of stories
    ========================================================= */
 const CARDS = [
-  {k:'project', kick:'VR · DEFENCE',     ttl:'CombatXR',     tag:'a war-sim wired to real hardware',
-    c1:'#ff4d3d',c2:'#8a1d2a', vid:'combatXR.mp4',
+  {k:'project', kick:'VR · DEFENCE',      ttl:'CombatXR',        tag:'a war-sim wired to real hardware',
+    vid:'combatXR.mp4',
     body:'An immersive VR military war-simulation environment for combat practice — wired to physical hardware, so the trigger you pull is a trigger you actually hold.',
     meta:['Unity','C#','XR Interaction Toolkit','Hardware I/O']},
-  {k:'project', kick:'5G · DIGITAL TWIN', ttl:'TeleTwin',    tag:'a 97%-accurate twin of the real world',
-    c1:'#7a6bff',c2:'#2a2066', vid:'teletwin.mp4',
+  {k:'project', kick:'5G · DIGITAL TWIN', ttl:'TeleTwin',        tag:'a 97%-accurate twin of the real world',
+    vid:'teletwin.mp4',
     body:'A 5G digital twin that mirrors physical sites in real time — 97% accuracy, 1,000 models generated in ~25 min on an RTX 8000. Built while co-founding XRVision Labs.',
     meta:['YOLO','Unreal','Python','5G']},
-  {k:'project', kick:'VR · DESIGN',      ttl:'XRchitect',   tag:'design a room while standing in it',
-    c1:'#ff3d8b',c2:'#6e1247', vid:'xrchitect.mp4',
+  {k:'project', kick:'VR · DESIGN',       ttl:'XRchitect',       tag:'design a room while standing in it',
+    vid:'xrchitect.mp4',
     body:'Interior design you do from inside VR — place, scale and rearrange a whole room in real space before a single wall is ever built.',
     meta:['Unity','C#','VR','3D']},
-  {k:'project', kick:'WEB · AR',         ttl:'Indoor Nav',  tag:'AR arrows that know where you are',
-    c1:'#36d39a',c2:'#0f5c45', vid:'indoornav.mp4',
+  {k:'project', kick:'WEB · AR',          ttl:'Indoor Nav',      tag:'AR arrows that know where you are',
+    vid:'indoornav.mp4',
     body:'WebAR indoor wayfinding — point your phone and follow AR arrows through a building, no app install, no paper map.',
     meta:['WebAR','JavaScript','Computer Vision']},
-  {k:'project', kick:'AI · TOOLING',     ttl:'Claude → Unity', tag:'I taught an AI to build game scenes',
-    c1:'#ffb224',c2:'#8a5a0c', vid:null, glyph:'mcp',
+  {k:'project', kick:'AI · TOOLING',      ttl:'Claude → Unity',  tag:'I taught an AI to build game scenes',
+    vid:null, glyph:'mcp',
     body:'An MCP server that lets Claude build Unity scenes straight from a prompt — it reached Fortnite-style environments. Scenes that took people 4–5 hrs dropped to ~1–1.5 hrs. Shown at an event with Snapchat.',
     meta:['MCP','Claude','Unity','C#','Python']},
-  {k:'project', kick:'AI AGENT · JIO',   ttl:'Wardrobe AI', tag:'an agent that styles your closet',
-    c1:'#ff4d3d',c2:'#7a1830', vid:null, glyph:'spark',
+  {k:'project', kick:'AI AGENT · JIO',    ttl:'Wardrobe AI',     tag:'an agent that styles your closet',
+    vid:null, glyph:'spark',
     body:'An AJIO styling agent that sees your wardrobe and suggests outfits — 10k+ images across 35 categories, YOLOv11 detecting at 93%. Tested by 500+ people.',
     meta:['LangGraph','YOLOv11','FAISS','Python']},
   {k:'project', kick:'ROBOTICS · ANDROID', ttl:'Fleet Control', tag:'drove delivery robots from a tablet',
-    c1:'#7a6bff',c2:'#241a55', vid:null, img:'TM_dashboard.png', glyph:'grid',
+    vid:null, img:'TM_dashboard.png', glyph:'grid',
     body:'A handheld control app to drive a fleet of delivery robots — live map, motors, states, ~15 screens, 20+ services — because the robots’ own screens kept drowning in the monsoon.',
     meta:['Kotlin','ROS','REST','Android']},
-  {k:'project', kick:'CV · MOTION',      ttl:'Motion Tracking', tag:'a body, tracked in real time',
-    c1:'#36d39a',c2:'#12543e', vid:'advanced motion tracking.mp4',
+  {k:'project', kick:'CV · MOTION',       ttl:'Motion Tracking', tag:'a body, tracked in real time',
+    vid:'advanced motion tracking.mp4',
     body:'Real-time full-body motion tracking driving a live avatar skeleton — the kind of thing that makes XR feel like it’s really you in there.',
     meta:['Computer Vision','Unity','Real-time']},
-  {k:'life', kick:'SINCE I WAS LITTLE',  ttl:'Bharatnatyam', tag:'classical dancer, trained for years',
-    c1:'#ffb224',c2:'#8a4a0c', vid:null, glyph:'dance',
+  {k:'life', kick:'SINCE I WAS LITTLE',   ttl:'Bharatnatyam',    tag:'classical dancer, trained for years',
+    vid:null, glyph:'dance',
     body:'I’ve trained in Bharatnatyam for years. It’s where I learned discipline, rhythm, and how to hold a stage — long before I ever held a mic or a keyboard.',
     meta:['Classical','Stage','Discipline']},
-  {k:'life', kick:'SELF-TAUGHT',         ttl:'Guitar (a little)', tag:'six chords, full confidence',
-    c1:'#ff3d8b',c2:'#6e1247', vid:null, glyph:'music',
+  {k:'life', kick:'SELF-TAUGHT',          ttl:'Guitar (a little)', tag:'six chords, full confidence',
+    vid:null, glyph:'music',
     body:'I play a little guitar. Emphasis on little. Enough to be genuinely dangerous at a hostel jam and to believe I could’ve been a rockstar in another life.',
     meta:['Hobby','Loud','Mostly G, C, D']},
-  {k:'life', kick:'ELEVEN & COUNTING',   ttl:'11 Tattoos',  tag:'I regret 2, won’t say which',
-    c1:'#ff4d3d',c2:'#5a1420', vid:null, glyph:'ink',
+  {k:'life', kick:'ELEVEN & COUNTING',    ttl:'11 Tattoos',      tag:'I regret 2, won’t say which',
+    vid:null, glyph:'ink',
     body:'Eleven tattoos so far. I regret exactly two of them and I will never, ever tell you which — that’s part of the fun. Each one is a tiny, permanent diary entry.',
     meta:['Permanent','11','Mystery']},
-  {k:'life', kick:'VERY LAZY, SOMEHOW',  ttl:'Windsurfing', tag:'never finished a sport, can windsurf',
-    c1:'#7a6bff',c2:'#1f1a5a', vid:null, glyph:'wave',
+  {k:'life', kick:'VERY LAZY, SOMEHOW',   ttl:'Windsurfing',     tag:'never finished a sport, can windsurf',
+    vid:null, glyph:'wave',
     body:'I never stuck with a single proper sport — too lazy, fully admit it — and yet somehow I learned to windsurf. Adventure sports over the gym, every single time.',
     meta:['Windsurfing','Adventure','Anti-gym']},
-  {k:'life', kick:'CO-FOUNDER · EXIT',   ttl:'A Startup That Didn’t', tag:'co-founded XR. it didn’t make it.',
-    c1:'#36d39a',c2:'#0f5c45', vid:null, glyph:'rocket',
+  {k:'life', kick:'CO-FOUNDER · EXIT',    ttl:'A Startup That Didn’t', tag:'co-founded XR. it didn’t make it.',
+    vid:null, glyph:'rocket',
     body:'I co-founded an XR/AI startup, led a ~10-person team, won an iDEX defence grant, demoed to Fortune-500 folks — and it still didn’t make it. Best failure of my life. I’d do it again tomorrow.',
     meta:['Co-founder','iDEX grant','Team of 10','Exit']},
-  {k:'life', kick:'ALWAYS PACKING',      ttl:'Travel',      tag:'collecting places, not souvenirs',
-    c1:'#ffb224',c2:'#8a5a0c', vid:null, glyph:'globe',
+  {k:'life', kick:'ALWAYS PACKING',       ttl:'Travel',          tag:'collecting places, not souvenirs',
+    vid:null, glyph:'globe',
     body:'I travel every chance I get. New places, strange food, long bus rides to nowhere. The plan is usually to have no plan and see what the day does with me.',
     meta:['Wander','No plan','Window seat']},
-  {k:'life', kick:'AN ACCIDENT',         ttl:'Why CS?',     tag:'switched to CS after a cool movie',
-    c1:'#ff3d8b',c2:'#6e1247', vid:null, glyph:'film',
+  {k:'life', kick:'AN ACCIDENT',          ttl:'Why CS?',         tag:'switched to CS after a cool movie',
+    vid:null, glyph:'film',
     body:'True story: I switched to computer science because a movie made it look impossibly cool. Easily the best accidental decision I’ve ever made — turns out the real thing is cooler.',
     meta:['Accidental','No regrets','Plot twist']},
-  {k:'life', kick:'GEMINI ENERGY',       ttl:'People Person', tag:'2 talks · will out-talk you',
-    c1:'#ff4d3d',c2:'#7a1830', vid:null, glyph:'talk',
+  {k:'life', kick:'GEMINI ENERGY',        ttl:'People Person',   tag:'2 talks · will out-talk you',
+    vid:null, glyph:'talk',
     body:'I’m a Gemini and it shows. Happiest around people who are funny and interesting, I’ve given two speaker sessions, and I’ll talk to literally anyone. Communication is the actual superpower.',
     meta:['Gemini','2 speaker sessions','Great at talking']},
 ];
+/* festival palette cycled across the tiles */
+const FEST=[['#ff3d7f','#7a0f3c'],['#ff7a1f','#8a3600'],['#ffc53d','#8a5e00'],
+            ['#2fae6a','#0d4e30'],['#6a5cff','#231a6e'],['#e8356b','#6e0f33']];
+CARDS.forEach((d,i)=>{ d.c1=FEST[i%FEST.length][0]; d.c2=FEST[i%FEST.length][1]; });
 
-/* ---- tiny inline art for tiles/lightbox without a video ---- */
+/* ---- tiny inline art for tiles / chapter without media ---- */
 function artFor(g){
   const f='#fff', o='.92';
   const S=(inner)=>`<svg viewBox="0 0 120 120" fill="none" stroke="${f}" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" opacity="${o}">${inner}</svg>`;
@@ -438,446 +372,293 @@ function artFor(g){
   }
 }
 
-/* ===================== build =================== */
+/* ===================== setup =================== */
 const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
 const isSmall = matchMedia('(max-width:820px)').matches;
 const FLAT = reduce || isSmall;
 if(FLAT) document.body.classList.add('flat');
 document.getElementById('yr').textContent = new Date().getFullYear();
 
-// shared cursor (normalised -1..1), eased copies for parallax; zoomV = scroll-zoom 0..1
-let mX=0, mY=0, emX=0, emY=0, zoomV=0;
-let lenis=null;                               // smooth-scroll instance (hoisted so the chapter can pause it)
+let mX=0, mY=0, emX=0, emY=0;
+let lenis=null;
+const zoomObj={v:0};                 // 0..1 over the stage scroll (the "zoom in")
+let scrollV=0;
 window.addEventListener('pointermove', e=>{
-  mX = (e.clientX/window.innerWidth)*2-1;
-  mY = (e.clientY/window.innerHeight)*2-1;
+  mX=(e.clientX/window.innerWidth)*2-1; mY=(e.clientY/window.innerHeight)*2-1;
 }, {passive:true});
 
-// paisley line pattern (data-uri, original)
-document.getElementById('paisley').style.backgroundImage =
- "url(\"data:image/svg+xml;utf8,"+encodeURIComponent(
-   "<svg xmlns='http://www.w3.org/2000/svg' width='360' height='360'><g fill='none' stroke='%23ffb224' stroke-width='1.3'><path d='M90 40c60 0 90 40 90 90s-50 90-90 60c-30-22-10-70 20-70s40 40 10 50'/><circle cx='250' cy='250' r='26'/><path d='M250 224c40 0 60 26 60 60'/><path d='M40 250q40-40 80 0'/></g></svg>")+"\")";
-
-// build tiles
-const scene = document.getElementById('scene');
-const grid  = document.getElementById('grid');
-const tiles = [];
+/* build tiles */
+const scene=document.getElementById('scene'), grid=document.getElementById('grid');
+const tiles=[];
 CARDS.forEach((d,i)=>{
-  const t = document.createElement('div');
+  const t=document.createElement('div');
   t.className='tile'; t.dataset.kind=d.k; t.dataset.i=i;
   t.style.setProperty('--c1',d.c1); t.style.setProperty('--c2',d.c2);
   let media='';
   if(!FLAT && d.vid) media='<video class="tv" src="'+encodeURI(d.vid)+'" muted loop autoplay playsinline preload="metadata"></video><div class="tscrim"></div>';
   else if(d.img) media='<img class="ti" src="'+encodeURI(d.img)+'" alt=""><div class="tscrim"></div>';
-  const inner = `<div class="bb">${media}<span class="dot"></span>
-     <div class="kicker">${d.kick}</div><div class="ttl">${d.ttl}</div></div>`;
-  t.innerHTML=inner;
-  if(FLAT){ grid.appendChild(t); } else { scene.appendChild(t); }
-  t.querySelector('.bb').addEventListener('click',()=>{ if(moved>8)return; openCard(i,t); });
+  t.innerHTML=`<div class="bb">${media}<span class="dot"></span><div class="kicker">${d.kick}</div><div class="ttl">${d.ttl}</div></div>`;
+  (FLAT?grid:scene).appendChild(t);
+  t.querySelector('.bb').addEventListener('click',()=>{ if(cubeGesture||moved>8)return; openChapter(i); });
   tiles.push(t);
 });
 
 /* ===================== sphere math + loop =================== */
-let RADIUS = Math.min(window.innerWidth,window.innerHeight)*0.46 + 130;
-const N = CARDS.length, GA = Math.PI*(3-Math.sqrt(5));
-let pos = [];
+let RADIUS;
+const N=CARDS.length, GA=Math.PI*(3-Math.sqrt(5));
+let pos=[];
 function layout(){
-  RADIUS = Math.min(window.innerWidth,window.innerHeight)*0.46 + 130;
-  pos = [];
+  RADIUS=Math.min(window.innerWidth,window.innerHeight)*0.46+150;
+  pos=[];
   for(let i=0;i<N;i++){
-    const y = 1-(i/(N-1))*2, r=Math.sqrt(1-y*y), th=i*GA;
+    const y=1-(i/(N-1))*2, r=Math.sqrt(1-y*y), th=i*GA;
     pos.push([Math.cos(th)*r*RADIUS, y*RADIUS, Math.sin(th)*r*RADIUS]);
   }
 }
 layout();
 
-let ry=0, rx=-6, velY=0, velX=0, zoom=0, dragging=false, lastDown=0, moved=0;
-let introA=FLAT?1:0, introS=1;               // intro fade (scene scale stays 1)
-let burstP=FLAT?1:0, heroIntro=FLAT?1:0;     // intro: tiles blast out from centre + collectible pops in
-const scaleFx = s => Math.max(0,Math.min(1,s));
+let ry=0, rx=-6, velY=0, velX=0, dragging=false, moved=0;
+let cubeGesture=false;               // true while a pointer gesture is twisting the cube
+let introA=FLAT?1:0, burstP=FLAT?1:0;
 
 if(!FLAT){
-  const vp = document.getElementById('viewport');
-  const coreBB = document.getElementById('coreBB');
-
-  // ---- pointer drag to rotate ----
+  const vp=document.getElementById('viewport');
   let px=0, py=0;
-  const down = e=>{ dragging=true; moved=0; lastDown=Date.now(); vp.classList.add('grabbing');
+  const down=e=>{ if(cubeGesture)return; dragging=true; moved=0; vp.classList.add('grabbing');
     const p=e.touches?e.touches[0]:e; px=p.clientX; py=p.clientY; };
-  const move = e=>{ if(!dragging)return; const p=e.touches?e.touches[0]:e;
+  const move=e=>{ if(cubeGesture||!dragging)return; const p=e.touches?e.touches[0]:e;
     const dx=p.clientX-px, dy=p.clientY-py; px=p.clientX; py=p.clientY;
-    moved += Math.abs(dx)+Math.abs(dy);
-    ry += dx*0.32; rx -= dy*0.32; rx=Math.max(-62,Math.min(62,rx));
+    moved+=Math.abs(dx)+Math.abs(dy);
+    ry+=dx*0.32; rx-=dy*0.32; rx=Math.max(-62,Math.min(62,rx));
     velY=dx*0.32; velX=-dy*0.32; };
-  const up = ()=>{ dragging=false; vp.classList.remove('grabbing'); };
+  const up=()=>{ dragging=false; vp.classList.remove('grabbing'); };
   vp.addEventListener('mousedown',down); window.addEventListener('mousemove',move); window.addEventListener('mouseup',up);
   vp.addEventListener('touchstart',down,{passive:true}); window.addEventListener('touchmove',move,{passive:true}); window.addEventListener('touchend',up);
 
-  // ---- scroll drives zoom (sticky stage) ----
-  const zoomObj={v:0};
   if(window.ScrollTrigger){ gsap.registerPlugin(ScrollTrigger);
     gsap.to(zoomObj,{v:1,ease:'none',scrollTrigger:{trigger:'#stage',start:'top top',end:'bottom bottom',scrub:0.6}});
   }
 
-  const cx = ()=>window.innerWidth/2, cy = ()=>window.innerHeight*0.48;
   function frame(){
-    // momentum + idle spin
-    if(!dragging){ ry += 0.06 + velY; rx += velX*0.4; velY*=0.93; velX*=0.93; if(Math.abs(velY)<0.002)velY=0; }
+    scrollV=zoomObj.v;
+    introA=Math.max(0,Math.min(1,(scrollV-0.02)/0.22));     // tiles fade in as you enter
+    burstP=Math.max(0,Math.min(1,scrollV/0.30));            // the blast
+    if(!dragging){ ry+=0.06+velY; rx+=velX*0.4; velY*=0.93; velX*=0.93; if(Math.abs(velY)<0.002)velY=0; }
     rx=Math.max(-62,Math.min(62,rx));
-    emX += (mX-emX)*0.05; emY += (mY-emY)*0.05;   // eased cursor drift
-    zoom = (zoomObj.v)*720; zoomV=zoomObj.v;      // fly toward the medallion
-    scene.style.transform = `translate3d(0,0,${zoom}px) scale(${introS}) rotateX(${(rx+emY*5).toFixed(2)}deg) rotateY(${(ry+emX*8).toFixed(2)}deg)`;
-    coreBB.style.transform = `rotateY(${(-ry+emX*10).toFixed(2)}deg) rotateX(${(-rx-emY*10).toFixed(2)}deg)`;   // she leans toward your cursor
+    emX+=(mX-emX)*0.05; emY+=(mY-emY)*0.05;
+    scene.style.transform=`translate3d(0,0,${(scrollV*120).toFixed(1)}px) rotateX(${(rx+emY*5).toFixed(2)}deg) rotateY(${(ry+emX*8).toFixed(2)}deg)`;
 
     const rxr=rx*Math.PI/180, ryr=ry*Math.PI/180;
     const cry=Math.cos(ryr), sry=Math.sin(ryr), crx=Math.cos(rxr), srx=Math.sin(rxr);
     for(let i=0;i<N;i++){
       const [x,y,z]=pos[i];
-      // apply Ry then Rx (matches CSS rotateX rotateY compose)
       const x1=x*cry+z*sry, z1=-x*sry+z*cry;
-      const z2=y*srx+z1*crx;                       // camera-facing depth
-      const t=scaleFx((z2/RADIUS+1)/2);            // 0 back .. 1 front
+      const z2=y*srx+z1*crx;
+      const t=Math.max(0,Math.min(1,(z2/RADIUS+1)/2));
       const el=tiles[i];
       const bd=(i/N)*0.4; let bf=(burstP-bd)/(1-bd); bf=bf<0?0:bf>1?1:bf;
-      const eb=1+2.70158*Math.pow(bf-1,3)+1.70158*Math.pow(bf-1,2);   // easeOutBack blast from centre
-      el.style.transform = `translate3d(${(x*eb).toFixed(1)}px,${(y*eb).toFixed(1)}px,${(z*eb).toFixed(1)}px)`;
-      const bb=el.firstElementChild;               // .bb (billboard)
-      const sc=0.74+0.26*t;
-      bb.style.transform = `rotateY(${-ry}deg) rotateX(${-rx}deg) scale(${sc})`;
-      el.style.opacity=((0.30+0.70*t)*introA).toFixed(3);
+      const eb=1+2.70158*Math.pow(bf-1,3)+1.70158*Math.pow(bf-1,2);        // easeOutBack blast from centre
+      el.style.transform=`translate3d(${(x*eb).toFixed(1)}px,${(y*eb).toFixed(1)}px,${(z*eb).toFixed(1)}px)`;
+      const bb=el.firstElementChild, sc=0.74+0.26*t;
+      bb.style.transform=`rotateY(${-ry}deg) rotateX(${-rx}deg) scale(${sc})`;
+      el.style.opacity=((0.26+0.74*t)*introA).toFixed(3);
       el.style.zIndex=Math.round(z2+2000);
-      el.style.pointerEvents = (t>0.42 && introA>0.9)?'auto':'none';
+      el.style.pointerEvents=(t>0.42 && introA>0.9)?'auto':'none';
     }
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
   window.addEventListener('resize',layout);
-
-  // hide hint after first scroll/drag
-  const hideHint=()=>{document.getElementById('hint').style.opacity=0;};
-  window.addEventListener('scroll',()=>{ if(scrollY>60) hideHint(); },{passive:true});
-  vp.addEventListener('mousedown',hideHint,{once:true});
 }
 
-/* ===================== chapter (full-screen project takeover) =================== */
-const chapter=document.getElementById('chapter'), chWrap=document.getElementById('chWrap');
-const DEV='०१२३४५६७८९';
-const devNum=n=>String(n).split('').map(c=>DEV[+c]).join('');
+/* ===================== the one big LEGO cube (solvable, three.js) =================== */
+(function(){
+  if(!window.THREE || FLAT) return;
+  const canvas=document.getElementById('cubeCanvas'); if(!canvas) return;
+  let renderer; try{ renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true}); }catch(e){ return; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  const scene3=new THREE.Scene();
+  const cam=new THREE.PerspectiveCamera(42,1,0.1,100); cam.position.set(4.4,4.0,6.6); cam.lookAt(0,0,0);
+  function rsize(){ renderer.setSize(innerWidth,innerHeight); cam.aspect=innerWidth/innerHeight; cam.updateProjectionMatrix(); }
+  rsize(); addEventListener('resize',rsize);
+  scene3.add(new THREE.AmbientLight(0xffffff,0.78));
+  const d1=new THREE.DirectionalLight(0xffffff,0.95); d1.position.set(5,9,6); scene3.add(d1);
+  const d2=new THREE.DirectionalLight(0xff9a4d,0.35); d2.position.set(-6,-3,-5); scene3.add(d2);
+
+  const root=new THREE.Group(); scene3.add(root);
+  const FACE={'1,0,0':0xffc53d,'-1,0,0':0x2fae6a,'0,1,0':0x4b6bff,'0,-1,0':0xe8356b,'0,0,1':0xff3d7f,'0,0,-1':0xff7a1f};
+  const GAP=1.04, SIZE=0.95;
+  const bodyGeo=new THREE.BoxGeometry(SIZE,SIZE,SIZE);
+  const studGeo=new THREE.CylinderGeometry(0.13,0.13,0.08,18);
+  const dark=new THREE.MeshStandardMaterial({color:0x10163a,roughness:0.85,metalness:0.0});
+  const FIDX=[[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]];   // BoxGeometry material index order
+  const cubies=[];
+  function isOut(n,x,y,z){ return (n[0]!==0&&n[0]===x)||(n[1]!==0&&n[1]===y)||(n[2]!==0&&n[2]===z); }
+  for(let x=-1;x<=1;x++)for(let y=-1;y<=1;y++)for(let z=-1;z<=1;z++){
+    const g=new THREE.Group(); g.position.set(x*GAP,y*GAP,z*GAP);
+    const mats=FIDX.map(n=> isOut(n,x,y,z)
+      ? new THREE.MeshStandardMaterial({color:FACE[n.join(',')],roughness:0.42,metalness:0.0})
+      : dark);
+    g.add(new THREE.Mesh(bodyGeo,mats));
+    FIDX.forEach(n=>{
+      if(!isOut(n,x,y,z))return;
+      const col=FACE[n.join(',')], sm=new THREE.MeshStandardMaterial({color:col,roughness:0.4});
+      const off=SIZE/2+0.035, s=0.23;
+      let u,v;
+      if(Math.abs(n[0])){ u=[0,1,0]; v=[0,0,1]; }
+      else if(Math.abs(n[1])){ u=[1,0,0]; v=[0,0,1]; }
+      else { u=[1,0,0]; v=[0,1,0]; }
+      for(let a=-1;a<=1;a+=2)for(let b=-1;b<=1;b+=2){
+        const st=new THREE.Mesh(studGeo,sm);
+        if(Math.abs(n[0])) st.rotation.z=Math.PI/2;
+        else if(Math.abs(n[2])) st.rotation.x=Math.PI/2;
+        st.position.set(n[0]*off+(u[0]*a+v[0]*b)*s, n[1]*off+(u[1]*a+v[1]*b)*s, n[2]*off+(u[2]*a+v[2]*b)*s);
+        g.add(st);
+      }
+    });
+    root.add(g); cubies.push(g);
+  }
+
+  /* ---- layer twist ---- */
+  let twisting=false, arrived=false;
+  const history=[];
+  function snap(g){
+    g.position.set(Math.round(g.position.x/GAP)*GAP,Math.round(g.position.y/GAP)*GAP,Math.round(g.position.z/GAP)*GAP);
+  }
+  function move(axis,layer,dir,dur,record){
+    return new Promise(res=>{
+      twisting=true;
+      const pivot=new THREE.Group(); root.add(pivot);
+      const sel=cubies.filter(c=>Math.round(c.position[axis]/GAP)===layer);
+      sel.forEach(c=>pivot.attach(c));
+      if(record!==false) history.push({axis,layer,dir});
+      const end=dir*Math.PI/2, t0=performance.now();
+      (function anim(t){
+        const k=Math.min(1,(t-t0)/(dur*1000)), e=1-Math.pow(1-k,3);
+        pivot.rotation[axis]=end*e;
+        if(k<1) requestAnimationFrame(anim);
+        else{ pivot.rotation[axis]=end; pivot.updateMatrixWorld(true);
+          sel.forEach(c=>{ root.attach(c); snap(c); }); root.remove(pivot); twisting=false; res(); }
+      })(t0);
+    });
+  }
+  async function scramble(){ if(twisting||!arrived)return; const ax=['x','y','z'],ly=[-1,0,1];
+    for(let i=0;i<16;i++){ await move(ax[(Math.random()*3)|0],ly[(Math.random()*3)|0],Math.random()<.5?1:-1,0.13,true); } }
+  async function solve(){ if(twisting||!arrived)return; const h=history.slice().reverse(); history.length=0;
+    for(const m of h){ await move(m.axis,m.layer,-m.dir,0.14,false); } }
+  document.getElementById('btnScramble').addEventListener('click',scramble);
+  document.getElementById('btnSolve').addEventListener('click',solve);
+
+  /* ---- drag a visible face to twist ---- */
+  const ray=new THREE.Raycaster(), ndc=new THREE.Vector2();
+  let pick=null, startXY=null;
+  function w2s(v){ const p=v.clone().project(cam); return new THREE.Vector2((p.x*.5+.5)*innerWidth,(-p.y*.5+.5)*innerHeight); }
+  function cubeDown(e){
+    if(!arrived||twisting||document.body.classList.contains('locked')) return false;
+    ndc.set((e.clientX/innerWidth)*2-1, -(e.clientY/innerHeight)*2+1);
+    ray.setFromCamera(ndc,cam);
+    const hits=ray.intersectObjects(cubies,true);
+    if(!hits.length) return false;
+    const h=hits[0];
+    const n=h.face.normal.clone().transformDirection(h.object.matrixWorld).round();
+    let o=h.object; while(o&&cubies.indexOf(o)<0) o=o.parent; if(!o) return false;
+    pick={cubie:o,normal:n}; startXY={x:e.clientX,y:e.clientY};
+    return true;
+  }
+  function cubeMove(e){
+    if(!pick) return;
+    const dx=e.clientX-startXY.x, dy=e.clientY-startXY.y;
+    if(Math.hypot(dx,dy)<12) return;
+    const n=pick.normal, drag=new THREE.Vector2(dx,dy).normalize();
+    const AX=[['x',new THREE.Vector3(1,0,0)],['y',new THREE.Vector3(0,1,0)],['z',new THREE.Vector3(0,0,1)]]
+      .filter(a=>Math.abs(a[1].dot(n))<0.5);
+    let best=null,bestScore=-1,bestSv=null;
+    AX.forEach(a=>{
+      const s0=w2s(pick.cubie.position), s1=w2s(pick.cubie.position.clone().add(a[1]));
+      const sv=new THREE.Vector2(s1.x-s0.x,s1.y-s0.y).normalize();
+      const sc=Math.abs(sv.dot(drag));
+      if(sc>bestScore){ bestScore=sc; best=a; bestSv=sv; }
+    });
+    const rotAxis=new THREE.Vector3().crossVectors(n,best[1]).round();
+    const axisName=Math.abs(rotAxis.x)?'x':Math.abs(rotAxis.y)?'y':'z';
+    const layer=Math.round(pick.cubie.position[axisName]/GAP);
+    const along=bestSv.dot(drag);                               // sign of drag along +moveAxis on screen
+    const dir=Math.sign(along)*(rotAxis[axisName]>=0?1:-1)*-1;
+    const p=pick; pick=null;
+    move(axisName,layer,dir,0.2,true);
+  }
+  window.addEventListener('pointerdown',e=>{ cubeGesture=cubeDown(e); },true);
+  window.addEventListener('pointermove',e=>{ if(cubeGesture) cubeMove(e); },true);
+  window.addEventListener('pointerup',()=>{ pick=null; setTimeout(()=>{cubeGesture=false;},0); });
+
+  /* ---- rise with scroll + render ---- */
+  const ctrl=document.getElementById('cubeCtrl'), hint=document.getElementById('cubeHint');
+  (function loop(){ requestAnimationFrame(loop);
+    const rise=Math.max(0,Math.min(1,(scrollV-0.06)/0.34));     // cube comes up as you zoom in
+    const e=1-Math.pow(1-rise,3);
+    root.position.y=-5.2*(1-e);
+    root.scale.setScalar(0.12+0.88*e);
+    root.rotation.y=(-Math.PI*0.65)*(1-e);                      // settles to identity so twist math holds
+    arrived = rise>0.96;
+    ctrl.classList.toggle('on',arrived);
+    hint.classList.toggle('on',arrived && history.length===0);
+    renderer.render(scene3,cam);
+  })();
+})();
+
+/* ===================== chapter (half-page split story) =================== */
+const chapter=document.getElementById('chapter'), chSplit=document.getElementById('chSplit');
+const DEV='०१२३४५६७८९', devNum=n=>String(n).split('').map(c=>DEV[+c]).join('');
 let chIndex=-1;
-
-/* a rotating rubik/lego cube skinned in this card's colours (pure CSS 3D) */
-function buildCube(d,seed){
-  const pal=[d.c1,d.c2,d.c1,d.c2,'#ffb224','#ff3d8b','#7a6bff','#36d39a','#f7ecd8'];
-  let s=((seed*9301+49297)%233280+233280)%233280;
-  const rnd=()=>{ s=(s*9301+49297)%233280; return s/233280; };
-  const c=document.createElement('div'); c.className='cube';
-  ['f-front','f-back','f-right','f-left','f-top','f-bottom'].forEach(fc=>{
-    const f=document.createElement('div'); f.className='face '+fc;
-    for(let k=0;k<9;k++){ const st=document.createElement('span'); st.className='st';
-      const col=pal[(rnd()*pal.length)|0];
-      st.style.background='linear-gradient(145deg,rgba(255,255,255,.4),rgba(255,255,255,0) 44%),'+col;
-      f.appendChild(st); }
-    c.appendChild(f);
-  });
-  return c;
-}
-
-function openCard(i){ openChapter(i); }          // tiles call this
 function openChapter(i){
   const d=CARDS[i]; chIndex=i; const proj=d.k==='project';
-  chapter.style.setProperty('--cc1',d.c1);
-  chapter.style.setProperty('--cc2',d.c2);
-  chapter.style.setProperty('--cc1b',d.c1);
+  chapter.style.setProperty('--cc1',d.c1); chapter.style.setProperty('--cc2',d.c2); chapter.style.setProperty('--cc1b','#ffc53d');
   const media = d.vid ? `<video src="${encodeURI(d.vid)}" muted loop autoplay playsinline preload="metadata"></video>`
               : d.img ? `<img src="${encodeURI(d.img)}" alt="">`
               : `<div class="artwrap">${artFor(d.glyph)}</div>`;
   const no=String(i+1).padStart(2,'0');
-  chWrap.innerHTML=`
-    <div class="ch-top">
-      <div class="ch-no">अध्याय ${devNum(i+1)} · chapter<b>${no}</b></div>
-      <button class="chclose" aria-label="close">✕&nbsp;&nbsp;close</button>
-    </div>
-    <div class="ch-grid">
-      <div class="ch-hero">
-        <div class="cube-stage"></div>
-        <div class="ch-label">${proj?'project':'the person'} · <b>${d.ttl}</b></div>
-      </div>
-      <div class="ch-story">
-        <div class="ch-kicker">${d.kick}</div>
-        <h1 class="ch-title">${d.ttl}</h1>
-        <div class="ch-tag">“${d.tag}”</div>
-        <div class="ch-sec"><div class="lbl">${proj?'the story':'the real story'}</div><p>${d.body}</p></div>
-        ${d.meta?`<div class="ch-sec"><div class="lbl">${proj?'built with':'in short'}</div>
-          <div class="ch-chips">${d.meta.map(m=>`<span>${m}</span>`).join('')}</div></div>`:''}
-        <div class="ch-sec"><div class="lbl">${d.vid?'the footage':d.img?'the screen':'the doodle'}</div>
-          <div class="ch-footage">${media}</div>
-          <div class="ch-cap">${proj?(d.vid?'live demo · real build':'from the build'):'a little piece of me'}</div></div>
-        <div class="ch-end">
-          <span class="fin">${proj?'— to be continued':'— and that\'s the whole of it'}</span>
-          <div class="ch-nav"><button data-nav="-1">← prev</button><button data-nav="1">next →</button></div>
-        </div>
+  chSplit.innerHTML=`
+    <div class="ch-media">${media}<div class="mlabel">${proj?'project':'the person'} · ${d.ttl}</div></div>
+    <div class="ch-body">
+      <div class="ch-no">अध्याय ${devNum(i+1)} · chapter ${no}</div>
+      <div class="ch-kicker">${d.kick}</div>
+      <h1 class="ch-title">${d.ttl}</h1>
+      <div class="ch-tag">“${d.tag}”</div>
+      <div class="ch-sec"><div class="lbl">${proj?'the story':'the real story'}</div><p>${d.body}</p></div>
+      ${d.meta?`<div class="ch-sec"><div class="lbl">${proj?'built with':'in short'}</div>
+        <div class="ch-chips">${d.meta.map(m=>`<span>${m}</span>`).join('')}</div></div>`:''}
+      <div class="ch-end">
+        <span class="fin">${proj?'— to be continued':'— and that\'s the whole of it'}</span>
+        <div class="ch-nav"><button data-nav="-1">← prev</button><button data-nav="1">next →</button></div>
       </div>
     </div>`;
-  chWrap.querySelector('.cube-stage').appendChild(buildCube(d,i+1));
   chapter.classList.add('open'); chapter.setAttribute('aria-hidden','false');
-  document.body.classList.add('ch-open');
-  if(lenis) lenis.stop();
-  chapter.scrollTop=0;
+  document.body.classList.add('locked'); if(lenis) lenis.stop(); chapter.scrollTop=0;
   if(window.gsap){
     gsap.fromTo(chapter,{opacity:0},{opacity:1,duration:.4,ease:'power2.out'});
-    gsap.fromTo(chWrap,{y:30,opacity:0},{y:0,opacity:1,duration:.6,ease:'expo.out',delay:.05});
-    gsap.fromTo('#chWrap .cube-stage',{scale:.6,opacity:0},{scale:1,opacity:1,duration:.7,ease:'back.out(1.6)',delay:.12});
+    gsap.fromTo('#chSplit .ch-body',{y:26,opacity:0},{y:0,opacity:1,duration:.6,ease:'expo.out',delay:.05});
+    gsap.fromTo('#chSplit .ch-media',{scale:1.06,opacity:.4},{scale:1,opacity:1,duration:.7,ease:'expo.out'});
   }
 }
 function closeChapter(){
-  if(window.gsap){ gsap.to(chapter,{opacity:0,duration:.3,ease:'power2.in',onComplete:fin}); }
-  else fin();
+  if(window.gsap){ gsap.to(chapter,{opacity:0,duration:.3,ease:'power2.in',onComplete:fin}); } else fin();
   function fin(){ chapter.classList.remove('open'); chapter.setAttribute('aria-hidden','true');
-    document.body.classList.remove('ch-open'); chWrap.innerHTML=''; if(lenis) lenis.start(); chapter.style.opacity=''; }
+    document.body.classList.remove('locked'); chSplit.innerHTML=''; if(lenis) lenis.start(); chapter.style.opacity=''; }
 }
 chapter.addEventListener('click',e=>{
   if(e.target.closest('.chclose')){ closeChapter(); return; }
   const nav=e.target.closest('[data-nav]');
   if(nav){ const n=(chIndex+(+nav.dataset.nav)+CARDS.length)%CARDS.length; openChapter(n); }
 });
-window.addEventListener('keydown',e=>{ if(e.key==='Escape' && chapter.classList.contains('open')) closeChapter(); });
+window.addEventListener('keydown',e=>{ if(e.key==='Escape'&&chapter.classList.contains('open')) closeChapter(); });
 
-/* ===================== splash + nav =================== */
-window.addEventListener('load',()=>{
-  // build petals in medallion halo
-  const petals=document.getElementById('petals');
-  if(petals){ let s='';
-    for(let a=0;a<24;a++){ const ang=a*15*Math.PI/180;
-      const x1=150+Math.cos(ang)*118, y1=150+Math.sin(ang)*118;
-      const x2=150+Math.cos(ang)*134, y2=150+Math.sin(ang)*134;
-      s+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`; }
-    petals.innerHTML=s;
-  }
-  const bar=document.getElementById('splashBar');
-  if(window.gsap){
-    gsap.to(bar,{width:'100%',duration:1.1,ease:'power2.inOut'});
-    const tl=gsap.timeline({delay:1.1});
-    tl.to('#splash',{opacity:0,duration:.6,ease:'power2.in',onComplete:()=>document.getElementById('splash').classList.add('gone')});
-    if(!FLAT){
-      tl.addLabel('blast');                                           // everything detonates once splash is gone
-      tl.fromTo('#flash',{opacity:0,scale:0.04},{opacity:1,scale:1.05,duration:.13,ease:'power2.out'},'blast')
-        .to('#flash',{opacity:0,scale:4.2,duration:1.0,ease:'power3.out'});   // shockwave
-      const ia={a:0}; tl.to(ia,{a:1,duration:.38,ease:'power1.out',onUpdate:()=>{introA=ia.a;}},'blast');
-      const bo={p:0}; tl.to(bo,{p:1,duration:1.5,ease:'back.out(2.0)',onUpdate:()=>{burstP=bo.p;}},'blast');
-      const hi={v:0}; tl.to(hi,{v:1,duration:.85,ease:'back.out(2.6)',onUpdate:()=>{heroIntro=hi.v;}},'blast+=0.05');
-    } else {
-      tl.from('.grid .tile',{opacity:0,y:30,duration:.5,stagger:0.05},'-=.3');
-    }
-  } else {
-    document.getElementById('splash').classList.add('gone');
-  }
-});
-
-// safety net: never let the splash trap the page, even if GSAP/CDN misbehaves
-setTimeout(function(){
-  var sp=document.getElementById('splash'); if(sp && !sp.classList.contains('gone')) sp.classList.add('gone');
-  if(introA<1){ introA=1; introS=1; } burstP=1; heroIntro=1;
-  if(FLAT){ document.querySelectorAll('.grid .tile').forEach(function(t){ t.style.opacity=1; t.style.transform='none'; }); }
-}, 4200);
-
-// smooth scroll
+/* ===================== smooth scroll =================== */
 if(window.Lenis && !reduce){
   lenis=new Lenis({lerp:0.09});
   function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
   requestAnimationFrame(raf);
   if(window.ScrollTrigger) lenis.on('scroll',ScrollTrigger.update);
 }
-
-/* ===================== ASCII lotus backdrop (2D canvas, behind the carousel) ===================== */
-(function(){
-  const canvas=document.getElementById('bgCanvas'); if(!canvas) return;
-  const ctx=canvas.getContext('2d'); if(!ctx) return;
-  const CW=11, CH=13;
-  const RAMP=' .:-=+*coe%@#';
-  let W,H,cols,rows;
-  let base;
-  function buildBase(){ base=document.createElement('canvas'); base.width=W; base.height=H; const b=base.getContext('2d');
-    b.fillStyle='#24060f'; b.fillRect(0,0,W,H);
-    const gl=(cx,cy,r,col)=>{ const gr=b.createRadialGradient(cx,cy,0,cx,cy,r); gr.addColorStop(0,col); gr.addColorStop(1,'rgba(0,0,0,0)'); b.fillStyle=gr; b.fillRect(0,0,W,H); };
-    gl(W*0.17,H*0.12,W*0.52,'rgba(255,61,139,0.58)');   // magenta
-    gl(W*0.9, H*0.22,W*0.5, 'rgba(122,107,255,0.48)');  // electric indigo
-    gl(W*0.5, H*0.98,W*0.68,'rgba(255,138,30,0.5)');    // saffron
-    gl(W*0.08,H*0.72,W*0.44,'rgba(54,211,154,0.34)');   // chili green
-    gl(W*0.84,H*0.82,W*0.46,'rgba(255,77,61,0.46)');    // tomato
-  }
-  function size(){ W=canvas.width=innerWidth; H=canvas.height=innerHeight; cols=Math.ceil(W/CW); rows=Math.ceil(H/CH); buildBase(); }
-  size();
-  let t=0, pmx=0, pmy=0, last=0;
-  // one lotus petal: bright along its centre-line, tapering to a point
-  function petal(r,th,n,rIn,rOut,phase){
-    const pa=2*Math.PI/n; let ao=((th+phase)%pa+pa)%pa-pa/2;
-    const rr=(r-rIn)/(rOut-rIn); if(rr<0||rr>1) return 0;
-    const halfW=pa*0.5*(1-0.72*rr), na=Math.abs(ao)/halfW; if(na>1) return 0;
-    return (1-na)*Math.sin(rr*Math.PI)*1.15;
-  }
-  // lotus + lily-pad anchors (fractions of viewport), clustered down the sides so they frame the centre
-  const LOTI=[{x:.05,y:.1,r:.14},{x:.07,y:.3,r:.17},{x:.14,y:.47,r:.12},{x:.03,y:.58,r:.16},{x:.14,y:.73,r:.14},
-              {x:.06,y:.9,r:.15},
-              {x:.95,y:.12,r:.14},{x:.9,y:.31,r:.17},{x:.97,y:.5,r:.13},{x:.88,y:.64,r:.12},
-              {x:.96,y:.8,r:.16},{x:.9,y:.96,r:.13}];
-  const PADS=[{x:.15,y:.2,r:.14},{x:.12,y:.5,r:.16},{x:.16,y:.78,r:.14},{x:.86,y:.22,r:.13},{x:.9,y:.52,r:.16},{x:.85,y:.82,r:.14}];
-  function draw(){
-    ctx.drawImage(base,0,0);                                 // bright desi colour base
-    ctx.font=CW+'px "Space Mono", ui-monospace, monospace'; ctx.textBaseline='top';
-    pmx+=(mX-pmx)*0.05; pmy+=(mY-pmy)*0.05;
-    const mn=Math.min(W,H), rot=t*0.04;
-    for(let j=0;j<rows;j++){ const cyp=j*CH;
-      for(let i=0;i<cols;i++){ const cxp=i*CW;
-        // mottled maroon ground texture
-        let v=0.1+0.1*Math.sin(i*0.7+j*1.3+Math.sin(i*0.3-j*0.22)*2.0+t*0.15);
-        let R=120,G=26,B=30;
-        // green lily pads
-        for(let p=0;p<PADS.length;p++){ const P=PADS[p];
-          const ex=(cxp-(P.x*W+pmx*8))*0.8, ey=cyp-(P.y*H+pmy*6), rr=Math.hypot(ex,ey)/(P.r*mn);
-          if(rr<1){ const pv=(1-rr)*0.78*(0.85+0.15*Math.sin(Math.atan2(ey,ex)*7+rot*3));
-            if(pv>v){ v=pv; R=40+26*pv; G=150+55*pv; B=90+30*pv; } } }
-        // pink + gold lotus flowers
-        for(let f=0;f<LOTI.length;f++){ const F=LOTI[f];
-          const fx=cxp-(F.x*W+pmx*10), fy=cyp-(F.y*H+pmy*8), r=Math.hypot(fx,fy)/(F.r*mn);
-          if(r<1.12){ const th=Math.atan2(fy,fx); let pv=0;
-            pv=Math.max(pv, petal(r,th,8,0.28,1.04, rot+F.y*6));
-            pv=Math.max(pv, petal(r,th,12,0.16,0.66, rot+F.y*6+0.3));
-            pv=Math.max(pv, petal(r,th,6,0.06,0.44, rot+F.y*6+0.6));
-            pv=Math.max(pv, 1-r/0.16);
-            pv*=1.12;
-            if(pv>v){ v=pv;
-              if(pv<0.42){ R=255;G=214;B=110; }                      // gold petal edge
-              else { const q=(pv-0.42)/0.58; R=(230+25*q)|0;G=(130+80*q)|0;B=(180+45*q)|0; } } }  // pink body
-        }
-        if(v<0.07) continue;                                         // sparse ground, solid flowers
-        const ch=RAMP[Math.min(RAMP.length-1,(v*RAMP.length)|0)]; if(ch===' ') continue;
-        ctx.fillStyle='rgba('+(R|0)+','+(G|0)+','+(B|0)+','+(0.42+v*0.55).toFixed(2)+')';
-        ctx.fillText(ch, cxp, cyp);
-      }
-    }
-  }
-  // static backdrop: draw once (big perf win), redraw only on resize / font load
-  draw();
-  if(document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
-  let rt; addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ size(); draw(); },160); });
-  requestAnimationFrame(()=>canvas.classList.add('on'));
-})();
-
-/* ===================== Three.js hero collectible ===================== */
-(function(){
-  if(!window.THREE || reduce) return;                 // CSS bg stays as fallback
-  const PAL=[0xff4d3d,0xffb224,0xff3d8b,0x7a6bff,0x36d39a];
-  function dotTexture(){
-    const c=document.createElement('canvas'); c.width=c.height=64;
-    const g=c.getContext('2d'), grd=g.createRadialGradient(32,32,0,32,32,32);
-    grd.addColorStop(0,'rgba(255,255,255,1)'); grd.addColorStop(.25,'rgba(255,255,255,.7)'); grd.addColorStop(1,'rgba(255,255,255,0)');
-    g.fillStyle=grd; g.fillRect(0,0,64,64);
-    const t=new THREE.Texture(c); t.needsUpdate=true; return t;
-  }
-  const SPRITE=dotTexture();
-
-  /* (particles + 3D lotus removed — lotus is now the ASCII backdrop below) */
-
-  /* hero: the baddie as a 3D holo/acrylic collectible (replaces the flat medallion) */
-  (function(){
-    if(FLAT) return;
-    const canvas=document.getElementById('heroCanvas'); if(!canvas) return;
-    let renderer; try{ renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true}); }catch(e){ return; }
-    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-    const scene=new THREE.Scene();
-    const cam=new THREE.PerspectiveCamera(40,1,0.1,100); cam.position.set(0,0,11);
-    function size(){ renderer.setSize(innerWidth,innerHeight); cam.aspect=innerWidth/innerHeight; cam.updateProjectionMatrix(); }
-    size(); addEventListener('resize',size);
-    const fig=new THREE.Group(); fig.position.y=0.15; scene.add(fig);
-    function rr(w,h,r){ const s=new THREE.Shape(),x=-w/2,y=-h/2;
-      s.moveTo(x+r,y); s.lineTo(x+w-r,y); s.quadraticCurveTo(x+w,y,x+w,y+r);
-      s.lineTo(x+w,y+h-r); s.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-      s.lineTo(x+r,y+h); s.quadraticCurveTo(x,y+h,x,y+h-r);
-      s.lineTo(x,y+r); s.quadraticCurveTo(x,y,x+r,y); return s; }
-    const tex=new THREE.TextureLoader().load('avatar.jpg'); tex.anisotropy=4;
-
-    // ---- portrait in a cusped-arch window, lit with faux-relief so it reads dimensional ----
-    const WW=2.0, WH=2.2, ARCH=0.5, WY=0.4;
-    function archShape(w,h,a){ const s=new THREE.Shape(), x=w/2, yb=-h/2, yt=h/2;
-      s.moveTo(-x,yb); s.lineTo(x,yb); s.lineTo(x,yt);
-      s.quadraticCurveTo(x,yt+a*0.6, x*0.5,yt+a*0.56);
-      s.quadraticCurveTo(x*0.16,yt+a*0.5, 0,yt+a);
-      s.quadraticCurveTo(-x*0.16,yt+a*0.5, -x*0.5,yt+a*0.56);
-      s.quadraticCurveTo(-x,yt+a*0.6, -x,yt); s.lineTo(-x,yb); return s; }
-    const pg=new THREE.ShapeGeometry(archShape(WW,WH,ARCH),22);
-    (function(){ const p=pg.attributes.position, uv=[]; for(let k=0;k<p.count;k++){
-      uv.push((p.getX(k)+WW/2)/WW, ((p.getY(k)+WH/2)/WH)*0.94+0.03); } pg.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2)); })();
-    const portMat=new THREE.ShaderMaterial({uniforms:{map:{value:tex},light:{value:new THREE.Vector2(0.3,0.4)}},
-      vertexShader:'varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
-      fragmentShader:'uniform sampler2D map; uniform vec2 light; varying vec2 vUv;'+
-        'void main(){ vec2 uv=clamp(vUv,0.0,1.0); vec4 c=texture2D(map,uv); float e=0.0025;'+
-        'float l=dot(c.rgb,vec3(0.299,0.587,0.114));'+
-        'float lx=dot(texture2D(map,uv+vec2(e,0.0)).rgb,vec3(0.299,0.587,0.114));'+
-        'float ly=dot(texture2D(map,uv+vec2(0.0,e)).rgb,vec3(0.299,0.587,0.114));'+
-        'vec3 n=normalize(vec3((l-lx)*5.0,(l-ly)*5.0,1.0)); vec3 L=normalize(vec3(light,0.9));'+
-        'float diff=0.84+0.3*max(dot(n,L),0.0); float spec=pow(max(dot(n,L),0.0),10.0)*0.5;'+
-        'gl_FragColor=vec4(c.rgb*diff+spec,1.0); }'});
-    const img=new THREE.Mesh(pg,portMat); img.position.set(0,WY,0.165); img.renderOrder=1; fig.add(img);
-
-    // ---- ornate jharokha frame (original), window punched transparent so the portrait shows ----
-    function jharokhaTex(){
-      const px=200, FW=3.4*px, FH=4.9*px, c=document.createElement('canvas'); c.width=FW;c.height=FH;
-      const g=c.getContext('2d'); g.lineJoin='round';
-      function gold(y0,y1){ const gr=g.createLinearGradient(0,y0,0,y1); gr.addColorStop(0,'#ffe9a8');gr.addColorStop(.5,'#c9972f');gr.addColorStop(1,'#8a5a0c'); return gr; }
-      const wW=WW*px, wH=WH*px, aH=ARCH*px, wx=FW/2, wy=FH/2;
-      const L=wx-wW/2, R=wx+wW/2, T=wy-wH/2, B=wy+wH/2;
-      function archPath(){ g.beginPath(); g.moveTo(L,B); g.lineTo(R,B); g.lineTo(R,T);
-        g.quadraticCurveTo(R,T-aH*0.6, wx+wW*0.25,T-aH*0.56);
-        g.quadraticCurveTo(wx+wW*0.08,T-aH*0.5, wx,T-aH);
-        g.quadraticCurveTo(wx-wW*0.08,T-aH*0.5, wx-wW*0.25,T-aH*0.56);
-        g.quadraticCurveTo(L,T-aH*0.6, L,T); g.closePath(); }
-      // pillars
-      [L-96,R+50].forEach(px0=>{ g.fillStyle=gold(T-aH*0.4,B+110); g.fillRect(px0,T-aH*0.4,46,(B+110)-(T-aH*0.4));
-        g.strokeStyle='rgba(90,58,8,.55)'; g.lineWidth=2; for(let k=1;k<4;k++){ g.beginPath(); g.moveTo(px0+k*11.5,T-aH*0.25); g.lineTo(px0+k*11.5,B+100); g.stroke(); }
-        g.fillStyle=gold(T-aH*0.55,T-aH*0.1); g.fillRect(px0-10,T-aH*0.55,66,28);
-        g.fillStyle=gold(B+92,B+118); g.fillRect(px0-10,B+92,66,24); });
-      // arch band
-      g.lineWidth=28; g.strokeStyle=gold(T-aH,T); archPath(); g.stroke();
-      g.lineWidth=6; g.strokeStyle='#fff2c0'; archPath(); g.stroke();
-      // chhajja (overhanging eave)
-      g.fillStyle=gold(T-aH-62,T-aH-14); g.beginPath();
-      g.moveTo(L-130,T-aH-14); g.lineTo(R+130,T-aH-14); g.lineTo(R+160,T-aH-60); g.lineTo(L-160,T-aH-60); g.closePath(); g.fill();
-      g.fillStyle='#8a5a0c'; for(let x=L-126;x<R+120;x+=24){ g.beginPath(); g.arc(x+12,T-aH-14,12,0,Math.PI); g.fill(); }
-      // kalash finial
-      g.fillStyle=gold(T-aH-150,T-aH-66);
-      g.beginPath(); g.ellipse(wx,T-aH-80,28,20,0,0,Math.PI*2); g.fill();
-      g.beginPath(); g.moveTo(wx-15,T-aH-90); g.lineTo(wx+15,T-aH-90); g.lineTo(wx,T-aH-152); g.closePath(); g.fill();
-      g.beginPath(); g.arc(wx,T-aH-158,9,0,Math.PI*2); g.fill();
-      // base sill (no name)
-      g.fillStyle=gold(B+14,B+92); g.fillRect(L-130,B+14,(R+130)-(L-130),78);
-      // spandrel florets
-      g.fillStyle='#ffe9a8'; [[L+16,T-aH*0.15],[R-16,T-aH*0.15]].forEach(p=>{ for(let a=0;a<6;a++){ g.beginPath(); g.ellipse(p[0]+Math.cos(a)*9,p[1]+Math.sin(a)*9,4.5,2,a,0,Math.PI*2); g.fill(); } g.beginPath(); g.arc(p[0],p[1],4,0,Math.PI*2); g.fill(); });
-      // punch the window transparent
-      g.globalCompositeOperation='destination-out'; archPath(); g.fill(); g.globalCompositeOperation='source-over';
-      // pixelate: resample the drawn frame into a grid of square tiles (like the mosaic)
-      const PX=15, data=g.getImageData(0,0,FW,FH).data;
-      const c2=document.createElement('canvas'); c2.width=FW; c2.height=FH; const g2=c2.getContext('2d');
-      for(let y=0;y<FH;y+=PX){ for(let x=0;x<FW;x+=PX){
-        const sx=Math.min(FW-1,x+(PX>>1)), sy=Math.min(FH-1,y+(PX>>1)), id=(sy*FW+sx)*4, a=data[id+3];
-        if(a<45) continue;
-        g2.fillStyle='rgba('+data[id]+','+data[id+1]+','+data[id+2]+','+(a/255).toFixed(2)+')';
-        g2.fillRect(x,y,PX-2,PX-2);
-      }}
-      const t=new THREE.Texture(c2); t.needsUpdate=true; t.anisotropy=4; return t;
-    }
-    const jhar=new THREE.Mesh(new THREE.PlaneGeometry(3.4,4.9),new THREE.MeshBasicMaterial({map:jharokhaTex(),transparent:true,depthWrite:false}));
-    jhar.position.set(0,WY,0.2); jhar.renderOrder=2; fig.add(jhar);
-    let pmx=0,pmy=0,tt=0,zv=0;
-    (function loop(){ requestAnimationFrame(loop);
-      tt+=0.016; pmx+=(mX-pmx)*0.06; pmy+=(mY-pmy)*0.06; zv+=(zoomV-zv)*0.08;
-      const osc=Math.sin(tt*0.5)*0.32;
-      fig.rotation.y=osc+pmx*0.55; fig.rotation.x=-pmy*0.4;
-      portMat.uniforms.light.value.set(0.35+(pmx+osc)*0.9, 0.4-pmy*0.9);
-      fig.scale.setScalar((1+zv*1.7)*heroIntro);
-      renderer.render(scene,cam);
-    })();
-  })();
-})();
 </script>
 </body>
 </html>
