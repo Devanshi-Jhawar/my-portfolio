@@ -4,224 +4,188 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Devanshi Jhawar</title>
-<meta name="description" content="Devanshi Jhawar — XR/AI builder. Rise through a dusk sky, step through a door, down a lantern-lit gali, into the work.">
+<meta name="description" content="Devanshi Jhawar — XR/AI builder. Drift up through the clouds, through a window in the sky, down a corridor of words, into the work.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Baloo+2:wght@500;700;800&family=Mukta:wght@300;400;600&family=Kalam:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  /* warm dusk / desi festival palette */
-  --ink:#1a0e22;            /* deep aubergine-night */
-  --ink2:#2a1140;
-  --indigo:#3a1f73;
-  --violet:#6a2a8e;
-  --magenta:#ff3d8b;
-  --rose:#ff5e7a;
-  --saffron:#ff8a1e;
-  --marigold:#ffb224;
-  --gold:#ffd36b;
-  --chili:#36d39a;
-  --cream:#fff2dc;
-  --muted:#d9b9c9;
-  --line:rgba(255,242,220,.16);
+  /* olive green + baby pink */
+  --pink:#f6b9d0;          /* baby pink */
+  --pink-soft:#fbdbe6;
+  --pink-deep:#e58bad;
+  --rose:#d8477e;
+  --olive:#6f7a39;         /* olive green */
+  --olive-deep:#454d22;
+  --olive-mid:#7e8a46;
+  --olive-light:#a7b172;
+  --cream:#fdf7ec;
+  --ink:#30361b;           /* deep olive text */
+  --muted:#7a7a5f;
+  --line:rgba(69,77,34,.18);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:auto}
 html,body{height:100%}
-body{
-  background:var(--ink);
-  color:var(--cream);
-  font-family:'Mukta',system-ui,sans-serif;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-body.locked{overflow:hidden}
+body{background:var(--pink-soft);color:var(--ink);font-family:'Mukta',system-ui,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 
-/* ===== thin frame (fixed) ===== */
-.frame{position:fixed;inset:14px;border:1px solid rgba(255,242,220,.5);z-index:120;pointer-events:none;border-radius:3px;mix-blend-mode:overlay}
+/* thin frame */
+.frame{position:fixed;inset:14px;border:1px solid rgba(69,77,34,.45);z-index:120;pointer-events:none;border-radius:3px}
+/* little sun, olive */
+.sun{position:fixed;top:24px;right:32px;z-index:121;width:26px;height:26px;pointer-events:none;opacity:.8}
 
-/* ===== night/day toggle (decorative sun) ===== */
-.sun{position:fixed;top:26px;right:34px;z-index:121;width:26px;height:26px;pointer-events:none;opacity:.85}
-.sun svg{width:100%;height:100%}
+/* ================= INTRO (cinematic) ================= */
+#intro{position:relative;height:780vh}
+#stage{position:sticky;top:0;height:100vh;overflow:hidden}
 
-/* ========================================================
-   INTRO — one tall scroll, a sticky cinematic stage
-   ======================================================== */
-#intro{position:relative;height:720vh}
-#stage{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--ink)}
-
-/* --- the dusk sky --- */
+/* --- baby-pink dawn sky --- */
 .sky{position:absolute;inset:0;z-index:1;
   background:linear-gradient(180deg,
-    #140a2e 0%, #2a1140 18%, #4a1f6e 36%, #8e2a7e 54%,
-    #d83c75 70%, #ff6a3d 84%, #ffb24a 95%, #ffd36b 100%);}
-.sky .sunglow{position:absolute;left:50%;bottom:-18vh;width:120vw;height:70vh;transform:translateX(-50%);
-  background:radial-gradient(60% 100% at 50% 100%, rgba(255,210,120,.95), rgba(255,138,30,.5) 38%, transparent 72%);
+    #c98ab4 0%, #e49cbb 20%, #f3b3cc 42%, #f9ccdc 64%, #fde0dd 82%, #fdeede 100%);}
+.sky .sunglow{position:absolute;left:50%;bottom:-16vh;width:120vw;height:64vh;transform:translateX(-50%);
+  background:radial-gradient(60% 100% at 50% 100%, rgba(255,246,236,.95), rgba(246,185,208,.5) 40%, transparent 74%);
   mix-blend-mode:screen;filter:blur(2px)}
-.sky .stars{position:absolute;inset:0;opacity:.5;
-  background-image:radial-gradient(1.2px 1.2px at 20% 18%,#fff,transparent),
-   radial-gradient(1px 1px at 65% 12%,#fff,transparent),
-   radial-gradient(1.4px 1.4px at 80% 26%,#ffe,transparent),
-   radial-gradient(1px 1px at 40% 8%,#fff,transparent),
-   radial-gradient(1px 1px at 12% 32%,#fff,transparent),
-   radial-gradient(1.2px 1.2px at 88% 9%,#fff,transparent);
-  mask-image:linear-gradient(180deg,#000 0%,#000 30%,transparent 55%)}
 
-/* --- clouds (warm-lit, wispy via SVG turbulence) --- */
+/* --- clouds (puffy cumulus, SVG sprites) --- */
 .clouds{position:absolute;inset:0;z-index:2}
-.cloud{position:absolute;left:50%;top:50%;width:92vw;height:64vh;
-  transform:translate(-50%,-50%) translateZ(0);
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012 0.02' numOctaves='4' seed='7'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.7 0.7 0.7 0 -0.45'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E");
-  background-size:cover;filter:blur(5px);mix-blend-mode:screen;will-change:transform,opacity;
-  -webkit-mask-image:radial-gradient(ellipse 60% 55% at 50% 55%,#000 32%,transparent 74%);
-          mask-image:radial-gradient(ellipse 60% 55% at 50% 55%,#000 32%,transparent 74%)}
-.cloud.warm{mix-blend-mode:overlay;opacity:.5;
-  background-image:none;background:radial-gradient(ellipse 60% 50% at 50% 60%,rgba(255,150,90,.9),transparent 70%)}
+.cloud{position:absolute;left:50%;top:50%;width:88vw;height:60vh;transform:translate(-50%,-50%);
+  background-repeat:no-repeat;background-position:center;background-size:contain;
+  will-change:transform,opacity;filter:drop-shadow(0 18px 30px rgba(170,110,140,.22))}
+.cloud.c1{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='760' height='420'%3E%3Cdefs%3E%3CradialGradient id='g' cx='48%25' cy='34%25' r='72%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff'/%3E%3Cstop offset='58%25' stop-color='%23fdeef4'/%3E%3Cstop offset='100%25' stop-color='%23f3cedd'/%3E%3C/radialGradient%3E%3Cfilter id='b' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeGaussianBlur stdDeviation='7'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23b)' fill='url(%23g)'%3E%3Cellipse cx='250' cy='280' rx='180' ry='95'/%3E%3Cellipse cx='470' cy='290' rx='170' ry='90'/%3E%3Ccircle cx='300' cy='210' r='95'/%3E%3Ccircle cx='420' cy='185' r='105'/%3E%3Ccircle cx='520' cy='225' r='85'/%3E%3Ccircle cx='200' cy='250' r='78'/%3E%3Crect x='150' y='285' width='470' height='95' rx='48'/%3E%3C/g%3E%3C/svg%3E")}
+.cloud.c2{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='760' height='420'%3E%3Cdefs%3E%3CradialGradient id='g2' cx='52%25' cy='36%25' r='72%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff'/%3E%3Cstop offset='60%25' stop-color='%23fdeaf1'/%3E%3Cstop offset='100%25' stop-color='%23eec4d6'/%3E%3C/radialGradient%3E%3Cfilter id='b2' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeGaussianBlur stdDeviation='8'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23b2)' fill='url(%23g2)'%3E%3Cellipse cx='300' cy='275' rx='200' ry='100'/%3E%3Ccircle cx='250' cy='205' r='88'/%3E%3Ccircle cx='380' cy='175' r='110'/%3E%3Ccircle cx='500' cy='210' r='92'/%3E%3Crect x='140' y='280' width='470' height='90' rx='45'/%3E%3C/g%3E%3C/svg%3E")}
 
-/* --- hello line --- */
-.hello{position:absolute;left:0;right:0;top:30%;text-align:center;z-index:5;padding:0 18px;
-  font-family:'Rozha One',serif;font-size:clamp(30px,6vw,74px);color:#fff5e4;
-  letter-spacing:.01em;opacity:0;will-change:transform,opacity;
-  text-shadow:0 2px 2px rgba(20,8,30,.6),0 10px 40px rgba(20,8,30,.6)}
-.hello em{font-style:italic;color:var(--gold)}
+/* --- hello --- */
+.hello{position:absolute;left:0;right:0;top:28%;text-align:center;z-index:5;padding:0 18px;
+  font-family:'Rozha One',serif;font-size:clamp(30px,6vw,76px);color:var(--olive-deep);letter-spacing:.01em;
+  opacity:0;will-change:transform,opacity;text-shadow:0 2px 20px rgba(255,255,255,.5)}
+.hello em{font-style:italic;color:var(--rose)}
 .scrollcue{position:absolute;left:0;right:0;bottom:7vh;text-align:center;z-index:5;
-  font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,242,220,.82)}
-.scrollcue .a{display:block;margin-top:8px;font-size:15px;color:var(--gold);animation:bob 1.8s ease-in-out infinite}
+  font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--olive-deep)}
+.scrollcue .a{display:block;margin-top:8px;font-size:15px;color:var(--rose);animation:bob 1.8s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 
-/* --- the portal: door + alley in CSS 3D --- */
-.portal{position:absolute;inset:0;z-index:4;perspective:1000px;perspective-origin:50% 46%;
-  opacity:0;will-change:opacity}
-.alley{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
-/* an arch/doorway frame receding down the gali */
-.arch{position:absolute;left:50%;top:50%;width:44vmin;height:66vmin;
-  margin:-33vmin 0 0 -22vmin;transform-style:preserve-3d;
-  border:2.4vmin solid #2a1024;border-bottom:none;
-  border-radius:22vmin 22vmin 0 0;
-  background:
-    linear-gradient(180deg, rgba(60,24,70,.0), rgba(30,12,30,.55)),
-    linear-gradient(180deg, var(--violet), var(--ink2));
-  box-shadow:0 0 0 .5vmin rgba(255,179,36,.5),
-    inset 0 0 8vmin rgba(255,138,30,.35),
-    0 2vmin 6vmin rgba(0,0,0,.5);}
-.arch::before{content:"";position:absolute;left:50%;top:-5vmin;transform:translateX(-50%);
-  width:1.5vmin;height:1.5vmin;border-radius:50%;background:var(--gold);
-  box-shadow:0 0 2vmin 1vmin rgba(255,211,107,.6)}   /* a little hanging lantern */
-/* warm glow deep at the end of the gali */
-.endglow{position:absolute;left:50%;top:46%;width:30vmin;height:30vmin;margin:-15vmin 0 0 -15vmin;
-  border-radius:50%;transform:translateZ(-2600px);
-  background:radial-gradient(circle,rgba(255,222,140,1),rgba(255,138,30,.7) 40%,transparent 72%);
-  filter:blur(6px)}
-/* the near door with two opening leaves */
-.door{position:absolute;left:50%;top:50%;width:44vmin;height:66vmin;margin:-33vmin 0 0 -22vmin;
-  transform-style:preserve-3d;z-index:2}
-.leaf{position:absolute;top:0;width:50%;height:100%;background:
-    repeating-linear-gradient(180deg,#3a1a2e 0 3.4vmin,#2c1222 3.4vmin 6.8vmin);
-  border:0.6vmin solid #140a16;will-change:transform}
-.leaf::after{content:"";position:absolute;top:46%;width:1.6vmin;height:1.6vmin;border-radius:50%;
-  background:var(--marigold);box-shadow:0 0 1.4vmin var(--gold)}
-.leaf.left{left:0;transform-origin:left center;border-radius:20vmin 0 0 0;border-right:none}
-.leaf.left::after{right:1.4vmin}
-.leaf.right{right:0;transform-origin:right center;border-radius:0 20vmin 0 0;border-left:none}
-.leaf.right::after{left:1.4vmin}
-/* final warm wash as we pass through */
-.wash{position:absolute;inset:0;z-index:8;background:radial-gradient(circle at 50% 46%,var(--gold),var(--saffron) 42%,var(--magenta) 100%);opacity:0;pointer-events:none;will-change:opacity}
+/* --- the window in the sky (white casement, slightly ajar) --- */
+.winwrap{position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;
+  opacity:0;will-change:transform,opacity;perspective:1200px}
+.window{position:relative;width:19vmin;height:26vmin;transform-style:preserve-3d;will-change:transform}
+.window .jamb{position:absolute;inset:0;border:1.5vmin solid #fff;border-radius:1vmin;
+  background:linear-gradient(135deg, rgba(246,185,208,.5), rgba(255,255,255,.2));
+  box-shadow:0 2vmin 5vmin rgba(150,90,120,.35), inset 0 0 2vmin rgba(255,255,255,.6)}
+.window .sash{position:absolute;top:1.5vmin;bottom:1.5vmin;width:calc(50% - 1.5vmin);
+  background:linear-gradient(135deg, rgba(255,255,255,.35), rgba(201,138,180,.25));
+  border:1vmin solid #fff;border-radius:.6vmin;box-shadow:inset 0 0 1.4vmin rgba(255,255,255,.7)}
+.window .sash.l{left:1.5vmin;transform-origin:left center;transform:rotateY(32deg)}
+.window .sash.r{right:1.5vmin;transform-origin:right center;transform:rotateY(-12deg)}
+.window .handle{position:absolute;top:50%;left:1vmin;width:1vmin;height:2.4vmin;margin-top:-1.2vmin;
+  background:#e9e2d2;border-radius:1vmin;z-index:3}
 
-/* ========================================================
-   SITE — arrives through the door
-   ======================================================== */
+/* --- the corridor of words ("rectangle alley with stuff written on it") --- */
+.wordalley{position:absolute;inset:0;z-index:3;perspective:900px;perspective-origin:50% 48%;opacity:0;will-change:opacity}
+.wtrack{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.word{position:absolute;left:50%;top:50%;transform-style:preserve-3d;white-space:nowrap;
+  font-family:'Rozha One',serif;font-weight:400;line-height:.9;color:var(--olive-deep);
+  text-transform:uppercase;letter-spacing:.01em}
+.word span{color:var(--rose)}
+.endcard{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateZ(-3400px);
+  width:40vmin;height:30vmin;margin:-15vmin 0 0 -20vmin;border-radius:2vmin;
+  background:linear-gradient(140deg,var(--olive),var(--olive-deep));
+  box-shadow:0 0 0 1vmin rgba(255,255,255,.5),0 3vmin 8vmin rgba(80,60,40,.4)}
+
+/* final wash to content */
+.wash{position:absolute;inset:0;z-index:8;background:
+  radial-gradient(circle at 50% 46%, #fdeede, var(--pink) 48%, var(--pink-deep) 100%);
+  opacity:0;pointer-events:none;will-change:opacity}
+
+/* ================= SITE ================= */
 #site{position:relative;z-index:30;background:
-  radial-gradient(120% 80% at 50% -10%, #3a1f73 0%, #241038 40%, var(--ink) 100%)}
+  linear-gradient(180deg, var(--pink) 0%, var(--pink-soft) 24%, #fdeef0 100%)}
 .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(18px,5vw,48px)}
 
 .arrive{min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding:14vh 0 8vh}
-.arrive .kick{font-family:'Space Mono',monospace;font-size:clamp(11px,1.5vw,13px);letter-spacing:.4em;
-  text-transform:uppercase;color:var(--gold);margin-bottom:18px}
-.arrive h1{font-family:'Rozha One',serif;font-size:clamp(52px,12vw,160px);line-height:.92;color:#fff;letter-spacing:.01em}
-.arrive h1 .b{display:block;color:var(--marigold)}
+.arrive .kick{font-family:'Space Mono',monospace;font-size:clamp(11px,1.5vw,13px);letter-spacing:.4em;text-transform:uppercase;color:var(--olive);margin-bottom:18px}
+.arrive h1{font-family:'Rozha One',serif;font-size:clamp(52px,12vw,160px);line-height:.9;color:var(--olive-deep)}
+.arrive h1 .b{display:block;color:var(--rose)}
 .arrive .tag{font-family:'Kalam',cursive;font-size:clamp(18px,2.6vw,30px);color:var(--rose);margin-top:22px;transform:rotate(-1.2deg)}
-.arrive .sub{font-family:'Baloo 2',cursive;font-weight:600;font-size:clamp(15px,2vw,21px);color:var(--cream);margin-top:14px;max-width:40ch}
+.arrive .sub{font-family:'Baloo 2',cursive;font-weight:600;font-size:clamp(15px,2vw,21px);color:var(--ink);margin-top:14px;max-width:42ch}
 
 .sec{padding:9vh 0}
-.sec-h{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);
-  display:flex;align-items:center;gap:16px;margin-bottom:34px}
+.sec-h{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--olive);display:flex;align-items:center;gap:16px;margin-bottom:34px}
 .sec-h::after{content:"";flex:1;height:1px;background:var(--line)}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
-.card{position:relative;border-radius:18px;overflow:hidden;min-height:230px;cursor:default;
-  background:linear-gradient(155deg,var(--c1),var(--c2));border:1px solid rgba(255,255,255,.14);
-  box-shadow:0 16px 40px rgba(0,0,0,.4);display:flex;flex-direction:column;justify-content:flex-end;
+.card{position:relative;border-radius:18px;overflow:hidden;min-height:230px;
+  background:linear-gradient(155deg,var(--c1),var(--c2));border:1px solid rgba(255,255,255,.4);
+  box-shadow:0 16px 36px rgba(150,100,120,.24);display:flex;flex-direction:column;justify-content:flex-end;
   padding:18px;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s;will-change:transform}
-.card:hover{transform:translateY(-6px);box-shadow:0 26px 60px rgba(0,0,0,.55)}
-.card::after{content:"";position:absolute;inset:0;opacity:.16;mix-blend-mode:overlay;
-  background-image:radial-gradient(#fff 1px,transparent 1.4px);background-size:10px 10px}
+.card:hover{transform:translateY(-6px);box-shadow:0 26px 54px rgba(150,100,120,.34)}
 .card video,.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
-.card .scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.05) 35%,rgba(0,0,0,.72))}
-.card .ck{position:relative;z-index:2;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.88);margin-bottom:6px}
+.card .scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(40,30,20,.05) 35%,rgba(40,30,20,.66))}
+.card .ck{position:relative;z-index:2;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.92);margin-bottom:6px}
 .card .ct{position:relative;z-index:2;font-family:'Baloo 2',cursive;font-weight:800;font-size:22px;line-height:1.02;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.4)}
-.card .cd{position:relative;z-index:2;font-size:13.5px;line-height:1.5;color:rgba(255,255,255,.9);margin-top:8px;max-width:34ch}
+.card .cd{position:relative;z-index:2;font-size:13.5px;line-height:1.5;color:rgba(255,255,255,.92);margin-top:8px;max-width:34ch}
 
 .life{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
-.life .chip{border:1px solid var(--line);border-radius:14px;padding:18px;background:rgba(255,179,36,.05)}
-.life .chip .lk{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
-.life .chip .lt{font-family:'Baloo 2',cursive;font-weight:700;font-size:18px;color:#fff;margin:4px 0 6px}
-.life .chip .ld{font-size:13px;line-height:1.5;color:var(--muted)}
+.chip{border:1px solid var(--line);border-radius:14px;padding:18px;background:rgba(255,255,255,.45)}
+.chip .lk{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--olive)}
+.chip .lt{font-family:'Baloo 2',cursive;font-weight:700;font-size:18px;color:var(--olive-deep);margin:4px 0 6px}
+.chip .ld{font-size:13px;line-height:1.5;color:var(--muted)}
 
 .contact{text-align:center;padding:12vh 0}
-.contact .lead{font-family:'Rozha One',serif;font-size:clamp(30px,6vw,66px);line-height:1.05;color:#fff}
-.contact .lead em{font-style:normal;color:var(--marigold)}
-.contact .lead .p{color:var(--magenta)}
+.contact .lead{font-family:'Rozha One',serif;font-size:clamp(30px,6vw,66px);line-height:1.05;color:var(--olive-deep)}
+.contact .lead em{font-style:normal;color:var(--rose)}
 .links{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:34px}
-.links a{font-family:'Baloo 2',cursive;font-weight:700;font-size:17px;color:var(--cream);text-decoration:none;
-  border:1px solid var(--line);border-radius:40px;padding:12px 22px;transition:.25s}
-.links a:hover{background:var(--marigold);color:var(--ink);border-color:var(--marigold);transform:translateY(-2px)}
-.foot{text-align:center;padding:40px 18px 56px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;color:#9a7f94}
+.links a{font-family:'Baloo 2',cursive;font-weight:700;font-size:17px;color:var(--olive-deep);text-decoration:none;border:1px solid var(--line);border-radius:40px;padding:12px 22px;transition:.25s}
+.links a:hover{background:var(--olive);color:var(--cream);border-color:var(--olive);transform:translateY(-2px)}
+.foot{text-align:center;padding:40px 18px 56px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--muted)}
 
 .reveal{opacity:0;transform:translateY(26px)}
-
-@media (prefers-reduced-motion:reduce){
-  .scrollcue .a{animation:none}
-}
+@media (prefers-reduced-motion:reduce){.scrollcue .a{animation:none}}
 </style>
 </head>
 <body>
 
 <div class="frame" aria-hidden="true"></div>
-<div class="sun" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd36b" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.8 4.8l2.1 2.1M17.1 17.1l2.1 2.1M19.2 4.8l-2.1 2.1M6.9 17.1l-2.1 2.1"/></svg></div>
+<div class="sun" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#6f7a39" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.8 4.8l2.1 2.1M17.1 17.1l2.1 2.1M19.2 4.8l-2.1 2.1M6.9 17.1l-2.1 2.1"/></svg></div>
 
-<!-- ============ INTRO (cinematic) ============ -->
+<!-- ===== INTRO ===== -->
 <section id="intro">
   <div id="stage">
-    <div class="sky"><div class="stars"></div><div class="sunglow"></div></div>
+    <div class="sky"><div class="sunglow"></div></div>
     <div class="clouds">
-      <div class="cloud" data-sp="1.0" style="--base:6vh"></div>
-      <div class="cloud" data-sp="1.5" style="transform:translate(-62%,-40%)"></div>
-      <div class="cloud" data-sp="0.8" style="transform:translate(-36%,-58%)"></div>
-      <div class="cloud" data-sp="1.8" style="transform:translate(-54%,-66%)"></div>
-      <div class="cloud warm"></div>
+      <div class="cloud c1" data-sp="1.0" style="transform:translate(-50%,-44%)"></div>
+      <div class="cloud c2" data-sp="1.6" style="transform:translate(-64%,-58%) scale(.8)"></div>
+      <div class="cloud c1" data-sp="0.8" style="transform:translate(-34%,-64%) scale(.7)"></div>
+      <div class="cloud c2" data-sp="2.0" style="transform:translate(-52%,-30%) scale(1.15)"></div>
     </div>
-    <div class="portal">
-      <div class="alley" id="alley">
-        <div class="endglow"></div>
-        <div class="arch" style="transform:translateZ(-2200px)"></div>
-        <div class="arch" style="transform:translateZ(-1700px)"></div>
-        <div class="arch" style="transform:translateZ(-1200px)"></div>
-        <div class="arch" style="transform:translateZ(-700px)"></div>
-        <div class="arch" style="transform:translateZ(-250px)"></div>
-        <div class="door" id="door">
-          <div class="leaf left"></div>
-          <div class="leaf right"></div>
-        </div>
+
+    <div class="wordalley" id="wordalley">
+      <div class="wtrack" id="wtrack">
+        <div class="endcard"></div>
+        <div class="word" style="font-size:19vmin;transform:translate(-50%,-50%) translateZ(-3100px) translateX(34vmin) translateY(-20vmin) rotateY(-26deg)">XR</div>
+        <div class="word" style="font-size:17vmin;transform:translate(-50%,-50%) translateZ(-2550px) translateX(-40vmin) translateY(18vmin) rotateY(28deg)"><span>AI</span></div>
+        <div class="word" style="font-size:13vmin;transform:translate(-50%,-50%) translateZ(-2000px) translateX(8vmin) translateY(28vmin) rotateY(-10deg)">IMMERSIVE</div>
+        <div class="word" style="font-size:15vmin;transform:translate(-50%,-50%) translateZ(-1500px) translateX(-34vmin) translateY(-24vmin) rotateY(22deg)">BUILDER</div>
+        <div class="word" style="font-size:16vmin;transform:translate(-50%,-50%) translateZ(-1000px) translateX(40vmin) translateY(14vmin) rotateY(-26deg)">देसी</div>
+        <div class="word" style="font-size:15vmin;transform:translate(-50%,-50%) translateZ(-520px) translateX(-20vmin) translateY(-14vmin) rotateY(16deg)"><span>DREAMER</span></div>
       </div>
     </div>
+
+    <div class="winwrap" id="winwrap">
+      <div class="window" id="window">
+        <div class="jamb"></div>
+        <div class="sash l"></div>
+        <div class="sash r"></div>
+        <div class="handle"></div>
+      </div>
+    </div>
+
     <h1 class="hello">Hi, I am <em>Devanshi</em>.</h1>
     <div class="scrollcue">scroll · देखो अंदर<span class="a">↓</span></div>
     <div class="wash" id="wash"></div>
   </div>
 </section>
 
-<!-- ============ SITE ============ -->
+<!-- ===== SITE ===== -->
 <main id="site">
   <div class="wrap">
     <header class="arrive">
@@ -242,7 +206,7 @@ img{max-width:100%;display:block}
     </section>
 
     <section class="contact">
-      <p class="lead reveal">let’s make something <em>loud</em>,<br>colourful &amp; a little <span class="p">बिंदास</span>.</p>
+      <p class="lead reveal">let’s make something <em>loud</em>,<br>colourful &amp; a little बिंदास.</p>
       <div class="links reveal">
         <a href="mailto:devanshijhawar337@gmail.com">✉ email</a>
         <a href="https://www.linkedin.com/in/devanshi-jhawar" target="_blank" rel="noopener">in · linkedin</a>
@@ -250,7 +214,7 @@ img{max-width:100%;display:block}
         <a href="resume.pdf" target="_blank" rel="noopener">↗ résumé</a>
       </div>
     </section>
-    <div class="foot">© <span id="yr"></span> देवांशी Jhawar · नई दिल्ली / New Delhi · made with बहुत सारे रंग</div>
+    <div class="foot">© <span id="yr"></span> देवांशी Jhawar · नई दिल्ली / New Delhi</div>
   </div>
 </main>
 
@@ -258,30 +222,28 @@ img{max-width:100%;display:block}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
 <script>
-/* ---------------- data ---------------- */
 const PROJECTS=[
-  {k:'VR · DEFENCE',t:'CombatXR',d:'An immersive VR war-sim wired to physical hardware — the trigger you pull is one you actually hold.',vid:'combatXR.mp4',c1:'#ff3d8b',c2:'#7a0f3c'},
-  {k:'5G · DIGITAL TWIN',t:'TeleTwin',d:'A 5G digital twin mirroring real sites in real time — 97% accuracy, 1,000 models in ~25 min.',vid:'teletwin.mp4',c1:'#ff8a1e',c2:'#7a3500'},
-  {k:'AI · TOOLING',t:'Claude → Unity',d:'An MCP server that lets Claude build Unity scenes from a prompt — 4–5 hrs of work down to ~1. Shown with Snapchat.',c1:'#6a2a8e',c2:'#2a1140'},
-  {k:'AI AGENT · JIO',t:'Wardrobe AI',d:'An AJIO styling agent that sees your closet — 10k+ images, YOLOv11 at 93%, tested by 500+ people.',c1:'#36d39a',c2:'#0d4e3a'},
-  {k:'VR · DESIGN',t:'XRchitect',d:'Design a whole room from inside VR — place, scale and rearrange before a wall is ever built.',vid:'xrchitect.mp4',c1:'#ffb224','c2':'#7a5200'},
-  {k:'ROBOTICS · ANDROID',t:'Fleet Control',d:'A handheld app to drive a fleet of delivery robots — live map, 20+ services, ~15 screens.',img:'TM_dashboard.png',c1:'#ff5e7a',c2:'#6e1510'},
-  {k:'WEB · AR',t:'Indoor Nav',d:'WebAR wayfinding — point your phone, follow AR arrows through a building. No app, no paper map.',vid:'indoornav.mp4',c1:'#3a1f73',c2:'#140a2e'},
-  {k:'CV · MOTION',t:'Motion Tracking',d:'Real-time full-body tracking driving a live avatar skeleton — XR that feels like it’s really you.',vid:'advanced motion tracking.mp4',c1:'#ff3d8b',c2:'#7a0f3c'},
+  {k:'VR · DEFENCE',t:'CombatXR',d:'An immersive VR war-sim wired to physical hardware — the trigger you pull is one you actually hold.',vid:'combatXR.mp4',c1:'#8a9a4c',c2:'#454d22'},
+  {k:'5G · DIGITAL TWIN',t:'TeleTwin',d:'A 5G digital twin mirroring real sites in real time — 97% accuracy, 1,000 models in ~25 min.',vid:'teletwin.mp4',c1:'#e58bad',c2:'#8a3a5e'},
+  {k:'AI · TOOLING',t:'Claude → Unity',d:'An MCP server that lets Claude build Unity scenes from a prompt — 4–5 hrs of work down to ~1. Shown with Snapchat.',c1:'#6f7a39',c2:'#2e331b'},
+  {k:'AI AGENT · JIO',t:'Wardrobe AI',d:'An AJIO styling agent that sees your closet — 10k+ images, YOLOv11 at 93%, tested by 500+ people.',c1:'#d8477e',c2:'#6e1540'},
+  {k:'VR · DESIGN',t:'XRchitect',d:'Design a whole room from inside VR — place, scale and rearrange before a wall is ever built.',vid:'xrchitect.mp4',c1:'#a7b172',c2:'#5a6330'},
+  {k:'ROBOTICS · ANDROID',t:'Fleet Control',d:'A handheld app to drive a fleet of delivery robots — live map, 20+ services, ~15 screens.',img:'TM_dashboard.png',c1:'#e07aa6',c2:'#7a2f52'},
+  {k:'WEB · AR',t:'Indoor Nav',d:'WebAR wayfinding — point your phone, follow AR arrows through a building. No app, no paper map.',vid:'indoornav.mp4',c1:'#7e8a46',c2:'#3a4120'},
+  {k:'CV · MOTION',t:'Motion Tracking',d:'Real-time full-body tracking driving a live avatar skeleton — XR that feels like it’s really you.',vid:'advanced motion tracking.mp4',c1:'#e58bad',c2:'#8a3a5e'},
 ];
 const LIFE=[
   {k:'SINCE I WAS LITTLE',t:'Bharatnatyam',d:'Years of classical training — where I learned to hold a stage long before a keyboard.'},
   {k:'ELEVEN & COUNTING',t:'11 Tattoos',d:'I regret exactly two and will never tell you which. Each one a tiny permanent diary entry.'},
   {k:'CO-FOUNDER · EXIT',t:'A Startup That Didn’t',d:'Co-founded XR/AI, led ~10 people, won an iDEX grant, demoed to Fortune-500s. Best failure of my life.'},
   {k:'VERY LAZY, SOMEHOW',t:'Windsurfing',d:'Never stuck with one sport, yet learned to windsurf. Adventure over the gym, every time.'},
-  {k:'AN ACCIDENT',t:'Why CS?',d:'Switched to computer science because a movie made it look impossibly cool. Best accidental call ever.'},
+  {k:'AN ACCIDENT',t:'Why CS?',d:'Switched to CS because a movie made it look impossibly cool. Best accidental call ever.'},
   {k:'GEMINI ENERGY',t:'People Person',d:'Two speaker sessions, will talk to literally anyone. Communication is the actual superpower.'},
 ];
 
 const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 document.getElementById('yr').textContent=new Date().getFullYear();
 
-/* ---------------- build content ---------------- */
 const grid=document.getElementById('grid');
 PROJECTS.forEach(p=>{
   const el=document.createElement('article'); el.className='card reveal';
@@ -301,7 +263,6 @@ LIFE.forEach(l=>{
   life.appendChild(el);
 });
 
-/* ---------------- smooth scroll ---------------- */
 let lenis=null;
 if(window.Lenis && !reduce){
   lenis=new Lenis({lerp:0.08});
@@ -310,58 +271,44 @@ if(window.Lenis && !reduce){
   if(window.ScrollTrigger) lenis.on('scroll',ScrollTrigger.update);
 }
 
-/* ---------------- the cinematic timeline ---------------- */
 if(window.gsap && window.ScrollTrigger){
   gsap.registerPlugin(ScrollTrigger);
-
   const clouds=gsap.utils.toArray('.cloud');
 
-  const tl=gsap.timeline({
-    defaults:{ease:'none'},
-    scrollTrigger:{trigger:'#intro',start:'top top',end:'bottom bottom',scrub:1}
-  });
-  window.__intro=tl;   // for preview/testing
+  const tl=gsap.timeline({defaults:{ease:'none'},
+    scrollTrigger:{trigger:'#intro',start:'top top',end:'bottom bottom',scrub:1}});
+  window.__intro=tl;
 
-  // sky drifts very slightly brighter as we climb
-  tl.fromTo('.sky',{filter:'brightness(.82)'},{filter:'brightness(1.08)',duration:10},0);
-
-  // hello in, hold, out
+  // hello in / out
   tl.fromTo('.hello',{opacity:0,y:40},{opacity:1,y:0,duration:1.1},0.3)
     .to('.hello',{opacity:0,y:-50,duration:1.1},2.6);
   tl.to('.scrollcue',{opacity:0,duration:1},1.8);
 
-  // rise through the clouds — each drifts up + swells, then thins out
+  // rise + swell through the clouds, then they thin out
   clouds.forEach((c,i)=>{
     const sp=parseFloat(c.dataset.sp||1);
-    tl.fromTo(c,{yPercent:14*sp, scale:1, opacity:.9},
-      {yPercent:-120*sp, scale:1.9+0.3*i, opacity:0, duration:5.2},0.2+i*0.12);
+    const baseX = c.style.transform.match(/translate\(([^,]+),/);
+    tl.fromTo(c,{yPercent:16*sp, scale:gsap.getProperty(c,'scaleX')||1, opacity:.95},
+      {yPercent:-125*sp, scale:(gsap.getProperty(c,'scaleX')||1)*1.9+0.2*i, opacity:0, duration:5.4},0.2+i*0.14);
   });
 
-  // portal fades in as the clouds clear
-  tl.fromTo('.portal',{opacity:0},{opacity:1,duration:1.4},3.6);
+  // the window fades in against clear sky, then grows as we fly toward it, then we pass through
+  tl.fromTo('.winwrap',{opacity:0},{opacity:1,duration:1.2},3.4);
+  tl.fromTo('.window',{scale:0.5,rotateY:-6},{scale:9,rotateY:4,duration:3.6,ease:'power2.in'},3.8)
+    .to('.winwrap',{opacity:0,duration:.5},6.9);
 
-  // approach: fly a little toward the door before it opens
-  tl.fromTo('.alley',{z:0},{z:120,duration:2.4},3.8);
+  // the corridor of words — fly down it
+  tl.fromTo('.wordalley',{opacity:0},{opacity:1,duration:.8},6.4);
+  tl.fromTo('.wtrack',{z:0},{z:3400,duration:3.6,ease:'power1.in'},6.6);
 
-  // the door opens
-  tl.to('.leaf.left',{rotateY:-105,duration:1.5},6.0)
-    .to('.leaf.right',{rotateY:105,duration:1.5},6.0)
-    .to('.door',{opacity:0,duration:.6},7.4);
+  // warm/soft wash → hand off to the site
+  tl.to('.wash',{opacity:1,duration:1.2},9.0)
+    .to('#stage',{opacity:0,duration:.6},9.7);
 
-  // travel down the gali — fly forward through the arches
-  tl.to('.alley',{z:2500,duration:3.4,ease:'power1.in'},6.6);
-
-  // warm wash as we step through, then hand off to the site
-  tl.to('.wash',{opacity:1,duration:1.2},8.8)
-    .to('#stage',{opacity:0,duration:0.6},9.6);
-
-  // content reveals as it arrives
   gsap.utils.toArray('.reveal').forEach((el)=>{
-    gsap.to(el,{opacity:1,y:0,duration:.9,ease:'expo.out',
-      scrollTrigger:{trigger:el,start:'top 88%'}});
+    gsap.to(el,{opacity:1,y:0,duration:.9,ease:'expo.out',scrollTrigger:{trigger:el,start:'top 88%'}});
   });
 }else{
-  // no-GSAP fallback: just show everything
   document.querySelectorAll('.reveal').forEach(e=>{e.style.opacity=1;e.style.transform='none';});
   document.getElementById('intro').style.height='100vh';
 }
