@@ -231,26 +231,40 @@ const alley=(function(){
   const ceil=new THREE.Mesh(floorGeo,ceilMat); ceil.rotation.x=Math.PI/2; ceil.position.set(0,H/2,CZ); corridor.add(ceil);
 
   // words painted on the walls
-  function wordTex(text,color){
-    const c=document.createElement('canvas'); c.width=1024; c.height=256;
-    const g=c.getContext('2d'); g.clearRect(0,0,1024,256);
+  // the two sentences — English written in Devanagari — broken into phrases
+  const PHRASES=[
+    ['वॉन्डरर, कलेक्टर ऑफ़','#fdf7ec'],
+    ['इलेवन टैटूज़ एंड क्वेश्चनेबल हॉबीज़','#fdf7ec'],
+    ['आइल आउटटॉक अ होल रूम,','#fdf7ec'],
+    ['देन डिसअपीयर ऑन अ ट्रिप विद नो प्लान।','#fdf7ec'],
+    ['लाउड, कलरफुल एंड','#fdf7ec'],
+    ['अ लिटल बिंदास,','#f6b9d0'],
+    ['आइम क्यूरियस अबाउट एवरीथिंग','#fdf7ec'],
+    ['एंड कम्प्लीटली एलर्जिक टू प्लेइंग इट सेफ़।','#fdf7ec'],
+  ];
+  const H_TEXT=1.7, Y_TEXT=0.3, Z0=-14, DZ=18;   // consistent height, even spacing — top & bottom stay clear
+  function phraseTex(text,color){
+    const fs=130, pad=56, h=220;
+    const meas=document.createElement('canvas').getContext('2d');
+    meas.font='700 '+fs+'px "Baloo 2","Mukta",sans-serif';
+    const w=Math.max(280,Math.ceil(meas.measureText(text).width)+pad*2);
+    const c=document.createElement('canvas'); c.width=w; c.height=h;
+    const g=c.getContext('2d');
+    g.font='700 '+fs+'px "Baloo 2","Mukta",sans-serif';
     g.fillStyle=color; g.textAlign='center'; g.textBaseline='middle';
-    g.font='700 170px "Rozha One","Mukta",Georgia,serif';
-    g.fillText(text,512,138);
-    const t=new THREE.CanvasTexture(c); t.anisotropy=renderer.capabilities.getMaxAnisotropy(); return t;
+    g.fillText(text,w/2,h/2+8);
+    const t=new THREE.CanvasTexture(c); t.anisotropy=renderer.capabilities.getMaxAnisotropy();
+    return {tex:t,aspect:w/h};
   }
-  const WORDS=['XR','AI','UNITY','IMMERSIVE','देसी','BUILDER','DREAMER','DANCER','देसी jugaad'];
-  const COLORS=['#fdf7ec','#d8477e','#fdf7ec','#a7b172','#d8477e','#fdf7ec','#f6b9d0','#fdf7ec','#d8477e'];
   const wordMeshes=[];
-  WORDS.forEach((w,i)=>{
-    const tex=wordTex(w,COLORS[i]);
+  PHRASES.forEach(([text,color],i)=>{
+    const {tex,aspect}=phraseTex(text,color);
     const mat=new THREE.MeshBasicMaterial({map:tex,transparent:true});
-    const pw=11, ph=pw*256/1024;
-    const m=new THREE.Mesh(new THREE.PlaneGeometry(pw,ph),mat);
+    const m=new THREE.Mesh(new THREE.PlaneGeometry(H_TEXT*aspect,H_TEXT),mat);
     const onLeft=i%2===0;
-    m.position.set(onLeft?-W/2+0.08:W/2-0.08, (i%3-1)*1.1, -14-i*20);
+    m.position.set(onLeft?-W/2+0.08:W/2-0.08, Y_TEXT, Z0-i*DZ);
     m.rotation.y=onLeft?Math.PI/2:-Math.PI/2;
-    corridor.add(m); wordMeshes.push({m,tex});
+    corridor.add(m); wordMeshes.push({m,i});
   });
 
   // hanging lanterns (emissive, glow)
@@ -273,7 +287,9 @@ const alley=(function(){
   }
   // rebuild word textures after webfont loads so they aren't fallback
   if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{
-    wordMeshes.forEach((o,i)=>{ o.m.material.map=wordTex(WORDS[i],COLORS[i]); o.m.material.needsUpdate=true; });
+    wordMeshes.forEach(o=>{ const {tex,aspect}=phraseTex(PHRASES[o.i][0],PHRASES[o.i][1]);
+      o.m.material.map=tex; o.m.material.needsUpdate=true;
+      o.m.geometry.dispose(); o.m.geometry=new THREE.PlaneGeometry(H_TEXT*aspect,H_TEXT); });
   });
   return {camPos,render,canvas};
 })();
